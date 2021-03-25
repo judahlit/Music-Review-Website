@@ -1,0 +1,10 @@
+﻿@page
+@model Music_Review_Application_GUI.Pages.Forms.AddSongModel
+@{
+    ViewData["Title"] = "Add Song";
+}
+
+<h1>Add Song</h1>
+<form method="post">
+    <input type="text" asp-for="Song.Title" placeholder="Song Title" />
+</form>

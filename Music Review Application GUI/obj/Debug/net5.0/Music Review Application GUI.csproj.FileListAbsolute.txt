@@ -1,0 +1,40 @@
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\appsettings.Development.json
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\appsettings.json
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.exe
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.deps.json
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.runtimeconfig.json
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.runtimeconfig.dev.json
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.dll
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\ref\Music Review Application GUI.dll
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.pdb
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.Views.dll
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\bin\Debug\net5.0\Music Review Application GUI.Views.pdb
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.csprojAssemblyReference.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.GeneratedMSBuildEditorConfig.editorconfig
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.AssemblyInfoInputs.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.AssemblyInfo.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.csproj.CoreCompileInputs.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.MvcApplicationPartsAssemblyInfo.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.RazorAssemblyInfo.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.RazorAssemblyInfo.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\staticwebassets\Music Review Application GUI.StaticWebAssets.Manifest.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\staticwebassets\Music Review Application GUI.StaticWebAssets.xml
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\scopedcss\bundle\Music Review Application GUI.styles.css
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.TagHelpers.input.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.TagHelpers.output.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.RazorCoreGenerate.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Razor\Pages\Index.cshtml.g.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Razor\Pages\Privacy.cshtml.g.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Razor\Pages\Shared\_Layout.cshtml.g.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Razor\Pages\_ViewImports.cshtml.g.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Razor\Pages\_ViewStart.cshtml.g.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.RazorTargetAssemblyInfo.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.RazorTargetAssemblyInfo.cs
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.Views.pdb
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.dll
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\ref\Music Review Application GUI.dll
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.pdb
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.genruntimeconfig.cache
+E:\1 - Mijn Docs\_Software\S2\Music Review Application\Music Review Application GUI\obj\Debug\net5.0\Music Review Application GUI.csproj.CopyComplete

@@ -5,4 +5,8 @@
     <RootNamespace>Music_Review_Application_GUI</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Music Review Application LIB\Music Review Application LIB.csproj" />
+  </ItemGroup>
+
 </Project>

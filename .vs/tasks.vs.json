@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-Music Review Application GUI",
+      "appliesTo": "Music Review Application GUI/",
+      "type": "launch"
+    }
+  ]
+}
