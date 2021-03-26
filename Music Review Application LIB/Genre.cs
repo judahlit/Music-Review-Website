@@ -26,7 +26,7 @@ namespace Music_Review_Application_LIB
 
         #region Methods
 
-        public static async List<Genre> GetGenres()
+        public static List<Genre> GetGenres()
         {
             List<Genre> genres = new List<Genre>();
 

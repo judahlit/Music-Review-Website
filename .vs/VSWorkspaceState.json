@@ -2,11 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\Music Review Application GUI",
-    "\\Music Review Application GUI\\bin",
-    "\\Music Review Application GUI\\obj",
+    "\\Music Review Application GUI\\Models",
     "\\Music Review Application GUI\\Pages",
-    "\\Music Review Application GUI\\wwwroot"
+    "\\Music Review Application GUI\\Pages\\Forms",
+    "\\Music Review Application GUI\\Pages\\Shared",
+    "\\Music Review Application GUI\\wwwroot",
+    "\\Music Review Application LIB"
   ],
-  "SelectedNode": "\\Music Review Application GUI\\Music Review Application GUI.csproj",
+  "SelectedNode": "\\Music Review Application GUI\\Pages\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }

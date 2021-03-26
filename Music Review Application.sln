@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music Review Application GUI", "Music Review Application GUI\Music Review Application GUI.csproj", "{AFF9DD5B-F585-4729-AFA8-D9554A83B431}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music Review Application LIB", "Music Review Application LIB\Music Review Application LIB.csproj", "{A70FD4BB-75B9-4DC0-B5F0-A8D34EAF2614}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music Review Application LIB", "Music Review Application LIB\Music Review Application LIB.csproj", "{A70FD4BB-75B9-4DC0-B5F0-A8D34EAF2614}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

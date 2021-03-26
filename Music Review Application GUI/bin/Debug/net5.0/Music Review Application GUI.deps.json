@@ -324,6 +324,14 @@
           "Music Review Application GUI.dll": {}
         }
       },
+      "Music Review Application LIB/1.0.0": {
+        "runtime": {
+          "Music Review Application LIB.dll": {}
+        },
+        "compile": {
+          "Music Review Application LIB.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Antiforgery.dll": {}
@@ -2026,6 +2034,11 @@
   },
   "libraries": {
     "Music Review Application GUI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Music Review Application LIB/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
