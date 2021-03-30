@@ -9,6 +9,6 @@
     "\\Music Review Application GUI\\wwwroot",
     "\\Music Review Application LIB"
   ],
-  "SelectedNode": "\\Music Review Application GUI\\Pages\\Shared\\_Layout.cshtml",
+  "SelectedNode": "\\Music Review Application GUI\\Models\\SongModel.cs",
   "PreviewInSolutionExplorer": false
 }

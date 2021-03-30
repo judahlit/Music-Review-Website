@@ -11,5 +11,9 @@
     <input type="text" asp-for="Song.DateDay" placeholder="Day" />
     <input type="text" asp-for="Song.DateMonth" placeholder="Month" />
     <input type="text" asp-for="Song.DateYear" placeholder="Year" />
-    <input type="text" asp-for="Song.Genre" placeholder="Song Genre" />
+    <button type="submit">Add song</button>
 </form>
+<br/>
+<div class="text-center">
+    <p>@AddSongModel.ErrorMessage</p>
+</div>
