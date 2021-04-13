@@ -10,8 +10,7 @@ namespace Music_Review_Application_LIB
     {
         #region Constants and Fields
 
-        private const string _connectionString = "";
-        private const string _queryAddArtistToDB = "";
+        private const string _queryAddArtist = "INSERT INTO artist(artistName, img, description) VALUES('{0}','{1}','{2}');";
 
         #endregion
 

@@ -21,14 +21,14 @@ namespace Music_Review_Application_LIB
 
         #region Constants and Fields
 
-        private const string _connectionString = "";
-        private const string _queryAddSingleToDB = "";
-        private const string _queryAddPartOfAlbumSongToDB = "";
-        private const string _queryGetSongId = "";
-        private const string _queryGetSong = "";
+        private const string _queryAddSong = "INSERT INTO song(title, dateOfRelease, trackId, score, albumId) VALUES('{0}','{1}',{2},{3},{4});";
+        private const string _queryAddSongArtist = "INSERT INTO songArtist(songId, artistId) VALUES({0},{1});";
+        private const string _queryAddSongGenre = "INSERT INTO songGenre(songId, genre) VALUES({0},'{1}');";
+        private const string _queryGetSongId = "SELECT id FROM song WHERE title = '{0}' AND dateOfRelease = '{1}';";
+        private const string _queryGetSong = "SELECT * FROM song WHERE id = {0};";
 
         #endregion
-
+        
 
         #region Properties
 
