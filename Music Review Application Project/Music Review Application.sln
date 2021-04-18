@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_GU
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_LIB", "Music Review Application LIB\Music_Review_Application_LIB.csproj", "{A70FD4BB-75B9-4DC0-B5F0-A8D34EAF2614}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music_Review_Application_Tests", "Music_Review_Application_Tests\Music_Review_Application_Tests.csproj", "{49759E43-A89F-4DB7-A0B2-01A8FD2B6EA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_Tests", "Music_Review_Application_Tests\Music_Review_Application_Tests.csproj", "{49759E43-A89F-4DB7-A0B2-01A8FD2B6EA0}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Music_Review_Application_Database", "Music_Review_Application_Database\Music_Review_Application_Database.sqlproj", "{E27DF51A-F832-4495-B679-DCBEF57CF6DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,12 @@ Global
 		{49759E43-A89F-4DB7-A0B2-01A8FD2B6EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49759E43-A89F-4DB7-A0B2-01A8FD2B6EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49759E43-A89F-4DB7-A0B2-01A8FD2B6EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E27DF51A-F832-4495-B679-DCBEF57CF6DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E27DF51A-F832-4495-B679-DCBEF57CF6DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E27DF51A-F832-4495-B679-DCBEF57CF6DE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E27DF51A-F832-4495-B679-DCBEF57CF6DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E27DF51A-F832-4495-B679-DCBEF57CF6DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E27DF51A-F832-4495-B679-DCBEF57CF6DE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

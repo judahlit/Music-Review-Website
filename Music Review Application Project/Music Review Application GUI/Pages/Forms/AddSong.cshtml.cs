@@ -44,7 +44,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public void AddSingleToDB()
         {
-            Song song = new Song(Song.Title, Song.Artist, 0, Song.Date);
+            //Song song = new(Song.Title, Song.Artist, 0, Song.Date);
         }
 
         public bool ToDateTime()

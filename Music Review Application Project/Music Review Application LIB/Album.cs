@@ -8,18 +8,33 @@ namespace Music_Review_Application_LIB
 {
     public class Album
     {
-        #region Constants and Fields
-
-        private const string _queryAddAlbum = "INSERT INTO album(title, dateOfRelease, score, img) VALUES('{0}','{1}',{2},{3});";
-        private const string _queryAddAlbumArtist = "INSERT INTO albumArtist(albumId, artistId) VALUES({0},{1});";
-        private const string _queryGetAlbumId = "SELECT id FROM album WHERE title = '{0}' AND dateOfRelease = '{1}';";
-
-        #endregion
-
         #region Properties
 
+        public int Id { get; set; }
 
+        public string Title { get; set; }
+
+        public List<Song> Songs { get; set; }
+
+        public DateTime DateOfRelease { get; set; }
+
+        public double Score { get; set; }
+
+        public string Img { get; set; }
+
+        public List<string> ArtistNames { get; set; }
+
+        public List<string> GenreNames { get; set; }
 
         #endregion
+
+        public Album(string title, List<Song> songs, DateTime dateOfRelease, string img, List<string> genreNames)
+        {
+            Title = title;
+            Songs = songs;
+            DateOfRelease = dateOfRelease;
+            Img = img;
+            GenreNames = genreNames;
+        }
     }
 }
