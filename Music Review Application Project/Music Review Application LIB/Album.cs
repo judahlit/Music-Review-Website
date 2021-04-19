@@ -20,7 +20,7 @@ namespace Music_Review_Application_LIB
 
         public double Score { get; set; }
 
-        public string Img { get; set; }
+        public byte[] Img { get; set; }
 
         public List<string> ArtistNames { get; set; }
 
@@ -28,7 +28,7 @@ namespace Music_Review_Application_LIB
 
         #endregion
 
-        public Album(string title, List<Song> songs, DateTime dateOfRelease, string img, List<string> genreNames)
+        public Album(string title, List<Song> songs, DateTime dateOfRelease, byte[] img, List<string> genreNames)
         {
             Title = title;
             Songs = songs;

@@ -18,5 +18,15 @@ namespace Music_Review_Application_LIB
         {
 
         }
+
+        public static string GetSqlString(string value)
+        {
+            if (value != null)
+            {
+                return value.Replace("'", "''");
+            }
+
+            return value;
+        }
     }
 }

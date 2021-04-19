@@ -15,13 +15,13 @@ namespace Music_Review_Application_LIB
 
         public string ArtistName { get; set; }
 
-        public string Img { get; set; }
+        public byte[] Img { get; set; }
 
         public string Description { get; set; }
 
         #endregion
 
-        public Artist(string artistName, string img, string description)
+        public Artist(string artistName, byte[] img, string description)
         {
             ArtistName = artistName;
             Img = img;

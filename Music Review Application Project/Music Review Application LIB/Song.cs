@@ -11,58 +11,26 @@ namespace Music_Review_Application_LIB
     {
         #region Properties
 
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
-        public string Title { get; private set; }
+        public string Title { get; set; }
 
-        public DateTime DateOfRelease { get; private set; }
-
-        public int? TrackId { get; private set; }
+        public DateTime DateOfRelease { get; set; }
 
         public double Score { get; set; }
 
-        public int? AlbumId { get; private set; }
+        public List<string> ArtistNames { get; set; } = new();
 
-        public string Img { get; private set; }
-
-        public List<Artist> ArtistNames { get; private set; } = new List<Artist>();
-
-        public List<string> GenreNames { get; private set; } = new List<string>();
+        public List<string> GenreNames { get; set; } = new List<string>();
 
         #endregion
 
-
-        #region Constructors
-
-        public Song(string title, DateTime date, int trackId, int albumId, List<Artist> artistNames, List<string> genreNames)
+        protected Song(string title, DateTime date, List<string> artistNames, List<string> genreNames)
         {
             Title = title;
             DateOfRelease = date;
-            TrackId = trackId;
-            AlbumId = albumId;
             ArtistNames = artistNames;
             GenreNames = genreNames;
-        }
-
-        public Song(string title, DateTime date, string img, List<Artist> artistNames, List<string> genreNames)
-        {
-            Title = title;
-            DateOfRelease = date;
-            Img = img;
-            ArtistNames = artistNames;
-            GenreNames = genreNames;
-        }
-
-        #endregion
-
-        public bool IsSingle()
-        {
-            if (TrackId == null)
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }
