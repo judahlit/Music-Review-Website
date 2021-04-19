@@ -5,5 +5,6 @@
   [dateOfRelease] date not null,
   [trackId] int,
   [score] decimal,
-  [albumId] int
+  [albumId] int, 
+    CONSTRAINT [FK_Song_ToTable] FOREIGN KEY ([albumId]) REFERENCES [Album]([id])
 )
