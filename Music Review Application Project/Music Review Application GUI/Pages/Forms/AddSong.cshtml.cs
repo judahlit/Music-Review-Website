@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Music_Review_Application_GUI.Models;
 using Music_Review_Application_LIB;
+using Music_Review_Application_LIB.DbManagers;
+using Single = Music_Review_Application_LIB.Single;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {
@@ -44,7 +46,23 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public void AddSingleToDB()
         {
-            //Song song = new(Song.Title, Song.Artist, 0, Song.Date);
+            Single single = new(Song.Title, Song.Date, null, Song.ArtistNames, Song.GenreNames);
+            ArtistDbManager artistDbManager = new();
+            SongDbManager songDbManager = new();
+
+            foreach (string ArtistName in single.ArtistNames)
+            {
+                if (artistDbManager.GetArtistId(ArtistName) == 0)
+                {
+                    Artist artist = new(ArtistName, null, null);
+                    artistDbManager.AddArtist(artist);
+                }
+            }
+
+            if (songDbManager.GetSongId(single.Title, single.DateOfRelease) == 0)
+            {
+                songDbManager.AddSingle(single);
+            }
         }
 
         public bool ToDateTime()
