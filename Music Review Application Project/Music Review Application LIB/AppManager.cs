@@ -10,7 +10,7 @@ namespace Music_Review_Application_LIB
     {
         #region Constants and Fields
 
-        public const string ConnectionString = "server=localhost;user id=root;persistsecurityinfo=True;database=mrac";
+        public const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MRA_DB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         #endregion
 

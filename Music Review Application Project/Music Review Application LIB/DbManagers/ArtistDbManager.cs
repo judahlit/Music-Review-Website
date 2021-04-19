@@ -11,7 +11,7 @@ namespace Music_Review_Application_LIB.DbManagers
     {
         #region Constants and Fields
 
-        private const string QueryAddArtist = "INSERT INTO artist(artistName, img, description) VALUES('{0}','{1}','{2}');";
+        private const string QueryAddArtist = "INSERT INTO artist(artistName, img, description) VALUES('{0}',CONVERT(VARBINARY(MAX), '{1}'),'{2}');";
         private const string QueryGetArtistId = "SELECT id FROM artist WHERE artistName = '{0}';";
         private const string QueryGetArtistById = "SELECT * FROM artist WHERE id = '{0}'";
         private const string QueryGetArtistByArtistName = "";
@@ -30,7 +30,14 @@ namespace Music_Review_Application_LIB.DbManagers
 
         public void AddArtist(Artist artist)
         {
-
+            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddArtist, artist.ArtistName, artist.Img, artist.Description), conn))
+                {
+                    conn.Open();
+                    query.ExecuteNonQuery();
+                }
+            }
         }
 
         public int GetArtistId(string artistName)
@@ -40,9 +47,14 @@ namespace Music_Review_Application_LIB.DbManagers
                 using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtistId, artistName), conn))
                 {
                     conn.Open();
-
                     var reader = query.ExecuteReader();
-                    return reader.GetInt32(0);
+
+                    if (reader.Read())
+                    {
+                        return reader.GetInt32(0);
+                    }
+
+                    return -1;
                 }
             }
         }
