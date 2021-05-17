@@ -13,7 +13,7 @@ namespace Music_Review_Application_Tests
         {
             ArtistDbManager artistDbManager = new();
             int id = artistDbManager.GetArtistId("Taishi");
-            Assert.Equal(1, id);
+            Assert.True(id > 0);
         }
 
         [Fact]
@@ -21,25 +21,7 @@ namespace Music_Review_Application_Tests
         {
             ArtistDbManager artistDbManager = new();
             Artist artist = artistDbManager.GetArtist(artistDbManager.GetArtistId("Taishi"));
-            Assert.Equal(1, artist.Id);
-        }
-
-        [Fact]
-        public void AddAnArtistToDB()
-        {
-            bool artistAdded = false;
-
-            ArtistDbManager artistDbManager = new();
-            Artist artist = new("Pure Karnage", null, "");
-            artistDbManager.AddArtist(artist);
-            int artistId = artistDbManager.GetArtistId(artist.ArtistName);
-
-            if (artistId > 0)
-            {
-                artistAdded = true;
-            }
-
-            Assert.True(artistAdded);
+            Assert.Equal("Taishi", artist.ArtistName);
         }
     }
 }

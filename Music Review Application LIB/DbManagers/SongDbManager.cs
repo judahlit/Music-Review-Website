@@ -13,11 +13,10 @@ namespace Music_Review_Application_LIB.DbManagers
         #region Constants and Fields
 
         private const string QueryAddSingleInSongTable = "INSERT INTO Song(title, dateOfRelease) OUTPUT INSERTED.id VALUES('{0}','{1}');";
-        private const string QueryAddTrack = "INSERT INTO Song(title, dateOfRelease, trackId, albumId) VALUES('{0}','{1}',{2},{3});";
+        private const string QueryAddTrack = "INSERT INTO Song(title, dateOfRelease, trackId, albumId) OUTPUT INSERTED.id VALUES('{0}','{1}',{2},{3});";
         private const string QueryAddSingle = "INSERT INTO Single(songId, img) VALUES({0},CONVERT(VARBINARY(MAX),'{1}'));";
         private const string QueryAddSongArtist = "INSERT INTO SongArtist(songId, artistId) VALUES({0}, {1});";
         private const string QueryAddSongGenre = "INSERT INTO SongGenre(songId, genre) VALUES({0},'{1}');";
-        private const string QueryGetLatestSongId = "SELECT TOP 1 id FROM Song ORDER BY id DESC;";
         private const string QueryGetSongId = "SELECT Song.id FROM Song, songArtist WHERE Song.title = '{0}' AND Song.id = SongArtist.songId AND SongArtist.artistId = (SELECT id FROM Artist WHERE artistName = '{1}');";
         private const string QueryGetSongById = "SELECT * FROM Song WHERE id = {0};";
         private const string QueryGetSingleBySongId = "SELECT * FROM Single WHERE songId = {0};";
@@ -38,15 +37,15 @@ namespace Music_Review_Application_LIB.DbManagers
 
         #endregion
 
-        public SongDbManager()
-        {
-
-        }
-
         #region Methods
 
         public void AddSingle(SingleSong single)
         {
+            if (SongExistsInDb(single))
+            {
+                return;
+            }
+
             CheckArtists(single);
             int songId = 0;
 
@@ -67,9 +66,7 @@ namespace Music_Review_Application_LIB.DbManagers
 
                 foreach (string artistName in single.ArtistNames)
                 {
-                    ArtistDbManager artistDbManager = new();
-
-                    using (SqlCommand query = new SqlCommand(string.Format(QueryAddSongArtist, songId, artistDbManager.GetArtistId(artistName)), conn))
+                    using (SqlCommand query = new SqlCommand(string.Format(QueryAddSongArtist, songId, _artistDbManager.GetArtistId(artistName)), conn))
                     {
                         query.ExecuteNonQuery();
                     }
@@ -89,31 +86,54 @@ namespace Music_Review_Application_LIB.DbManagers
                 {
                     query.ExecuteNonQuery();
                 }
-
             }
         }
 
-        private int GetLatestSongId()
+        public void AddTrack(Track track, int albumId)
         {
+            if (SongExistsInDb(track))
+            {
+                return;
+            }
+
+            CheckArtists(track);
+            int songId = 0;
+
             using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(QueryGetLatestSongId, conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddTrack, _appManager.GetSqlString(track.Title), track.DateOfRelease, track.TrackId, albumId), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
-                    return reader.GetInt32(0);
+
+                    if (reader.Read())
+                    {
+                        songId = reader.GetInt32(0);
+                    }
+
+                    reader.Close();
+                }
+
+                foreach (string artistName in track.ArtistNames)
+                {
+                    using (SqlCommand query = new SqlCommand(string.Format(QueryAddSongArtist, songId, _artistDbManager.GetArtistId(artistName)), conn))
+                    {
+                        query.ExecuteNonQuery();
+                    }
+                }
+
+                foreach (string genreName in track.GenreNames)
+                {
+                    using (SqlCommand query = new SqlCommand(string.Format(QueryAddSongGenre, songId, genreName), conn))
+                    {
+                        query.ExecuteNonQuery();
+                    }
                 }
             }
         }
 
-        public void AddTrack(Song track)
-        {
-
-        }
-
         public int GetSongId(string title, List<string> artistNames)
         {
-            ArtistDbManager artistDbManager = new();
             List<List<int>> songIds = new();
             int artistNumber = 0;
 
@@ -249,12 +269,74 @@ namespace Music_Review_Application_LIB.DbManagers
             return single;
         }
 
-        /*
-        public Song GetSong(string title, DateTime dateOfRelease)
+        public Track GetTrack(int id)
         {
+            string title = null;
+            DateTime dateOfRelease = new();
+            double score = 0;
+            int trackId = 0;
+            int albumId = 0;
+            List<string> artistNames = new();
+            List<string> genreNames = new();
 
+            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongById, id), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        title = reader.GetString(1);
+                        dateOfRelease = (DateTime)reader["dateOfRelease"];
+                        trackId = reader.GetInt32(3);
+                        albumId = reader.GetInt32(5);
+
+                        if (reader["score"] != DBNull.Value)
+                        {
+                            score = (double)reader["score"];
+                        }
+                    }
+
+                    reader.Close();
+                }
+
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtistsBySongId, id), conn))
+                {
+                    var reader = query.ExecuteReader();
+                    ArtistDbManager artistDbManager = new();
+
+                    while (reader.Read())
+                    {
+                        artistNames.Add(artistDbManager.GetArtist(reader.GetInt32(2)).ArtistName);
+                    }
+
+                    reader.Close();
+                }
+
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenresBySongId, id), conn))
+                {
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        genreNames.Add(reader.GetString(2));
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            Track track = new(title, dateOfRelease, trackId, artistNames, genreNames);
+            track.Id = id;
+            track.Score = score;
+            track.AlbumId = albumId;
+
+            return track;
         }
 
+        /*
         public List<Song> GetSongs()
         {
             
@@ -302,13 +384,45 @@ namespace Music_Review_Application_LIB.DbManagers
             }
         }
 
+        public void DeleteTrack(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongGenre, id), conn))
+                {
+                    conn.Open();
+                    query.ExecuteNonQuery();
+                }
+
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongArtist, id), conn))
+                {
+                    query.ExecuteNonQuery();
+                }
+
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSong, id), conn))
+                {
+                    query.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool SongExistsInDb(Song song)
+        {
+            if (GetSongId(song.Title, song.ArtistNames) == 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void CheckArtists(Song song)
         {
-            foreach (string ArtistName in song.ArtistNames)
+            foreach (string artistName in song.ArtistNames)
             {
-                if (_artistDbManager.GetArtistId(ArtistName) == 0)
+                if (_artistDbManager.GetArtistId(artistName) == 0)
                 {
-                    Artist artist = new(ArtistName, null, null);
+                    Artist artist = new(artistName, null, null);
                     _artistDbManager.AddArtist(artist);
                 }
             }

@@ -12,49 +12,29 @@ namespace Music_Review_Application_Tests
         [Fact]
         public void AlbumGetsAddedToDB()
         {
-            bool albumAdded = false;
+            Image img = null;
+            List<Track> tracks = new();
+            List<string> artistNames = new();
+
+            artistNames.Add("Taishi");
+
+            tracks.Add(new Track("Introduction - Somewhere Not in This World", new DateTime(2017, 10, 29), 1, artistNames, new List<string> { "piano", "electronic" }));
+            tracks.Add(new Track("The Tower Which Is Telling the Time 1", new DateTime(2017, 10, 29), 2, artistNames, new List<string> { "orchestral", "electronic" }));
+            tracks.Add(new Track("The Tower Which Is Telling the Time 2", new DateTime(2017, 10, 29), 3, artistNames, new List<string> { "orchestral", "electronic", "EDM" }));
+            tracks.Add(new Track("The Tower Which Is Telling the Time 3", new DateTime(2017, 10, 29), 4, artistNames, new List<string> { "orchestral", "electronic", "EDM", "Trance" }));
+            tracks.Add(new Track("Encounter Like a Rendezvous (in Another World)", new DateTime(2017, 10, 29), 5, artistNames, new List<string> { "piano" }));
+
+            List<string> albumArtists = new();
+            albumArtists.Add("Taishi");
+
+            Album album = new("Somewhere Not in This World", tracks, new DateTime(2020, 04, 20), img, albumArtists);
 
             AlbumDbManager albumDbManager = new();
-            SongDbManager songDbManager = new();
-            Image img = null;
 
-            List<Track> tracks = new();
-            List<string> albumArtistNames = new();
-            List<List<string>> artistNames = new();
-            List<List<string>> genreNames = new();
+            bool albumAdded = albumDbManager.AlbumIsAdded(album);
+            albumDbManager.DeleteAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
 
-            genreNames[0].Add("EDM");
-            genreNames[0].Add("Dubstep");
-            genreNames[0].Add("Deathstep");
-
-            for (int i = 0; i < 6; i++)
-            {
-                artistNames[i].Add("KROWW");
-            }
-
-            artistNames[4].Add("Pure Karnage");
-            /*
-            tracks.Add(new Track("Hybrid Empire (The Crawling Chaos VIP)", new DateTime(2018, 08, 05), 1, artistNames[0], genreNames[0]));
-            tracks.Add(new Track("The First Mech", new DateTime(2018, 08, 05), 2, artistNames[1], genreNames[0]));
-            tracks.Add(new Track("Fear Me", new DateTime(2018, 08, 05), 3, artistNames[2], genreNames[0]));
-            tracks.Add(new Track("Divine Power", new DateTime(2018, 08, 05), 4, artistNames[3], genreNames[0]));
-            tracks.Add(new Track("Obsolete Existence", new DateTime(2018, 08, 05), 5, artistNames[4], genreNames[0]));
-            tracks.Add(new Track("The Desert's Curse", new DateTime(2018, 08, 05), 6, artistNames[5], genreNames[0]));
-
-            Album album = new("Almost Human", tracks, new DateTime(2020, 04, 20), img, albumArtistNames);
-            
-            if (albumDbManager.GetAlbumId(album.Title, album.DateOfRelease) == 0)
-            {
-                albumDbManager.Add(album);
-                Album album1 = songDbManager.GetSingle(songDbManager.GetSongId("The Desert's Curse", new DateTime(2020, 04, 20)));
-
-                if (album.Id > 0 && album.ArtistNames.Count == 2 && album.GenreNames.Count == 3)
-                {
-                    albumAdded = true;
-                }
-            }
-
-            Assert.True(albumAdded);*/
+            Assert.True(albumAdded);
         }
     }
 }

@@ -35,12 +35,7 @@ namespace Music_Review_Application_Tests
 
             Assert.True(singleAdded);
         }
-        /*
-        [Fact]
-        public void PartOfAlbumSongGetsAddedToDB()
-        {
 
-        }
         [Fact]
         public void GetsSongIdBySearchingSongTitleAndArtists()
         {
@@ -51,7 +46,7 @@ namespace Music_Review_Application_Tests
         public void GetsSongBySongId()
         {
 
-        }*/
+        }
 
         public void DeleteSongFromDB(string songTitle, List<string> artistNames)
         {
