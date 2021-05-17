@@ -2,8 +2,8 @@ using Music_Review_Application_LIB;
 using Music_Review_Application_LIB.DbManagers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using Xunit;
-using Single = Music_Review_Application_LIB.Single;
 
 namespace Music_Review_Application_Tests
 {
@@ -12,31 +12,26 @@ namespace Music_Review_Application_Tests
         [Fact]
         public void SingleGetsAddedToDB()
         {
-            bool singleAdded = false;
+            bool singleAdded;
 
             SongDbManager songDbManager = new();
             List<string> artistNames = new();
             List<string> genres = new();
-            byte[] img = null;
 
-            artistNames.Add("KROWW");
-            artistNames.Add("QroH");
+            //Image img = Image.FromFile(@"D:\Users\Judah\Pictures\Music Related\Song Pics\Wren (remix).jpg");
+            Image img = null;
+
+            string songTitle = "Wren (Initiation Remix)";
+            DateTime dateOfRelease = new DateTime(2018, 01, 21);
+
+            artistNames.Add("Faodail");
+            artistNames.Add("Initiation");
             genres.Add("EDM");
             genres.Add("Dubstep");
-            genres.Add("Deathstep");
-
-            Single single = new("The Desert's Curse", new DateTime(2020, 04, 20), img, artistNames, genres);
-
-            if (songDbManager.GetSongId(single.Title, single.DateOfRelease) == 0)
-            {
-                songDbManager.AddSingle(single);
-                Single single1 = songDbManager.GetSingle(songDbManager.GetSongId("The Desert's Curse", new DateTime(2020, 04, 20)));
-
-                if (single1.Id > 0 && single1.ArtistNames.Count == 2 && single1.GenreNames.Count == 3)
-                {
-                    singleAdded = true;
-                }
-            }
+            genres.Add("Chillstep");
+            
+            singleAdded = SingleIsAdded(new(songTitle, dateOfRelease, img, artistNames, genres), songDbManager);
+            DeleteSongFromDB(songTitle, artistNames);
 
             Assert.True(singleAdded);
         }
@@ -47,7 +42,7 @@ namespace Music_Review_Application_Tests
 
         }
         [Fact]
-        public void GetsSongIdBySearcingSongTitleAndArtists()
+        public void GetsSongIdBySearchingSongTitleAndArtists()
         {
 
         }
@@ -56,15 +51,31 @@ namespace Music_Review_Application_Tests
         public void GetsSongBySongId()
         {
 
-        }
+        }*/
 
-        [Fact]
-        public void DeleteSongFromDB()
+        public void DeleteSongFromDB(string songTitle, List<string> artistNames)
         {
             SongDbManager songDbManager = new();
-            songDbManager.
-
+            songDbManager.DeleteSingle(songDbManager.GetSongId(songTitle, artistNames));
         }
-        */
+
+        public bool SingleIsAdded(SingleSong single, SongDbManager songDbManager)
+        {
+            bool singleAdded = false;
+
+            if (songDbManager.GetSongId(single.Title, single.ArtistNames) == 0)
+            {
+                songDbManager.AddSingle(single);
+                single.Id = songDbManager.GetSongId(single.Title, single.ArtistNames);
+                SingleSong single1 = songDbManager.GetSingle(songDbManager.GetSongId(single.Title, single.ArtistNames));
+
+                if (single.Id == single1.Id && single.Img == single1.Img)
+                {
+                    singleAdded = true;
+                }
+            }
+
+            return singleAdded;
+        }
     }
 }

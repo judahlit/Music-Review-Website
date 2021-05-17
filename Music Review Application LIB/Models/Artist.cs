@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +16,13 @@ namespace Music_Review_Application_LIB
 
         public string ArtistName { get; set; }
 
-        public byte[] Img { get; set; }
+        public Image Img { get; set; }
 
         public string Description { get; set; }
 
         #endregion
 
-        public Artist(string artistName, byte[] img, string description)
+        public Artist(string artistName, Image img, string description)
         {
             ArtistName = artistName;
             Img = img;

@@ -30,7 +30,7 @@ namespace Music_Review_Application_Tests
             bool artistAdded = false;
 
             ArtistDbManager artistDbManager = new();
-            Artist artist = new("QroH", null, "");
+            Artist artist = new("Pure Karnage", null, "");
             artistDbManager.AddArtist(artist);
             int artistId = artistDbManager.GetArtistId(artist.ArtistName);
 

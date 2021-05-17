@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,27 +15,25 @@ namespace Music_Review_Application_LIB
 
         public string Title { get; set; }
 
-        public List<Song> Songs { get; set; }
+        public List<Track> Tracks { get; set; }
 
         public DateTime DateOfRelease { get; set; }
 
         public double Score { get; set; }
 
-        public byte[] Img { get; set; }
+        public Image Img { get; set; }
 
         public List<string> ArtistNames { get; set; }
 
-        public List<string> GenreNames { get; set; }
-
         #endregion
 
-        public Album(string title, List<Song> songs, DateTime dateOfRelease, byte[] img, List<string> genreNames)
+        public Album(string title, List<Track> tracks, DateTime dateOfRelease, Image img, List<string> artistNames)
         {
             Title = title;
-            Songs = songs;
+            Tracks = tracks;
             DateOfRelease = dateOfRelease;
             Img = img;
-            GenreNames = genreNames;
+            ArtistNames = artistNames;
         }
     }
 }

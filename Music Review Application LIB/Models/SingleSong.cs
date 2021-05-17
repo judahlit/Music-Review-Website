@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Music_Review_Application_LIB
 {
-    public class Single: Song
+    public class SingleSong: Song
     {
-        public byte[] Img { get; private set; }
+        public Image Img { get; private set; }
 
-        public Single(string title, DateTime date, byte[] img, List<string> artistNames, List<string> genres)
+        public SingleSong(string title, DateTime date, Image img, List<string> artistNames, List<string> genres)
         :base(title, date, artistNames, genres)
         {
-            
+            Img = img;
         }
     }
 }

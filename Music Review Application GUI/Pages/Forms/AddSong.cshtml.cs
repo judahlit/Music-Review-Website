@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Music_Review_Application_GUI.Models;
 using Music_Review_Application_LIB;
 using Music_Review_Application_LIB.DbManagers;
-using Single = Music_Review_Application_LIB.Single;
+using SingleSong = Music_Review_Application_LIB.SingleSong;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {
@@ -46,18 +46,8 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public void AddSingleToDB()
         {
-            Single single = new(Song.Title, Song.Date, null, Song.ArtistNames, Song.GenreNames);
-            ArtistDbManager artistDbManager = new();
+            SingleSong single = new(Song.Title, Song.Date, null, Song.ArtistNames, Song.GenreNames);
             SongDbManager songDbManager = new();
-
-            foreach (string ArtistName in single.ArtistNames)
-            {
-                if (artistDbManager.GetArtistId(ArtistName) == 0)
-                {
-                    Artist artist = new(ArtistName, null, null);
-                    artistDbManager.AddArtist(artist);
-                }
-            }
 
             if (songDbManager.GetSongId(single.Title, single.DateOfRelease) == 0)
             {

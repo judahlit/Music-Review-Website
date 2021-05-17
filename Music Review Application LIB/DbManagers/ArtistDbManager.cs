@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,14 @@ namespace Music_Review_Application_LIB.DbManagers
     {
         #region Constants and Fields
 
+
         private const string QueryAddArtist = "INSERT INTO artist(artistName, img, description) VALUES('{0}',CONVERT(VARBINARY(MAX), '{1}'),'{2}');";
         private const string QueryGetArtistId = "SELECT id FROM artist WHERE artistName = '{0}';";
         private const string QueryGetArtistById = "SELECT * FROM artist WHERE id = '{0}'";
         private const string QueryGetAllArtists = "";
         private const string QueryGetSortedArtists = "";
 
+        private readonly AppManager _appManager = new();
 
         #endregion
 
@@ -31,7 +34,7 @@ namespace Music_Review_Application_LIB.DbManagers
         {
             using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryAddArtist, AppManager.GetSqlString(artist.ArtistName), artist.Img, AppManager.GetSqlString(artist.Description)), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddArtist, _appManager.GetSqlString(artist.ArtistName), _appManager.ImageToByteArray(artist.Img), _appManager.GetSqlString(artist.Description)), conn))
                 {
                     conn.Open();
                     query.ExecuteNonQuery();
@@ -43,7 +46,7 @@ namespace Music_Review_Application_LIB.DbManagers
         {
             using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtistId, AppManager.GetSqlString(artistName)), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtistId, _appManager.GetSqlString(artistName)), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
@@ -68,14 +71,14 @@ namespace Music_Review_Application_LIB.DbManagers
 
                     int artistId = 0;
                     string artistName = "";
-                    byte[] img = null;
+                    Image img = null;
                     string description = "";
 
                     while (reader.Read())
                     {
                         artistId = reader.GetInt32(0);
                         artistName = reader.GetString(1);
-                        img = (byte[])reader["img"];
+                        img = _appManager.ByteArrayToImage((byte[])reader["img"]);
                         description = reader.GetString(3);
                     }
 

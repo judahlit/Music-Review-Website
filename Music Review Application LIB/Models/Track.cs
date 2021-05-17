@@ -12,10 +12,11 @@ namespace Music_Review_Application_LIB
 
         public int AlbumId { get; private set; }
 
-        public Track(string title, DateTime date, int trackId, int albumId, List<string> artistNames, List<string> genreNames) 
-        :base(title, date, artistNames, genreNames)
+        public Track(string title, DateTime date, int trackId, int albumId, List<string> artistNames, List<string> genreNames)
+            : base(title, date, artistNames, genreNames)
         {
-
+            TrackId = trackId;
+            AlbumId = albumId;
         }
     }
 }

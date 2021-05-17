@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace Music_Review_Application_LIB.DbManagers
         private const string QueryGetUserScore = "";
         private const string QueryDeleteAlbum = "";
 
+        private readonly AppManager _appManager = new();
+
         #endregion
 
         public AlbumDbManager()
@@ -35,9 +38,23 @@ namespace Music_Review_Application_LIB.DbManagers
 
         }
         
-        public int GetAlbumId(string Title, DateTime dateOfRelease)
+        public int GetAlbumId(string title, DateTime dateOfRelease)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumId, _appManager.GetSqlString(title), dateOfRelease), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        return reader.GetInt32(0);
+                    }
+
+                    return 0;
+                }
+            }
         }
 
         /*
