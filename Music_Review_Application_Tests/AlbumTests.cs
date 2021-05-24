@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 using System.Drawing;
+using Music_Review_Application_LIB.Models;
 
 namespace Music_Review_Application_Tests
 {
@@ -18,11 +19,11 @@ namespace Music_Review_Application_Tests
 
             artistNames.Add("Taishi");
 
-            tracks.Add(new Track("Introduction - Somewhere Not in This World", new DateTime(2017, 10, 29), 1, artistNames, new List<string> { "piano", "electronic" }));
-            tracks.Add(new Track("The Tower Which Is Telling the Time 1", new DateTime(2017, 10, 29), 2, artistNames, new List<string> { "orchestral", "electronic" }));
-            tracks.Add(new Track("The Tower Which Is Telling the Time 2", new DateTime(2017, 10, 29), 3, artistNames, new List<string> { "orchestral", "electronic", "EDM" }));
-            tracks.Add(new Track("The Tower Which Is Telling the Time 3", new DateTime(2017, 10, 29), 4, artistNames, new List<string> { "orchestral", "electronic", "EDM", "Trance" }));
-            tracks.Add(new Track("Encounter Like a Rendezvous (in Another World)", new DateTime(2017, 10, 29), 5, artistNames, new List<string> { "piano" }));
+            tracks.Add(new Track("Introduction - Somewhere Not in This World", new DateTime(2017, 10, 29), 1, artistNames, new List<Genre> { new("piano"), new("electronic") }));
+            tracks.Add(new Track("The Tower Which Is Telling the Time 1", new DateTime(2017, 10, 29), 2, artistNames, new List<Genre> { new("orchestral"), new("electronic") }));
+            tracks.Add(new Track("The Tower Which Is Telling the Time 2", new DateTime(2017, 10, 29), 3, artistNames, new List<Genre> { new("orchestral"), new("electronic"), new("EDM") }));
+            tracks.Add(new Track("The Tower Which Is Telling the Time 3", new DateTime(2017, 10, 29), 4, artistNames, new List<Genre> { new("orchestral"), new("electronic"), new("EDM"), new("Trance") }));
+            tracks.Add(new Track("Encounter Like a Rendezvous (in Another World)", new DateTime(2017, 10, 29), 5, artistNames, new List<Genre> { new("piano") }));
 
             List<string> albumArtists = new();
             albumArtists.Add("Taishi");

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Music_Review_Application_LIB.Models;
 
 namespace Music_Review_Application_LIB
 {
@@ -21,16 +22,16 @@ namespace Music_Review_Application_LIB
 
         public List<string> ArtistNames { get; set; } = new();
 
-        public List<string> GenreNames { get; set; } = new List<string>();
+        public List<Genre> Genres { get; set; } = new();
 
         #endregion
 
-        protected Song(string title, DateTime date, List<string> artistNames, List<string> genreNames)
+        protected Song(string title, DateTime date, List<string> artistNames, List<Genre> genres)
         {
             Title = title;
             DateOfRelease = date;
             ArtistNames = artistNames;
-            GenreNames = genreNames;
+            Genres = genres;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Music_Review_Application_LIB.Models;
 
 namespace Music_Review_Application_LIB.DbManagers
 {
@@ -143,7 +144,6 @@ namespace Music_Review_Application_LIB.DbManagers
             string title = "";
             List<Track> tracks = new();
             DateTime dateOfRelease = new();
-            double score = 0;
             Image img = null;
             List<string> artistNames = new();
 
@@ -160,11 +160,6 @@ namespace Music_Review_Application_LIB.DbManagers
                     {
                         title = reader.GetString(1);
                         dateOfRelease = (DateTime)reader["dateOfRelease"];
-
-                        if (reader["score"] != DBNull.Value)
-                        {
-                            score = (double)reader["score"];
-                        }
 
                         if (reader["img"] != DBNull.Value)
                         {
@@ -205,9 +200,11 @@ namespace Music_Review_Application_LIB.DbManagers
                 tracks.Add(_songDbManager.GetTrack(trackSongId));
             }
 
-            Album album = new(title, tracks, dateOfRelease, img, artistNames);
-            album.Id = id;
-            album.Score = score;
+            Album album = new(title, tracks, dateOfRelease, img, artistNames)
+            {
+                Id = id,
+                Score = 0
+            };
 
             return album;
         }
@@ -282,13 +279,13 @@ namespace Music_Review_Application_LIB.DbManagers
             return true;
         }
 
-        public List<string> GetAlbumGenres(Album album)
+        public List<Genre> GetAlbumGenres(Album album)
         {
-            List<string> genres = new();
+            List<Genre> genres = new();
 
             foreach (Track track in album.Tracks)
             {
-                foreach (string genre in track.GenreNames)
+                foreach (Genre genre in track.Genres)
                 {
                     if (!genres.Contains(genre))
                     {
@@ -307,10 +304,10 @@ namespace Music_Review_Application_LIB.DbManagers
             if (albumDbManager.GetAlbumId(album.Title, album.ArtistNames) == 0)
             {
                 albumDbManager.AddAlbum(album);
-                List<string> albumGenres = albumDbManager.GetAlbumGenres(album);
+                List<Genre> albumGenres = albumDbManager.GetAlbumGenres(album);
 
                 Album album1 = albumDbManager.GetAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
-                List<string> album1Genres = albumDbManager.GetAlbumGenres(album1);
+                List<Genre> album1Genres = albumDbManager.GetAlbumGenres(album1);
 
                 if (album.Title == album1.Title && album.Tracks.Count == album1.Tracks.Count && album.DateOfRelease == album1.DateOfRelease && album.Img == album1.Img && album.ArtistNames.Count == album1.ArtistNames.Count && albumGenres.Count == album1Genres.Count)
                 {
