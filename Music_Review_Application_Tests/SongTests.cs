@@ -19,8 +19,8 @@ namespace Music_Review_Application_Tests
             List<string> artistNames = new();
             List<Genre> genres = new();
 
-            //Image img = Image.FromFile(@"D:\Users\Judah\Pictures\Music Related\Song Pics\Wren (remix).jpg");
-            Image img = null;
+            Image img = Image.FromFile(@"D:\Users\Judah\Pictures\Music Related\Song Pics\Wren (remix).jpg");
+            //Image img = null;
 
             string songTitle = "Wren (Initiation Remix)";
             DateTime dateOfRelease = new DateTime(2018, 01, 21);
