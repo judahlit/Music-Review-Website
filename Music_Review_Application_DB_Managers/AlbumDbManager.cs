@@ -282,24 +282,6 @@ namespace Music_Review_Application_DB_Managers
             return true;
         }
 
-        public List<Genre> GetAlbumGenres(Album album)
-        {
-            List<Genre> genres = new();
-
-            foreach (Track track in album.Tracks)
-            {
-                foreach (Genre genre in track.Genres)
-                {
-                    if (!genres.Contains(genre))
-                    {
-                        genres.Add(genre);
-                    }
-                }
-            }
-
-            return genres;
-        }
-
         public bool AlbumIsAdded(Album album)
         {
             AlbumDbManager albumDbManager = new();
@@ -307,10 +289,10 @@ namespace Music_Review_Application_DB_Managers
             if (albumDbManager.GetAlbumId(album.Title, album.ArtistNames) == 0)
             {
                 albumDbManager.AddAlbum(album);
-                List<Genre> albumGenres = albumDbManager.GetAlbumGenres(album);
+                List<Genre> albumGenres = album.GetAlbumGenres();
 
                 Album album1 = albumDbManager.GetAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
-                List<Genre> album1Genres = albumDbManager.GetAlbumGenres(album1);
+                List<Genre> album1Genres = album1.GetAlbumGenres();
 
                 if (album.Title == album1.Title && album.Tracks.Count == album1.Tracks.Count && album.DateOfRelease == album1.DateOfRelease && album.Img == album1.Img && album.ArtistNames.Count == album1.ArtistNames.Count && albumGenres.Count == album1Genres.Count)
                 {

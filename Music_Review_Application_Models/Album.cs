@@ -35,5 +35,20 @@ namespace Music_Review_Application_Models
             Img = img;
             ArtistNames = artistNames;
         }
+
+        public List<Genre> GetAlbumGenres()
+        {
+            List<Genre> genres = new();
+
+            foreach (Track track in Tracks)
+            {
+                foreach (var genre in track.Genres.Where(genre => !genres.Contains(genre)))
+                {
+                    genres.Add(genre);
+                }
+            }
+
+            return genres;
+        }
     }
 }
