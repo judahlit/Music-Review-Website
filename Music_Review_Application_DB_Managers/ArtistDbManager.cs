@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Music_Review_Application_Models;
+using ImageConverter = Music_Review_Application_Models.ImageConverter;
 
 namespace Music_Review_Application_DB_Managers
 {
@@ -20,7 +21,8 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetAllArtists = "";
         private const string QueryGetSortedArtists = "";
 
-        private readonly AppManager _appManager = new();
+        private readonly SqlManager _sqlManager = new();
+        private readonly ImageConverter _imageConverter = new();
 
         #endregion
 
@@ -33,9 +35,9 @@ namespace Music_Review_Application_DB_Managers
 
         public void AddArtist(Artist artist)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryAddArtist, _appManager.GetSqlString(artist.ArtistName), _appManager.ImageToByteArray(artist.Img), _appManager.GetSqlString(artist.Description)), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddArtist, _sqlManager.GetSqlString(artist.ArtistName), _imageConverter.ImageToByteArray(artist.Img), _sqlManager.GetSqlString(artist.Description)), conn))
                 {
                     conn.Open();
                     query.ExecuteNonQuery();
@@ -45,9 +47,9 @@ namespace Music_Review_Application_DB_Managers
 
         public int GetArtistId(string artistName)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtistId, _appManager.GetSqlString(artistName)), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtistId, _sqlManager.GetSqlString(artistName)), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
@@ -63,7 +65,7 @@ namespace Music_Review_Application_DB_Managers
         }
         public Artist GetArtist(int id)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtist, id), conn))
                 {
@@ -79,7 +81,7 @@ namespace Music_Review_Application_DB_Managers
                     {
                         artistId = reader.GetInt32(0);
                         artistName = reader.GetString(1);
-                        img = _appManager.ByteArrayToImage((byte[])reader["img"]);
+                        img = _imageConverter.ByteArrayToImage((byte[])reader["img"]);
                         description = reader.GetString(3);
                     }
 

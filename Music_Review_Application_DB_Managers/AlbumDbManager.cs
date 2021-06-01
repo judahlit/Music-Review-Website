@@ -7,6 +7,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using Music_Review_Application_Models;
+using ImageConverter = Music_Review_Application_Models.ImageConverter;
 
 namespace Music_Review_Application_DB_Managers
 {
@@ -27,9 +28,10 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryDeleteAlbum = "DELETE FROM Album WHERE id = '{0}'";
         private const string QueryDeleteAlbumArtists = "DELETE FROM AlbumArtist WHERE albumId = '{0}'";
 
-        private readonly AppManager _appManager = new();
+        private readonly SqlManager _sqlManager = new();
         private readonly ArtistDbManager _artistDbManager = new();
         private readonly SongDbManager _songDbManager = new();
+        private readonly ImageConverter _imageConverter = new();
 
         #endregion
 
@@ -44,12 +46,12 @@ namespace Music_Review_Application_DB_Managers
 
             CheckArtists(album);
 
-            byte[] bytearray = _appManager.ImageToByteArray(album.Img);
+            byte[] bytearray = _imageConverter.ImageToByteArray(album.Img);
             int albumId = 0;
 
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryAddAlbum, _appManager.GetSqlString(album.Title), album.DateOfRelease, bytearray), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddAlbum, _sqlManager.GetSqlString(album.Title), album.DateOfRelease, bytearray), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
@@ -82,11 +84,11 @@ namespace Music_Review_Application_DB_Managers
             List<List<int>> albumIds = new();
             int artistNumber = 0;
 
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 foreach (string artistName in artistNames)
                 {
-                    using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumId, _appManager.GetSqlString(title), _appManager.GetSqlString(artistName)), conn))
+                    using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumId, _sqlManager.GetSqlString(title), _sqlManager.GetSqlString(artistName)), conn))
                     {
                         conn.Open();
                         var reader = query.ExecuteReader();
@@ -150,7 +152,7 @@ namespace Music_Review_Application_DB_Managers
 
             List<int> trackSongIds = new();
 
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumById, id), conn))
                 {
@@ -164,7 +166,7 @@ namespace Music_Review_Application_DB_Managers
 
                         if (reader["img"] != DBNull.Value)
                         {
-                            img = _appManager.ByteArrayToImage((byte[])reader["img"]);
+                            img = _imageConverter.ByteArrayToImage((byte[])reader["img"]);
                         }
                     }
 
@@ -242,7 +244,7 @@ namespace Music_Review_Application_DB_Managers
                 _songDbManager.DeleteTrack(track.Id);
             }
 
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteAlbumArtists, id), conn))
                 {

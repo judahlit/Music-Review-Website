@@ -8,34 +8,8 @@ using System.Threading.Tasks;
 
 namespace Music_Review_Application_Models
 {
-    public class AppManager
+    public class ImageConverter
     {
-        #region Constants and Fields
-
-        public const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MRA_DB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
-        #endregion
-
-        public AppManager()
-        {
-
-        }
-
-        public string GetSqlString(string value)
-        {
-            if (value != null)
-            {
-                return value.Replace("'", "''");
-            }
-
-            return value;
-        }
-
-        public void LetUserChooseImage()
-        {
-
-        }
-
         public byte[] ImageToByteArray(Image imageIn)
         {
             if (imageIn is null)

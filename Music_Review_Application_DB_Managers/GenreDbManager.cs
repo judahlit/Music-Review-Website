@@ -17,7 +17,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetGenreByGenreName = "SELECT * FROM Genre WHERE genreName = '{0}';";
         private const string QueryGetGenreId = "SELECT id FROM Genre WHERE genreName = '{0}';";
 
-        private readonly AppManager _appManager = new();
+        private readonly SqlManager _sqlManager = new();
 
         #endregion
 
@@ -26,9 +26,9 @@ namespace Music_Review_Application_DB_Managers
 
         public void AddGenre(Genre genre)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryAddGenre, _appManager.GetSqlString(genre.GenreName)), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddGenre, _sqlManager.GetSqlString(genre.GenreName)), conn))
                 {
                     conn.Open();
                     query.ExecuteNonQuery();
@@ -37,9 +37,9 @@ namespace Music_Review_Application_DB_Managers
         }
         public void AddGenre(string genreName)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryAddGenre, _appManager.GetSqlString(genreName)), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddGenre, _sqlManager.GetSqlString(genreName)), conn))
                 {
                     conn.Open();
                     query.ExecuteNonQuery();
@@ -49,7 +49,7 @@ namespace Music_Review_Application_DB_Managers
 
         public Genre GetGenre(int genreId)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryGetGenreById, genreId), conn))
                 {
@@ -71,7 +71,7 @@ namespace Music_Review_Application_DB_Managers
 
         public Genre GetGenre(string genreName)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryGetGenreByGenreName, genreName), conn))
                 {
@@ -93,9 +93,9 @@ namespace Music_Review_Application_DB_Managers
 
         public int GetGenreId(string genreName)
         {
-            using (SqlConnection conn = new SqlConnection(AppManager.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetGenreId, _appManager.GetSqlString(genreName)), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetGenreId, _sqlManager.GetSqlString(genreName)), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
