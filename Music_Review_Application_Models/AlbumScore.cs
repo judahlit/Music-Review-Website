@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Music_Review_Application_LIB
+namespace Music_Review_Application_Models
 {
     public class AlbumScore
     {

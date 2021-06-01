@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Music Review Application LIB\Music_Review_Application_LIB.csproj" />
+    <ProjectReference Include="..\Music_Review_Application_DB_Managers\Music_Review_Application_DB_Managers.csproj" />
+    <ProjectReference Include="..\Music_Review_Application_Models\Music_Review_Application_Models.csproj" />
   </ItemGroup>
 
 </Project>

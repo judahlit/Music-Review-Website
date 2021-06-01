@@ -1,9 +1,8 @@
-using Music_Review_Application_LIB;
-using Music_Review_Application_LIB.DbManagers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Music_Review_Application_LIB.Models;
+using Music_Review_Application_DB_Managers;
+using Music_Review_Application_Models;
 using Xunit;
 
 namespace Music_Review_Application_Tests

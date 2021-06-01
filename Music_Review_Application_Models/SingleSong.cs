@@ -4,16 +4,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Music_Review_Application_LIB.Models;
 
-namespace Music_Review_Application_LIB
+namespace Music_Review_Application_Models
 {
-    public class SingleSong: Song
+    public class SingleSong : Song
     {
         public Image Img { get; private set; }
 
         public SingleSong(string title, DateTime date, Image img, List<string> artistNames, List<Genre> genres)
-        :base(title, date, artistNames, genres)
+            : base(title, date, artistNames, genres)
         {
             Img = img;
         }
