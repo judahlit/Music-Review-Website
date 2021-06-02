@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Music_Review_Application_DB_Managers.Interfaces;
 
 namespace Music_Review_Application_DB_Managers
 {
-    public class SqlManager
+    public class SqlManager : ISqlManager
     {
         #region Constants and Fields
 

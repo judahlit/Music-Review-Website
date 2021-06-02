@@ -6,12 +6,13 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
+using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
-using ImageConverter = Music_Review_Application_Models.ImageConverter;
+using Music_Review_Application_Services.Interfaces;
 
 namespace Music_Review_Application_DB_Managers
 {
-    public class AlbumDbManager
+    public class AlbumDbManager : IAlbumDbManager
     {
         #region Constants and Fields
 
@@ -28,12 +29,21 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryDeleteAlbum = "DELETE FROM Album WHERE id = '{0}'";
         private const string QueryDeleteAlbumArtists = "DELETE FROM AlbumArtist WHERE albumId = '{0}'";
 
-        private readonly SqlManager _sqlManager = new();
-        private readonly ArtistDbManager _artistDbManager = new();
-        private readonly SongDbManager _songDbManager = new();
-        private readonly ImageConverter _imageConverter = new();
+        private readonly ISqlManager _sqlManager;
+        private readonly IArtistDbManager _artistDbManager;
+        private readonly ISongDbManager _songDbManager;
+        private readonly IImageConverter _imageConverter;
 
         #endregion
+
+        public AlbumDbManager(ISqlManager sqlManager, IArtistDbManager artistDbManager, ISongDbManager songDbManager,
+            IImageConverter imageConverter)
+        {
+            _sqlManager = sqlManager;
+            _artistDbManager = artistDbManager;
+            _songDbManager = songDbManager;
+            _imageConverter = imageConverter;
+        }
 
         #region Methods
 
@@ -44,7 +54,7 @@ namespace Music_Review_Application_DB_Managers
                 return;
             }
 
-            CheckArtists(album);
+            _artistDbManager.CheckArtists(album.ArtistNames);
 
             byte[] bytearray = _imageConverter.ImageToByteArray(album.Img);
             int albumId = 0;
@@ -212,29 +222,6 @@ namespace Music_Review_Application_DB_Managers
             return album;
         }
 
-        /*
-
-        public List<Album> GetAlbums()
-        {
-
-        }
-
-        public List<Album> GetAlbums(string title, bool byDate, bool byScore, List<string> genres)
-        {
-
-        }
-
-        public AlbumScore GetAlbumScore(Album album, string username)
-        {
-
-        }
-
-        public void UpdateScore(int albumId, AlbumScore userScore)
-        {
-
-        }
-        */
-
         public void DeleteAlbum(int id)
         {
             Album album = GetAlbum(id);
@@ -260,18 +247,6 @@ namespace Music_Review_Application_DB_Managers
             }
         }
 
-        private void CheckArtists(Album album)
-        {
-            foreach (string artistName in album.ArtistNames)
-            {
-                if (_artistDbManager.GetArtistId(artistName) == 0)
-                {
-                    Artist artist = new(artistName, null, null);
-                    _artistDbManager.AddArtist(artist);
-                }
-            }
-        }
-
         public bool AlbumExistsInDb(Album album)
         {
             if (GetAlbumId(album.Title, album.ArtistNames) == 0)
@@ -284,14 +259,12 @@ namespace Music_Review_Application_DB_Managers
 
         public bool AlbumIsAdded(Album album)
         {
-            AlbumDbManager albumDbManager = new();
-
-            if (albumDbManager.GetAlbumId(album.Title, album.ArtistNames) == 0)
+            if (GetAlbumId(album.Title, album.ArtistNames) == 0)
             {
-                albumDbManager.AddAlbum(album);
+                AddAlbum(album);
                 List<Genre> albumGenres = album.GetAlbumGenres();
 
-                Album album1 = albumDbManager.GetAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
+                Album album1 = GetAlbum(GetAlbumId(album.Title, album.ArtistNames));
                 List<Genre> album1Genres = album1.GetAlbumGenres();
 
                 if (album.Title == album1.Title && album.Tracks.Count == album1.Tracks.Count && album.DateOfRelease == album1.DateOfRelease && album.Img == album1.Img && album.ArtistNames.Count == album1.ArtistNames.Count && albumGenres.Count == album1Genres.Count)

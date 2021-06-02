@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Music_Review_Application_DB_Managers;
+using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace Music_Review_Application_Tests
         {
             bool singleAdded;
 
-            SongDbManager songDbManager = new();
+            ISongDbManager _songDbManager;
             List<string> artistNames = new();
             List<Genre> genres = new();
 
@@ -29,8 +30,8 @@ namespace Music_Review_Application_Tests
             genres.Add(new("EDM"));
             genres.Add(new("Dubstep"));
             genres.Add(new("Chillstep"));
-            
-            singleAdded = SingleIsAdded(new(songTitle, dateOfRelease, img, artistNames, genres), songDbManager);
+
+            singleAdded = _songDbManager.SingleIsAdded(new(songTitle, dateOfRelease, img, artistNames, genres));
             DeleteSongFromDB(songTitle, artistNames);
 
             Assert.True(singleAdded);
@@ -50,27 +51,8 @@ namespace Music_Review_Application_Tests
 
         public void DeleteSongFromDB(string songTitle, List<string> artistNames)
         {
-            SongDbManager songDbManager = new();
-            songDbManager.DeleteSingle(songDbManager.GetSongId(songTitle, artistNames));
-        }
-
-        public bool SingleIsAdded(SingleSong single, SongDbManager songDbManager)
-        {
-            bool singleAdded = false;
-
-            if (songDbManager.GetSongId(single.Title, single.ArtistNames) == 0)
-            {
-                songDbManager.AddSingle(single);
-                single.Id = songDbManager.GetSongId(single.Title, single.ArtistNames);
-                SingleSong single1 = songDbManager.GetSingle(songDbManager.GetSongId(single.Title, single.ArtistNames));
-
-                if (single.Id == single1.Id && single.Img == single1.Img)
-                {
-                    singleAdded = true;
-                }
-            }
-
-            return singleAdded;
+            ISongDbManager _songDbManager;
+            _songDbManager.DeleteSingle(_songDbManager.GetSongId(songTitle, artistNames));
         }
     }
 }

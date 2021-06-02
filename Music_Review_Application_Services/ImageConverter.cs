@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Music_Review_Application_Services.Interfaces;
 
-namespace Music_Review_Application_Models
+namespace Music_Review_Application_Services
 {
-    public class ImageConverter
+    public class ImageConverter : IImageConverter
     {
         public byte[] ImageToByteArray(Image imageIn)
         {

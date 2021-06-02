@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using System.Drawing;
 using Music_Review_Application_DB_Managers;
+using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
 
 namespace Music_Review_Application_Tests
@@ -29,10 +30,10 @@ namespace Music_Review_Application_Tests
 
             Album album = new("Somewhere Not in This World", tracks, new DateTime(2020, 04, 20), img, albumArtists);
 
-            AlbumDbManager albumDbManager = new();
+            IAlbumDbManager _albumDbManager;
 
-            bool albumAdded = albumDbManager.AlbumIsAdded(album);
-            albumDbManager.DeleteAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
+            bool albumAdded = _albumDbManager.AlbumIsAdded(album);
+            _albumDbManager.DeleteAlbum(_albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
 
             Assert.True(albumAdded);
         }

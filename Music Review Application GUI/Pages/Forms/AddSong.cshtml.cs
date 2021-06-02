@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Music_Review_Application_GUI.Models;
-using Music_Review_Application_LIB;
-using Music_Review_Application_LIB.DbManagers;
-using SingleSong = Music_Review_Application_LIB.SingleSong;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {

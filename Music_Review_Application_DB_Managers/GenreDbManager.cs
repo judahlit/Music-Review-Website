@@ -4,11 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
 
 namespace Music_Review_Application_DB_Managers
 {
-    public class GenreDbManager
+    public class GenreDbManager : IGenreDbManager
     {
         #region Constants and Fields
 
@@ -17,10 +18,14 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetGenreByGenreName = "SELECT * FROM Genre WHERE genreName = '{0}';";
         private const string QueryGetGenreId = "SELECT id FROM Genre WHERE genreName = '{0}';";
 
-        private readonly SqlManager _sqlManager = new();
+        private readonly ISqlManager _sqlManager;
 
         #endregion
 
+        public GenreDbManager(ISqlManager sqlManager)
+        {
+            _sqlManager = sqlManager;
+        }
 
         #region Methods
 
@@ -106,6 +111,17 @@ namespace Music_Review_Application_DB_Managers
                     }
 
                     return 0;
+                }
+            }
+        }
+
+        public void CheckGenres(List<Genre> genres)
+        {
+            foreach (Genre genre in genres)
+            {
+                if (GetGenreId(genre.GenreName) == 0)
+                {
+                    AddGenre(genre);
                 }
             }
         }

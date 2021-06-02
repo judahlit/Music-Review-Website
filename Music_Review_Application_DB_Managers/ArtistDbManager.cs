@@ -5,12 +5,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
-using ImageConverter = Music_Review_Application_Models.ImageConverter;
+using Music_Review_Application_Services.Interfaces;
 
 namespace Music_Review_Application_DB_Managers
 {
-    public class ArtistDbManager
+    public class ArtistDbManager : IArtistDbManager
     {
         #region Constants and Fields
 
@@ -21,14 +22,15 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetAllArtists = "";
         private const string QueryGetSortedArtists = "";
 
-        private readonly SqlManager _sqlManager = new();
-        private readonly ImageConverter _imageConverter = new();
+        private readonly ISqlManager _sqlManager;
+        private readonly IImageConverter _imageConverter;
 
         #endregion
 
-        public ArtistDbManager()
+        public ArtistDbManager(ISqlManager sqlManager, IImageConverter imageConverter)
         {
-
+            _sqlManager = sqlManager;
+            _imageConverter = imageConverter;
         }
 
         #region Methods
@@ -91,22 +93,18 @@ namespace Music_Review_Application_DB_Managers
             }
         }
 
-        /*
-        public Artist GetArtist(string artistName)
+        public void CheckArtists(List<string> artistNames)
         {
-
+            foreach (string artistName in artistNames)
+            {
+                if (GetArtistId(artistName) == 0)
+                {
+                    Artist artist = new(artistName, null, null);
+                    AddArtist(artist);
+                }
+            }
         }
 
-        public List<Artist> GetArtists()
-        {
-
-        }
-
-        public List<Artist> GetArtists(bool byAvgScore, List<string> madeGenres)
-        {
-
-        }
-        */
         #endregion
     }
 }
