@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Music_Review_Application_Models
 {
-    public class AlbumScore
+    public class AlbumReview
     {
     }
 }
