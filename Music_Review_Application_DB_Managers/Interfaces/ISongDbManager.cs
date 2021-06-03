@@ -37,6 +37,6 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         bool SingleIsAdded(SingleSong single);
 
-        bool TrackIsAdded(SingleSong single);
+        bool TrackIsAdded(Track track, int albumId);
     }
 }

@@ -9,4 +9,10 @@
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Music_Review_Application_DB_Managers\Music_Review_Application_DB_Managers.csproj" />
+    <ProjectReference Include="..\Music_Review_Application_Models\Music_Review_Application_Models.csproj" />
+    <ProjectReference Include="..\Music_Review_Application_Services\Music_Review_Application_Services.csproj" />
+  </ItemGroup>
+
 </Project>
