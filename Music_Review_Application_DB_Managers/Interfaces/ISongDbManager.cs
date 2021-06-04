@@ -31,6 +31,8 @@ namespace Music_Review_Application_DB_Managers.Interfaces
         List<Song> GetSong(string title, bool byDate, bool byScore, List<string> genres);
         */
 
+        void UpdateReview(SongReview songReview);
+
         void DeleteSingle(int id);
 
         void DeleteTrack(int id);

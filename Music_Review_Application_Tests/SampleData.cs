@@ -1,52 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xunit;
 using System.Drawing;
-using Autofac;
-using Moq;
-using Music_Review_Application_DB_Managers;
-using Music_Review_Application_DB_Managers.Interfaces;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Music_Review_Application_Models;
 
 namespace Music_Review_Application_Tests
 {
-    public class AlbumTests
+    public class SampleData
     {
-        [Fact] public void GetsAlbumIdBySearchingAlbumTitleAndArtists()
+        public static SingleSong GetSampleSingle()
         {
-            var album = GetSampleAlbum();
-            var albumId = 0;
-            var container = TestContainerConfig.Configure();
-
-            using (var scope = container.BeginLifetimeScope())
-            {
-                var albumDbManager = scope.Resolve<IAlbumDbManager>();
-                albumDbManager.AddAlbum(album);
-                albumId = albumDbManager.GetAlbumId(album.Title, album.ArtistNames);
-                albumDbManager.DeleteAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
-            }
-
-            Assert.True(albumId > 0);
+            List<string> artistNames = new();
+            List<Genre> genres = new();
+            artistNames.Add("Faodail");
+            artistNames.Add("Initiation");
+            genres.Add(new("EDM"));
+            genres.Add(new("Dubstep"));
+            genres.Add(new("Chillstep"));
+            return new SingleSong("Wren (Initiation Remix)", new DateTime(2018, 01, 21), null, artistNames, genres);
         }
 
-        [Fact]
-        public void AlbumGetsAddedToDB()
-        {
-            var albumAdded = false;
-            var album = GetSampleAlbum();
-            var container = TestContainerConfig.Configure();
-
-            using (var scope = container.BeginLifetimeScope())
-            {
-                var albumDbManager = scope.Resolve<IAlbumDbManager>();
-                albumAdded = albumDbManager.AlbumIsAdded(album);
-                albumDbManager.DeleteAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
-            }
-
-            Assert.True(albumAdded);
-        }
-
-        private Album GetSampleAlbum()
+        public static Album GetSampleAlbum()
         {
             Image img = null;
             List<Track> tracks = new();

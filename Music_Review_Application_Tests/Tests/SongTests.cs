@@ -15,7 +15,7 @@ namespace Music_Review_Application_Tests
         [Fact]
         public void GetsSongIdBySearchingSongTitleAndArtists()
         {
-            var song = GetSampleSong();
+            var song = SampleData.GetSampleSingle();
             var songId = 0;
             var container = TestContainerConfig.Configure();
 
@@ -34,7 +34,7 @@ namespace Music_Review_Application_Tests
         public void SingleGetsAddedToDB()
         {
             var singleAdded = false;
-            var song = GetSampleSong();
+            var song = SampleData.GetSampleSingle();
             var container = TestContainerConfig.Configure();
 
             using (var scope = container.BeginLifetimeScope())
@@ -45,21 +45,6 @@ namespace Music_Review_Application_Tests
             }
 
             Assert.True(singleAdded);
-        }
-
-        private SingleSong GetSampleSong()
-        {
-            List<string> artistNames = new();
-            List<Genre> genres = new();
-            Image img = null;
-            var songTitle = "Wren (Initiation Remix)";
-            var dateOfRelease = new DateTime(2018, 01, 21);
-            artistNames.Add("Faodail");
-            artistNames.Add("Initiation");
-            genres.Add(new("EDM"));
-            genres.Add(new("Dubstep"));
-            genres.Add(new("Chillstep"));
-            return new SingleSong(songTitle, dateOfRelease, img, artistNames, genres);
         }
     }
 }

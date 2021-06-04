@@ -74,6 +74,6 @@
     <Build Include="dbo\Tables\SongReview.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dbo\PublishLocations\LocalMRADB.publish.publish.xml" />
+    <None Include="dbo\PublishLocations\MRA_DB.publish.xml" />
   </ItemGroup>
 </Project>

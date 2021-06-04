@@ -27,7 +27,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetAllSongs = "";
         private const string QueryGetSortedSongs = "";
 
-        private const string QueryUpdateReview = "";
+        private const string QueryUpdateReview = "UPDATE SongReview SET songScore = {1}, songReview = '{2}' WHERE id = {0};";
 
         private const string QueryDeleteSong = "DELETE FROM Song WHERE id = '{0}'";
         private const string QueryDeleteSongArtist = "DELETE FROM SongArtist WHERE songId = '{0}'";
@@ -371,7 +371,7 @@ namespace Music_Review_Application_DB_Managers
         {
             var songId = 0;
             var username = "";
-            var score = 0.0;
+            var score = 0;
             var review = "";
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
@@ -391,7 +391,22 @@ namespace Music_Review_Application_DB_Managers
                 }
             }
 
-            return new SongReview(id, songId, username, score, review);
+            return new SongReview(songId, username, score, review) {Id = id};
+        }
+
+        public void UpdateReview(SongReview songReview)
+        {
+            if (GetReviewId(songReview.SongId, songReview.Username) == 0) return;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryUpdateReview, GetReviewId(songReview.SongId, songReview.Username), songReview.Score, _sqlManager.GetSqlString(songReview.Review)), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+                    reader.Close();
+                }
+            }
         }
 
         public void DeleteSingle(int id)
