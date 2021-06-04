@@ -33,6 +33,7 @@ namespace Music_Review_Application_GUI
             services.AddSingleton<IArtistDbManager, ArtistDbManager>();
             services.AddSingleton<IGenreDbManager, GenreDbManager>();
             services.AddSingleton<ISongDbManager, SongDbManager>();
+            services.AddSingleton<IUserListDbManager, UserListDbManager>();
             services.AddSingleton<ISqlManager, SqlManager>();
             services.AddSingleton<IImageConverter, ImageConverter>();
         }

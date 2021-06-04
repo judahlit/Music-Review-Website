@@ -14,30 +14,38 @@ namespace Music_Review_Application_Tests
         [Fact]
         public void ReturnsArtistId()
         {
+            // Arrange
             var artistId = 0;
-            var container = TestContainerConfig.Configure();
 
+            var container = TestContainerConfig.Configure();
             using (var scope = container.BeginLifetimeScope())
             {
                 var artistDbManager = scope.Resolve<IArtistDbManager>();
+
+                // Act
                 artistId = artistDbManager.GetArtistId("Taishi");
             }
 
+            // Assert
             Assert.True(artistId > 0);
         }
 
         [Fact]
         public void ReturnsArtist()
         {
+            // Arrange
             var artistName = "";
-            var container = TestContainerConfig.Configure();
 
+            var container = TestContainerConfig.Configure();
             using (var scope = container.BeginLifetimeScope())
             {
                 var artistDbManager = scope.Resolve<IArtistDbManager>();
+
+                // Act
                 artistName = artistDbManager.GetArtist(artistDbManager.GetArtistId("Taishi")).ArtistName;
             }
 
+            // Assert
             Assert.Equal("Taishi", artistName);
         }
     }
