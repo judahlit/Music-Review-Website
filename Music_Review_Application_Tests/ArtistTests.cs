@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Autofac;
+using Moq;
 using Music_Review_Application_DB_Managers;
 using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
@@ -12,17 +14,31 @@ namespace Music_Review_Application_Tests
         [Fact]
         public void ReturnsArtistId()
         {
-            IArtistDbManager _artistDbManager;
-            int id = _artistDbManager.GetArtistId("Taishi");
-            Assert.True(id > 0);
+            var artistId = 0;
+            var container = TestContainerConfig.Configure();
+
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var artistDbManager = scope.Resolve<IArtistDbManager>();
+                artistId = artistDbManager.GetArtistId("Taishi");
+            }
+
+            Assert.True(artistId > 0);
         }
 
         [Fact]
         public void ReturnsArtist()
         {
-            IArtistDbManager _artistDbManager;
-            Artist artist = _artistDbManager.GetArtist(_artistDbManager.GetArtistId("Taishi"));
-            Assert.Equal("Taishi", artist.ArtistName);
+            var artistName = "";
+            var container = TestContainerConfig.Configure();
+
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var artistDbManager = scope.Resolve<IArtistDbManager>();
+                artistName = artistDbManager.GetArtist(artistDbManager.GetArtistId("Taishi")).ArtistName;
+            }
+
+            Assert.Equal("Taishi", artistName);
         }
     }
 }
