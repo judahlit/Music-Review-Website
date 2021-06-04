@@ -13,25 +13,29 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         void AddTrack(Track track, int albumId);
 
+        void AddReview(SongReview songReview);
+
         int GetSongId(string title, List<string> artistNames);
+
+        int GetReviewId(int songId, string username);
 
         SingleSong GetSingle(int id);
 
         Track GetTrack(int id);
 
+        SongReview GetSongReview(int id);
+
         /*
         List<Song> GetSongs();
 
         List<Song> GetSong(string title, bool byDate, bool byScore, List<string> genres);
-
-        SongScore GetUserScore(Song song, string username);
-
-        void UpdateScore(int songId, SongScore userScore);
         */
 
         void DeleteSingle(int id);
 
         void DeleteTrack(int id);
+
+        void DeleteReview(int id);
 
         bool SongExistsInDb(Song song);
 

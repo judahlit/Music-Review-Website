@@ -16,18 +16,23 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryAddTrack = "INSERT INTO Song(title, dateOfRelease, trackNr, albumId) OUTPUT INSERTED.id VALUES('{0}','{1}',{2},{3});";
         private const string QueryAddSongArtist = "INSERT INTO SongArtist(songId, artistId) VALUES({0}, {1});";
         private const string QueryAddSongGenre = "INSERT INTO SongGenre(songId, genreId) VALUES({0},{1});";
+        private const string QueryAddReview = "INSERT INTO SongReview(songId, username, songScore, songReview) VALUES({0},'{1}',{2},'{3}');";
+
         private const string QueryGetSongId = "SELECT Song.id FROM Song, songArtist WHERE Song.title = '{0}' AND Song.id = SongArtist.songId AND SongArtist.artistId = (SELECT id FROM Artist WHERE artistName = '{1}');";
-        private const string QueryGetSongById = "SELECT * FROM Song WHERE id = {0};";
+        private const string QueryGetSong = "SELECT * FROM Song WHERE id = {0};";
         private const string QueryGetSongArtistsBySongId = "SELECT * FROM SongArtist WHERE songId = {0};";
         private const string QueryGetSongGenreIdsBySongId = "SELECT * FROM SongGenre WHERE songId = {0};";
-
+        private const string QueryGetReviewId = "SELECT id FROM SongReview WHERE songId = {0} AND username = '{1}';";
+        private const string QueryGetReview = "SELECT * FROM SongReview WHERE id = {0};";
         private const string QueryGetAllSongs = "";
         private const string QueryGetSortedSongs = "";
-        private const string QueryUpdateScore = "";
-        private const string QueryGetUserScore = "";
+
+        private const string QueryUpdateReview = "";
+
         private const string QueryDeleteSong = "DELETE FROM Song WHERE id = '{0}'";
         private const string QueryDeleteSongArtist = "DELETE FROM SongArtist WHERE songId = '{0}'";
         private const string QueryDeleteSongGenre = "DELETE FROM SongGenre WHERE songId = '{0}'";
+        private const string QueryDeleteReview = "DELETE FROM SongReview WHERE id = '{0}'";
 
         private readonly ISqlManager _sqlManager;
         private readonly IArtistDbManager _artistDbManager;
@@ -137,6 +142,21 @@ namespace Music_Review_Application_DB_Managers
             }
         }
 
+        public void AddReview(SongReview songReview)
+        {
+            if (GetReviewId(songReview.SongId, songReview.Username) != 0) return;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddReview, songReview.SongId, _sqlManager.GetSqlString(songReview.Username), songReview.Score, _sqlManager.GetSqlString(songReview.Review)), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+                    reader.Close();
+                }
+            }
+        }
+
         public int GetSongId(string title, List<string> artistNames)
         {
             List<List<int>> songIds = new();
@@ -199,6 +219,29 @@ namespace Music_Review_Application_DB_Managers
             return 0;
         }
 
+        public int GetReviewId(int songId, string username)
+        {
+            var id = 0;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetReviewId, songId, _sqlManager.GetSqlString(username)), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        id = reader.GetInt32(0);
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return id;
+        }
+
         public SingleSong GetSingle(int id)
         {
             string title = null;
@@ -209,7 +252,7 @@ namespace Music_Review_Application_DB_Managers
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongById, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSong, id), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
@@ -273,7 +316,7 @@ namespace Music_Review_Application_DB_Managers
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongById, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSong, id), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
@@ -324,6 +367,33 @@ namespace Music_Review_Application_DB_Managers
             return track;
         }
 
+        public SongReview GetSongReview(int id)
+        {
+            var songId = 0;
+            var username = "";
+            var score = 0.0;
+            var review = "";
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetReview, id), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        songId = reader.GetInt32(1);
+                        username = reader.GetString(2);
+                        score = reader.GetInt32(3);
+                        review = reader.GetString(4);
+                    }
+                }
+            }
+
+            return new SongReview(id, songId, username, score, review);
+        }
+
         public void DeleteSingle(int id)
         {
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
@@ -363,6 +433,18 @@ namespace Music_Review_Application_DB_Managers
 
                 using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSong, id), conn))
                 {
+                    query.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteReview(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteReview, id), conn))
+                {
+                    conn.Open();
                     query.ExecuteNonQuery();
                 }
             }

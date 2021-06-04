@@ -65,19 +65,20 @@ namespace Music_Review_Application_DB_Managers
                 }
             }
         }
+
         public Artist GetArtist(int id)
         {
+            var artistId = 0;
+            var artistName = "";
+            Image img = null;
+            var description = "";
+
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtist, id), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
-
-                    int artistId = 0;
-                    string artistName = "";
-                    Image img = null;
-                    string description = "";
 
                     while (reader.Read())
                     {
@@ -86,11 +87,10 @@ namespace Music_Review_Application_DB_Managers
                         img = _imageConverter.ByteArrayToImage((byte[])reader["img"]);
                         description = reader.GetString(3);
                     }
-
-                    Artist artist = new(artistName, img, description) { Id = artistId };
-                    return artist;
                 }
             }
+            
+            return new Artist(artistName, img, description) { Id = artistId };
         }
 
         public void CheckArtists(List<string> artistNames)
