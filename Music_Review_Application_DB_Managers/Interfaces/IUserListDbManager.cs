@@ -10,5 +10,7 @@ namespace Music_Review_Application_DB_Managers.Interfaces
     public interface IUserListDbManager
     {
         UserList GetUserList(string username);
+
+        void DeleteUserReviews(string username);
     }
 }
