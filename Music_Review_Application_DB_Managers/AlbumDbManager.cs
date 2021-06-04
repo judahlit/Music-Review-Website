@@ -18,16 +18,21 @@ namespace Music_Review_Application_DB_Managers
 
         private const string QueryAddAlbum = "INSERT INTO album(title, dateOfRelease, img) OUTPUT INSERTED.id VALUES('{0}','{1}',CONVERT(VARBINARY(MAX),'{2}'));";
         private const string QueryAddAlbumArtist = "INSERT INTO albumArtist(albumId, artistId) VALUES({0},{1});";
+        private const string QueryAddReview = "INSERT INTO AlbumReview(albumId, username, albumScore, albumReview) VALUES({0},'{1}',{2},'{3}');";
+
         private const string QueryGetAlbumId = "SELECT Album.id FROM Album, AlbumArtist WHERE Album.title = '{0}' AND Album.id = AlbumArtist.AlbumId AND AlbumArtist.artistId = (SELECT id FROM Artist WHERE artistName = '{1}');";
         private const string QueryGetAlbumById = "SELECT * FROM Album WHERE id = {0};";
         private const string QueryGetAlbumArtistsByAlbumId = "SELECT * FROM AlbumArtist WHERE albumId = {0};";
         private const string QueryGetAlbumTrackIds = "SELECT id FROM Song WHERE albumId = {0};";
+        private const string QueryGetReviewId = "SELECT id FROM AlbumReview WHERE albumId = {0} AND username = '{1}';";
+        private const string QueryGetReview = "SELECT * FROM AlbumReview WHERE id = {0};";
         private const string QueryGetAllAlbums = "";
-        private const string QueryGetSortedAlbums = "";
-        private const string QueryUpdateScore = "";
-        private const string QueryGetUserScore = "";
+
+        private const string QueryUpdateReview = "UPDATE AlbumReview SET albumScore = {1}, albumReview = '{2}' WHERE id = {0};";
+
         private const string QueryDeleteAlbum = "DELETE FROM Album WHERE id = '{0}'";
         private const string QueryDeleteAlbumArtists = "DELETE FROM AlbumArtist WHERE albumId = '{0}'";
+        private const string QueryDeleteReview = "DELETE FROM AlbumReview WHERE id = '{0}'";
 
         private readonly ISqlManager _sqlManager;
         private readonly IArtistDbManager _artistDbManager;
@@ -86,6 +91,21 @@ namespace Music_Review_Application_DB_Managers
             foreach (Track track in album.Tracks)
             {
                 _songDbManager.AddTrack(track, albumId);
+            }
+        }
+
+        public void AddReview(AlbumReview albumReview)
+        {
+            if (GetReviewId(albumReview.AlbumId, albumReview.Username) != 0) return;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryAddReview, albumReview.AlbumId, _sqlManager.GetSqlString(albumReview.Username), albumReview.Score, _sqlManager.GetSqlString(albumReview.Review)), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+                    reader.Close();
+                }
             }
         }
 
@@ -149,6 +169,29 @@ namespace Music_Review_Application_DB_Managers
             }
 
             return 0;
+        }
+
+        public int GetReviewId(int albumId, string username)
+        {
+            var id = 0;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetReviewId, albumId, _sqlManager.GetSqlString(username)), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        id = reader.GetInt32(0);
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return id;
         }
 
 
@@ -222,6 +265,48 @@ namespace Music_Review_Application_DB_Managers
             return album;
         }
 
+        public AlbumReview GetAlbumReview(int id)
+        {
+            var albumId = 0;
+            var username = "";
+            var score = 0;
+            var review = "";
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetReview, id), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        albumId = reader.GetInt32(1);
+                        username = reader.GetString(2);
+                        score = reader.GetInt32(3);
+                        review = reader.GetString(4);
+                    }
+                }
+            }
+
+            return new AlbumReview(albumId, username, score, review) { Id = id };
+        }
+
+        public void UpdateReview(AlbumReview albumReview)
+        {
+            if (GetReviewId(albumReview.AlbumId, albumReview.Username) == 0) return;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryUpdateReview, GetReviewId(albumReview.AlbumId, albumReview.Username), albumReview.Score, _sqlManager.GetSqlString(albumReview.Review)), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+                    reader.Close();
+                }
+            }
+        }
+
         public void DeleteAlbum(int id)
         {
             Album album = GetAlbum(id);
@@ -243,6 +328,18 @@ namespace Music_Review_Application_DB_Managers
                 {
                     query.ExecuteNonQuery();
                     conn.Close();
+                }
+            }
+        }
+
+        public void DeleteReview(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteReview, id), conn))
+                {
+                    conn.Open();
+                    query.ExecuteNonQuery();
                 }
             }
         }

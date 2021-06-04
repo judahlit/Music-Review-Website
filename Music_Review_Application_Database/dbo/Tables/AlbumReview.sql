@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[AlbumReview]
 (
-  [id] int PRIMARY KEY,
+  [id] int PRIMARY KEY IDENTITY,
   [albumId] int not null,
   [username] nvarchar(30) not null,
   [albumScore] int not null,

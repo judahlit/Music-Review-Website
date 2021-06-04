@@ -25,7 +25,6 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetReviewId = "SELECT id FROM SongReview WHERE songId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM SongReview WHERE id = {0};";
         private const string QueryGetAllSongs = "";
-        private const string QueryGetSortedSongs = "";
 
         private const string QueryUpdateReview = "UPDATE SongReview SET songScore = {1}, songReview = '{2}' WHERE id = {0};";
 

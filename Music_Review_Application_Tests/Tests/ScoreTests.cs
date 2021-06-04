@@ -57,7 +57,32 @@ namespace Music_Review_Application_Tests
         [Fact]
         public void UserGivesAnAlbumAReview()
         {
+            var reviewId = 0;
+            var reviewScore = 0;
 
+            var album = SampleData.GetSampleAlbum();
+            var container = TestContainerConfig.Configure();
+
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var albumDbManager = scope.Resolve<IAlbumDbManager>();
+
+                // Review gets added to the db
+                albumDbManager.AddAlbum(album);
+                var review = new AlbumReview(albumDbManager.GetAlbumId(album.Title, album.ArtistNames), "User123", 8, "");
+                albumDbManager.AddReview(review);
+
+                var returnedReview = albumDbManager.GetAlbumReview(albumDbManager.GetReviewId(review.AlbumId, review.Username));
+                reviewId = returnedReview.Id;
+                reviewScore = returnedReview.Score;
+
+                // Album and review get deleted in the db
+                albumDbManager.DeleteReview(returnedReview.Id);
+                albumDbManager.DeleteAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
+            }
+
+            Assert.True(reviewId > 0);
+            Assert.Equal(8, reviewScore);
         }
 
         [Fact]
