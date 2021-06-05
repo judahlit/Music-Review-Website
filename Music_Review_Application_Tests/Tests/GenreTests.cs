@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Autofac;
 using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
 using Xunit;
 using System.Linq;
-using Castle.Components.DictionaryAdapter;
 
-namespace Music_Review_Application_Tests
+namespace Music_Review_Application_DB_Tests.Tests
 {
     public class GenreTests
     {

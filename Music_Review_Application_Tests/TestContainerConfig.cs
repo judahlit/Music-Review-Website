@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 
-namespace Music_Review_Application_Tests
+namespace Music_Review_Application_DB_Tests
 {
     public static class TestContainerConfig
     {

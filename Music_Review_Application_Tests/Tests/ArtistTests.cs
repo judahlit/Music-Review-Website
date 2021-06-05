@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Autofac;
-using Moq;
-using Music_Review_Application_DB_Managers;
+﻿using Autofac;
 using Music_Review_Application_DB_Managers.Interfaces;
-using Music_Review_Application_Models;
 using Xunit;
 
-namespace Music_Review_Application_Tests
+namespace Music_Review_Application_DB_Tests.Tests
 {
     public class ArtistTests
     {
