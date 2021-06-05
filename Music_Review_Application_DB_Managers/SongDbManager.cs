@@ -24,7 +24,8 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetSongGenreIdsBySongId = "SELECT * FROM SongGenre WHERE songId = {0};";
         private const string QueryGetReviewId = "SELECT id FROM SongReview WHERE songId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM SongReview WHERE id = {0};";
-        private const string QueryGetAllSongs = "";
+        private const string QueryGetAllSongIds = "SELECT id FROM Song;";
+        private const string QueryGetSongIdsWithGenre = "SELECT songId FROM SongGenre WHERE genreId = {0};";
 
         private const string QueryUpdateReview = "UPDATE SongReview SET songScore = {1}, songReview = '{2}' WHERE id = {0};";
 
@@ -366,6 +367,81 @@ namespace Music_Review_Application_DB_Managers
             return track;
         }
 
+        public Song GetSong(int id)
+        {
+            string title = null;
+            DateTime dateOfRelease = new();
+            Image img = null;
+            List<string> artistNames = new();
+            List<Genre> genres = new();
+            int trackNr = 0;
+            int albumId = 0;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSong, id), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        title = reader.GetString(1);
+                        dateOfRelease = (DateTime)reader["dateOfRelease"];
+                        trackNr = reader.GetInt32(4);
+                        albumId = reader.GetInt32(5);
+
+                        if (reader["img"] != DBNull.Value)
+                        {
+                            img = _imageConverter.ByteArrayToImage((byte[])reader["img"]);
+                        }
+                    }
+
+                    reader.Close();
+                }
+
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtistsBySongId, id), conn))
+                {
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        artistNames.Add(_artistDbManager.GetArtist(reader.GetInt32(2)).ArtistName);
+                    }
+
+                    reader.Close();
+                }
+
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenreIdsBySongId, id), conn))
+                {
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        genres.Add(_genreDbManager.GetGenre(reader.GetInt32(2)));
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            if (albumId == 0)
+            {
+                return new SingleSong(title, dateOfRelease, img, artistNames, genres)
+                {
+                    Id = id,
+                    Score = 0
+                };
+            }
+
+            return new Track(title, dateOfRelease, trackNr, artistNames, genres)
+            {
+                Id = id,
+                Score = 0,
+                AlbumId = albumId
+            };
+        }
+
         public SongReview GetSongReview(int id)
         {
             var songId = 0;
@@ -391,6 +467,30 @@ namespace Music_Review_Application_DB_Managers
             }
 
             return new SongReview(songId, username, score, review) {Id = id};
+        }
+
+        public List<Song> GetSongsWithGenre(int genreId)
+        {
+            var songs = new List<Song>();
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongIdsWithGenre, genreId), conn))
+                {
+                    conn.Open();
+
+                    using (var reader = query.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var songId = reader.GetInt32(0);
+                            songs.Add(GetSong(songId));
+                        }
+                    }
+                }
+            }
+
+            return songs;
         }
 
         public void UpdateReview(SongReview songReview)

@@ -27,9 +27,9 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         /*
         List<Song> GetSongs();
-
-        List<Song> GetSong(string title, bool byDate, bool byScore, List<string> genres);
         */
+
+        List<Song> GetSongsWithGenre(int genreId);
 
         void UpdateReview(SongReview songReview);
 
