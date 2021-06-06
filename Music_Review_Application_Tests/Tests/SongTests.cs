@@ -2,7 +2,7 @@ using Autofac;
 using Music_Review_Application_DB_Managers.Interfaces;
 using Xunit;
 
-namespace Music_Review_Application_DB_Tests.Tests
+namespace Music_Review_Application_Integration_Tests.Tests
 {
     public class SongTests
     {

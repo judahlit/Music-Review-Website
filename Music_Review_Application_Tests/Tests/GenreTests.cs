@@ -5,7 +5,7 @@ using Music_Review_Application_Models;
 using Xunit;
 using System.Linq;
 
-namespace Music_Review_Application_DB_Tests.Tests
+namespace Music_Review_Application_Integration_Tests.Tests
 {
     public class GenreTests
     {
