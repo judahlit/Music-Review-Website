@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Music_Review_Application_GUI.Pages.Forms;
-using Music_Review_Application_LIB;
 
 namespace Music_Review_Application_GUI.Models
 {

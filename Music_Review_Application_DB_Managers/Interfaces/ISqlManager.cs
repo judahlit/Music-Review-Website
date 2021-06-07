@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Music_Review_Application_LIB
+namespace Music_Review_Application_DB_Managers.Interfaces
 {
-    public class SongScore
+    public interface ISqlManager
     {
+        string GetSqlString(string value);
     }
 }

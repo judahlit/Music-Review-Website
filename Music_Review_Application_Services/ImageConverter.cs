@@ -4,37 +4,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Music_Review_Application_Services.Interfaces;
 
-namespace Music_Review_Application_LIB
+namespace Music_Review_Application_Services
 {
-    public class AppManager
+    public class ImageConverter : IImageConverter
     {
-        #region Constants and Fields
-
-        public const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MRA_DB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
-        #endregion
-
-        public AppManager()
-        {
-
-        }
-
-        public string GetSqlString(string value)
-        {
-            if (value != null)
-            {
-                return value.Replace("'", "''");
-            }
-
-            return value;
-        }
-
-        public void LetUserChooseImage()
-        {
-            
-        }
-
         public byte[] ImageToByteArray(Image imageIn)
         {
             if (imageIn is null)
@@ -57,7 +33,7 @@ namespace Music_Review_Application_LIB
             {
                 return null;
             }
-            
+
             using (var ms = new MemoryStream(bytesIn))
             {
                 return Image.FromStream(ms);

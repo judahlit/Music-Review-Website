@@ -4,19 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Music_Review_Application_DB_Managers;
+using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_GUI.Models;
-using Music_Review_Application_LIB;
-using Music_Review_Application_LIB.DbManagers;
-using Single = Music_Review_Application_LIB.Single;
+using Music_Review_Application_Models;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {
     public class AddSongModel : PageModel
     {
+        private readonly ISongDbManager _songDbManager;
+
 
         [BindProperty]
         public SongModel Song { get; set; }
         public static string ErrorMessage { get; set; }
+
+        public AddSongModel(ISongDbManager songDbManager)
+        {
+            _songDbManager = songDbManager;
+        }
 
         public void OnGet()
         {
@@ -29,7 +36,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
             if (ToDateTime())
             {
-                AddSingleToDB();
+                AddSingleToDb();
             }
             else
             {
@@ -44,24 +51,20 @@ namespace Music_Review_Application_GUI.Pages.Forms
             return RedirectToPage("/Index");
         }
 
-        public void AddSingleToDB()
+        public void AddSingleToDb()
         {
-            Single single = new(Song.Title, Song.Date, null, Song.ArtistNames, Song.GenreNames);
-            ArtistDbManager artistDbManager = new();
-            SongDbManager songDbManager = new();
+            var genres = new List<Genre>();
 
-            foreach (string ArtistName in single.ArtistNames)
+            foreach (var genreName in Song.GenreNames)
             {
-                if (artistDbManager.GetArtistId(ArtistName) == 0)
-                {
-                    Artist artist = new(ArtistName, null, null);
-                    artistDbManager.AddArtist(artist);
-                }
+                genres.Add(new Genre(genreName));
             }
 
-            if (songDbManager.GetSongId(single.Title, single.DateOfRelease) == 0)
+            SingleSong single = new(Song.Title, Song.Date, null, Song.ArtistNames, genres);
+
+            if (!_songDbManager.SingleIsAdded(single))
             {
-                songDbManager.AddSingle(single);
+                ErrorMessage = "Song couldn't be added";
             }
         }
 

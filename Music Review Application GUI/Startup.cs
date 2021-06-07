@@ -4,10 +4,14 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Music_Review_Application_Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Music_Review_Application_DB_Managers;
+using Music_Review_Application_DB_Managers.Interfaces;
+using Music_Review_Application_Services;
 
 namespace Music_Review_Application_GUI
 {
@@ -24,6 +28,14 @@ namespace Music_Review_Application_GUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            services.AddSingleton<IAlbumDbManager, AlbumDbManager>();
+            services.AddSingleton<IArtistDbManager, ArtistDbManager>();
+            services.AddSingleton<IGenreDbManager, GenreDbManager>();
+            services.AddSingleton<ISongDbManager, SongDbManager>();
+            services.AddSingleton<IUserListDbManager, UserListDbManager>();
+            services.AddSingleton<ISqlManager, SqlManager>();
+            services.AddSingleton<IImageConverter, ImageConverter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

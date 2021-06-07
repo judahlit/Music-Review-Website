@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Music_Review_Application_LIB
+namespace Music_Review_Application_Models
 {
     public class Song
     {
@@ -21,16 +22,16 @@ namespace Music_Review_Application_LIB
 
         public List<string> ArtistNames { get; set; } = new();
 
-        public List<string> GenreNames { get; set; } = new List<string>();
+        public List<Genre> Genres { get; set; } = new();
 
         #endregion
 
-        protected Song(string title, DateTime date, List<string> artistNames, List<string> genreNames)
+        protected Song(string title, DateTime date, List<string> artistNames, List<Genre> genres)
         {
             Title = title;
             DateOfRelease = date;
             ArtistNames = artistNames;
-            GenreNames = genreNames;
+            Genres = genres;
         }
     }
 }

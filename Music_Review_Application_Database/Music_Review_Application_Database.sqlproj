@@ -63,17 +63,17 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Album.sql" />
     <Build Include="dbo\Tables\AlbumArtist.sql" />
-    <Build Include="dbo\Tables\AlbumScore.sql" />
+    <Build Include="dbo\Tables\AlbumReview.sql" />
     <Build Include="dbo\Tables\Artist.sql" />
-    <Build Include="dbo\Tables\Single.sql" />
     <Build Include="dbo\Tables\Song.sql" />
+    <Build Include="dbo\Tables\Genre.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\SongArtist.sql" />
     <Build Include="dbo\Tables\SongGenre.sql" />
-    <Build Include="dbo\Tables\SongScore.sql" />
+    <Build Include="dbo\Tables\SongReview.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="dbo\PublishLocations\LocalMRADB.publish.publish.xml" />
+    <None Include="dbo\PublishLocations\MRA_DB.publish.xml" />
   </ItemGroup>
 </Project>
