@@ -17,11 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music_Review_Application_Queries", "Music_Review_Application_Queries\Music_Review_Application_Queries.csproj", "{8CB5A3EE-8015-43CD-808B-5CA6290F9D24}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{27813942-852B-4284-A1A1-516F99B9D186}"
-	ProjectSection(SolutionItems) = preProject
-		ClassDiagram.cd = ClassDiagram.cd
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

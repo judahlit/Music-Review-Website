@@ -4,16 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Music_Review_Application_DB_Managers;
+using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_GUI.Models;
+using Music_Review_Application_Models;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {
     public class AddSongModel : PageModel
     {
+        private readonly ISongDbManager _songDbManager;
+
 
         [BindProperty]
         public SongModel Song { get; set; }
         public static string ErrorMessage { get; set; }
+
+        public AddSongModel(ISongDbManager songDbManager)
+        {
+            _songDbManager = songDbManager;
+        }
 
         public void OnGet()
         {
@@ -26,7 +36,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
             if (ToDateTime())
             {
-                AddSingleToDB();
+                AddSingleToDb();
             }
             else
             {
@@ -41,14 +51,20 @@ namespace Music_Review_Application_GUI.Pages.Forms
             return RedirectToPage("/Index");
         }
 
-        public void AddSingleToDB()
+        public void AddSingleToDb()
         {
-            SingleSong single = new(Song.Title, Song.Date, null, Song.ArtistNames, Song.GenreNames);
-            SongDbManager songDbManager = new();
+            var genres = new List<Genre>();
 
-            if (songDbManager.GetSongId(single.Title, single.DateOfRelease) == 0)
+            foreach (var genreName in Song.GenreNames)
             {
-                songDbManager.AddSingle(single);
+                genres.Add(new Genre(genreName));
+            }
+
+            SingleSong single = new(Song.Title, Song.Date, null, Song.ArtistNames, genres);
+
+            if (!_songDbManager.SingleIsAdded(single))
+            {
+                ErrorMessage = "Song couldn't be added";
             }
         }
 
