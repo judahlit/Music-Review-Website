@@ -16,11 +16,7 @@ namespace Music_Review_Application_DB_Managers.Interfaces
         Artist GetArtist(int id);
 
         /*
-        Artist GetArtist(string artistName);
-
         List<Artist> GetArtists();
-
-        List<Artist> GetArtists(bool byAvgScore, List<string> madeGenres);
         */
 
         void CheckArtists(List<string> artistNames);

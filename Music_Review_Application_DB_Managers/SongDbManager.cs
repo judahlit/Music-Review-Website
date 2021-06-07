@@ -20,8 +20,8 @@ namespace Music_Review_Application_DB_Managers
 
         private const string QueryGetSongId = "SELECT Song.id FROM Song, songArtist WHERE Song.title = '{0}' AND Song.id = SongArtist.songId AND SongArtist.artistId = (SELECT id FROM Artist WHERE artistName = '{1}');";
         private const string QueryGetSong = "SELECT * FROM Song WHERE id = {0};";
-        private const string QueryGetSongArtistsBySongId = "SELECT * FROM SongArtist WHERE songId = {0};";
-        private const string QueryGetSongGenreIdsBySongId = "SELECT * FROM SongGenre WHERE songId = {0};";
+        private const string QueryGetSongArtists = "SELECT * FROM SongArtist WHERE songId = {0};";
+        private const string QueryGetSongGenreIds = "SELECT * FROM SongGenre WHERE songId = {0};";
         private const string QueryGetReviewId = "SELECT id FROM SongReview WHERE songId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM SongReview WHERE id = {0};";
         private const string QueryGetAllSongIds = "SELECT id FROM Song;";
@@ -271,7 +271,7 @@ namespace Music_Review_Application_DB_Managers
                     reader.Close();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtistsBySongId, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtists, id), conn))
                 {
                     var reader = query.ExecuteReader();
 
@@ -283,7 +283,7 @@ namespace Music_Review_Application_DB_Managers
                     reader.Close();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenreIdsBySongId, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenreIds, id), conn))
                 {
                     var reader = query.ExecuteReader();
 
@@ -332,7 +332,7 @@ namespace Music_Review_Application_DB_Managers
                     reader.Close();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtistsBySongId, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtists, id), conn))
                 {
                     var reader = query.ExecuteReader();
 
@@ -344,7 +344,7 @@ namespace Music_Review_Application_DB_Managers
                     reader.Close();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenreIdsBySongId, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenreIds, id), conn))
                 {
                     var reader = query.ExecuteReader();
 
@@ -400,7 +400,7 @@ namespace Music_Review_Application_DB_Managers
                     reader.Close();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtistsBySongId, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongArtists, id), conn))
                 {
                     var reader = query.ExecuteReader();
 
@@ -412,7 +412,7 @@ namespace Music_Review_Application_DB_Managers
                     reader.Close();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenreIdsBySongId, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongGenreIds, id), conn))
                 {
                     var reader = query.ExecuteReader();
 
@@ -576,7 +576,7 @@ namespace Music_Review_Application_DB_Managers
 
         public bool SingleIsAdded(SingleSong single)
         {
-            if (GetSongId(single.Title, single.ArtistNames) == 0)
+            if (!SongExistsInDb(single))
             {
                 AddSingle(single);
                 single.Id = GetSongId(single.Title, single.ArtistNames);
@@ -590,7 +590,7 @@ namespace Music_Review_Application_DB_Managers
 
         public bool TrackIsAdded(Track track, int albumId)
         {
-            if (GetSongId(track.Title, track.ArtistNames) == 0)
+            if (!SongExistsInDb(track))
             {
                 AddTrack(track, albumId);
                 track.Id = GetSongId(track.Title, track.ArtistNames);

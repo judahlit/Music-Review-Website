@@ -20,7 +20,6 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetArtistId = "SELECT id FROM artist WHERE artistName = '{0}';";
         private const string QueryGetArtist = "SELECT * FROM artist WHERE id = '{0}'";
         private const string QueryGetAllArtists = "";
-        private const string QueryGetSortedArtists = "";
 
         private readonly ISqlManager _sqlManager;
         private readonly IImageConverter _imageConverter;

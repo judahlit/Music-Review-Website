@@ -16,12 +16,8 @@ namespace Music_Review_Application_DB_Managers.Interfaces
         Album GetAlbum(int id);
 
         AlbumReview GetAlbumReview(int id);
-
-        /*
-        List<Album> GetAlbums();
-
-        List<Album> GetAlbums(string title, bool byDate, bool byScore, List<string> genres);
-        */
+        
+        //List<Album> GetAlbums();
 
         void UpdateReview(AlbumReview albumReview);
 

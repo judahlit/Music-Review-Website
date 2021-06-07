@@ -23,6 +23,8 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         Track GetTrack(int id);
 
+        Song GetSong(int id);
+
         SongReview GetSongReview(int id);
 
         /*

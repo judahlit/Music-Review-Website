@@ -21,8 +21,8 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryAddReview = "INSERT INTO AlbumReview(albumId, username, albumScore, albumReview) VALUES({0},'{1}',{2},'{3}');";
 
         private const string QueryGetAlbumId = "SELECT Album.id FROM Album, AlbumArtist WHERE Album.title = '{0}' AND Album.id = AlbumArtist.AlbumId AND AlbumArtist.artistId = (SELECT id FROM Artist WHERE artistName = '{1}');";
-        private const string QueryGetAlbumById = "SELECT * FROM Album WHERE id = {0};";
-        private const string QueryGetAlbumArtistsByAlbumId = "SELECT * FROM AlbumArtist WHERE albumId = {0};";
+        private const string QueryGetAlbum = "SELECT * FROM Album WHERE id = {0};";
+        private const string QueryGetAlbumArtists = "SELECT * FROM AlbumArtist WHERE albumId = {0};";
         private const string QueryGetAlbumTrackIds = "SELECT id FROM Song WHERE albumId = {0};";
         private const string QueryGetReviewId = "SELECT id FROM AlbumReview WHERE albumId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM AlbumReview WHERE id = {0};";
@@ -207,7 +207,7 @@ namespace Music_Review_Application_DB_Managers
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumById, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbum, id), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();
@@ -226,7 +226,7 @@ namespace Music_Review_Application_DB_Managers
                     reader.Close();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumArtistsByAlbumId, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumArtists, id), conn))
                 {
                     var reader = query.ExecuteReader();
 
@@ -356,7 +356,7 @@ namespace Music_Review_Application_DB_Managers
 
         public bool AlbumIsAdded(Album album)
         {
-            if (GetAlbumId(album.Title, album.ArtistNames) == 0)
+            if (!AlbumExistsInDb(album))
             {
                 AddAlbum(album);
                 List<Genre> albumGenres = album.GetAlbumGenres();
