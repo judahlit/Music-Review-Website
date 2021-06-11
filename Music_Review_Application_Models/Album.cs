@@ -39,12 +39,14 @@ namespace Music_Review_Application_Models
         public List<Genre> GetAlbumGenres()
         {
             List<Genre> genres = new();
+            List<string> genreNames = new();
 
             foreach (Track track in Tracks)
             {
-                foreach (var genre in track.Genres.Where(genre => !genres.Contains(genre)))
+                foreach (var genre in track.Genres.Where(genre => !genreNames.Contains(genre.GenreName)))
                 {
                     genres.Add(genre);
+                    genreNames.Add(genre.GenreName);
                 }
             }
 

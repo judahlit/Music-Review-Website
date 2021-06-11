@@ -2,7 +2,7 @@
 using Music_Review_Application_DB_Managers.Interfaces;
 using Xunit;
 
-namespace Music_Review_Application_Integration_Tests.Tests
+namespace Music_Review_Application_Integration_Tests
 {
     [Collection("Sequential")]
     public class ArtistTests

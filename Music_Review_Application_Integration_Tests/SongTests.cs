@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Autofac;
 using Music_Review_Application_DB_Managers.Interfaces;
+using Music_Review_Application_Sample_Data;
 using Xunit;
 
-namespace Music_Review_Application_Integration_Tests.Tests
+namespace Music_Review_Application_Integration_Tests
 {
     [Collection("Sequential")]
     public class SongTests

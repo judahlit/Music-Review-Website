@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Music_Review_Application_Models;
 
-namespace Music_Review_Application_Integration_Tests
+namespace Music_Review_Application_Sample_Data
 {
     public class SampleData
     {
