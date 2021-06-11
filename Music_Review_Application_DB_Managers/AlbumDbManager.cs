@@ -20,7 +20,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryAddAlbumArtist = "INSERT INTO albumArtist(albumId, artistId) VALUES({0},{1});";
         private const string QueryAddReview = "INSERT INTO AlbumReview(albumId, username, albumScore, albumReview) VALUES({0},'{1}',{2},'{3}');";
 
-        private const string QueryGetAlbumId = "SELECT Album.id FROM Album, AlbumArtist WHERE Album.title = '{0}' AND Album.id = AlbumArtist.AlbumId AND AlbumArtist.artistId = (SELECT id FROM Artist WHERE artistName = '{1}');";
+        private const string QueryGetAlbumId = "SELECT A.id FROM Album AS A INNER JOIN AlbumArtist AS AA ON A.id = AA.AlbumId WHERE A.title = '{0}' AND AA.artistId = {1};";
         private const string QueryGetAlbum = "SELECT * FROM Album WHERE id = {0};";
         private const string QueryGetAlbumArtists = "SELECT * FROM AlbumArtist WHERE albumId = {0};";
         private const string QueryGetAlbumTrackIds = "SELECT id FROM Song WHERE albumId = {0};";
@@ -112,13 +112,24 @@ namespace Music_Review_Application_DB_Managers
         public int GetAlbumId(string title, List<string> artistNames)
         {
             List<List<int>> albumIds = new();
+            List<int> artistIds = new();
             int artistNumber = 0;
+
+            foreach (var artistName in artistNames)
+            {
+                artistIds.Add(_artistDbManager.GetArtistId(artistName));
+            }
+
+            if (artistIds.Count == 1 && artistIds[0] == 0)
+            {
+                return 0;
+            }
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                foreach (string artistName in artistNames)
+                foreach (var artistId in artistIds)
                 {
-                    using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumId, _sqlManager.GetSqlString(title), _sqlManager.GetSqlString(artistName)), conn))
+                    using (SqlCommand query = new SqlCommand(string.Format(QueryGetAlbumId, _sqlManager.GetSqlString(title), artistId), conn))
                     {
                         conn.Open();
                         var reader = query.ExecuteReader();
@@ -141,30 +152,28 @@ namespace Music_Review_Application_DB_Managers
                 }
             }
 
-            if (albumIds.Count != 0)
-            {
-                foreach (int albumId in albumIds[0])
-                {
-                    int amountOfAnAlbumId = 0;
+            if (albumIds.Count == 0) return 0;
 
-                    for (int index = 1; index < albumIds.Count; index++)
+            foreach (var albumId in albumIds[0])
+            {
+                var amountOfAnAlbumId = 0;
+
+                for (var index = 1; index < albumIds.Count; index++)
+                {
+                    if (albumIds.Count <= index) continue;
+
+                    foreach (var anAlbumId in albumIds[index])
                     {
-                        if (albumIds.Count > index)
+                        if (anAlbumId == albumId)
                         {
-                            foreach (int anAlbumId in albumIds[index])
-                            {
-                                if (anAlbumId == albumId)
-                                {
-                                    amountOfAnAlbumId++;
-                                }
-                            }
+                            amountOfAnAlbumId++;
                         }
                     }
+                }
 
-                    if (amountOfAnAlbumId == albumIds.Count - 1)
-                    {
-                        return albumId;
-                    }
+                if (amountOfAnAlbumId == albumIds.Count - 1)
+                {
+                    return albumId;
                 }
             }
 

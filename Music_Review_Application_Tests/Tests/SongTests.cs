@@ -46,7 +46,7 @@ namespace Music_Review_Application_Integration_Tests.Tests
             {
                 var songDbManager = scope.Resolve<ISongDbManager>();
                 songDbManager.AddSingle(song);
-                var song2 = song;
+                var song2 = SampleData.GetSampleSingle();
                 song2.ArtistNames = nonExistingArtists;
 
                 // Act
