@@ -18,7 +18,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryAddSongGenre = "INSERT INTO SongGenre(songId, genreId) VALUES({0},{1});";
         private const string QueryAddReview = "INSERT INTO SongReview(songId, username, songScore, songReview) VALUES({0},'{1}',{2},'{3}');";
 
-        private const string QueryGetSongId = "SELECT Song.id FROM Song, songArtist WHERE Song.title = '{0}' AND Song.id = SongArtist.songId AND SongArtist.artistId = (SELECT id FROM Artist WHERE artistName = '{1}');";
+        private const string QueryGetSongId = "SELECT S.id FROM Song AS S INNER JOIN songArtist AS SA ON S.id = SA.songId WHERE S.title = '{0}' AND SA.artistId = {1};";
         private const string QueryGetSong = "SELECT * FROM Song WHERE id = {0};";
         private const string QueryGetSongArtists = "SELECT * FROM SongArtist WHERE songId = {0};";
         private const string QueryGetSongGenreIds = "SELECT * FROM SongGenre WHERE songId = {0};";
@@ -160,13 +160,24 @@ namespace Music_Review_Application_DB_Managers
         public int GetSongId(string title, List<string> artistNames)
         {
             List<List<int>> songIds = new();
+            List<int> artistIds = new();
             int artistNumber = 0;
+
+            foreach (var artistName in artistNames)
+            {
+                artistIds.Add(_artistDbManager.GetArtistId(artistName));
+            }
+
+            if (artistIds.Count == 1 && artistIds[0] == 0)
+            {
+                return 0;
+            }
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                foreach (string artistName in artistNames)
+                foreach (var artistId in artistIds)
                 {
-                    using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongId, _sqlManager.GetSqlString(title), _sqlManager.GetSqlString(artistName)), conn))
+                    using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongId, _sqlManager.GetSqlString(title), artistId), conn))
                     {
                         conn.Open();
                         var reader = query.ExecuteReader();
@@ -189,30 +200,28 @@ namespace Music_Review_Application_DB_Managers
                 }
             }
 
-            if (songIds.Count != 0)
-            {
-                foreach (int songId in songIds[0])
-                {
-                    int amountOfASongId = 0;
+            if (songIds.Count == 0) return 0;
 
-                    for (int index = 1; index < songIds.Count; index++)
+            foreach (var songId in songIds[0])
+            {
+                var amountOfASongId = 0;
+
+                for (var index = 1; index < songIds.Count; index++)
+                {
+                    if (songIds.Count <= index) continue;
+
+                    foreach (var aSongId in songIds[index])
                     {
-                        if (songIds.Count > index)
+                        if (aSongId == songId)
                         {
-                            foreach (int aSongId in songIds[index])
-                            {
-                                if (aSongId == songId)
-                                {
-                                    amountOfASongId++;
-                                }
-                            }
+                            amountOfASongId++;
                         }
                     }
+                }
 
-                    if (amountOfASongId == songIds.Count - 1)
-                    {
-                        return songId;
-                    }
+                if (amountOfASongId == songIds.Count - 1)
+                {
+                    return songId;
                 }
             }
 
