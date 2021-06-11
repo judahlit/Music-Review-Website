@@ -28,10 +28,10 @@ namespace Music_Review_Application_DB_Managers
 
         private const string QueryUpdateReview = "UPDATE SongReview SET songScore = {1}, songReview = '{2}' WHERE id = {0};";
 
-        private const string QueryDeleteSong = "DELETE FROM Song WHERE id = '{0}'";
-        private const string QueryDeleteSongArtist = "DELETE FROM SongArtist WHERE songId = '{0}'";
-        private const string QueryDeleteSongGenre = "DELETE FROM SongGenre WHERE songId = '{0}'";
-        private const string QueryDeleteReview = "DELETE FROM SongReview WHERE id = '{0}'";
+        private const string QueryDeleteSong = "DELETE FROM Song WHERE id = '{0}';";
+        private const string QueryDeleteSongArtist = "DELETE FROM SongArtist WHERE songId = '{0}';";
+        private const string QueryDeleteSongGenre = "DELETE FROM SongGenre WHERE songId = '{0}';";
+        private const string QueryDeleteReview = "DELETE FROM SongReview WHERE id = '{0}';";
 
         private readonly ISqlManager _sqlManager;
         private readonly IArtistDbManager _artistDbManager;
