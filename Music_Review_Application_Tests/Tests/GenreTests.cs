@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace Music_Review_Application_Integration_Tests.Tests
 {
+    [Collection("Sequential")]
     public class GenreTests
     {
         [Fact]

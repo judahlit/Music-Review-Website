@@ -4,6 +4,7 @@ using Music_Review_Application_DB_Managers.Interfaces;
 
 namespace Music_Review_Application_Integration_Tests.Tests
 {
+    [Collection("Sequential")]
     public class AlbumTests
     {
         [Fact] public void GetsAlbumIdBySearchingAlbumTitleAndArtists()

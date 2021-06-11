@@ -4,6 +4,7 @@ using Xunit;
 
 namespace Music_Review_Application_Integration_Tests.Tests
 {
+    [Collection("Sequential")]
     public class ArtistTests
     {
         [Fact]
