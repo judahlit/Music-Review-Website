@@ -4,7 +4,6 @@ using System.Data.SqlClient;
 using System.Drawing;
 using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
-using Music_Review_Application_Services.Interfaces;
 
 namespace Music_Review_Application_DB_Managers
 {

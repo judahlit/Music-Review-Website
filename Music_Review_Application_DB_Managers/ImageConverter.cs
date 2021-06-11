@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Music_Review_Application_Services.Interfaces;
+using Music_Review_Application_DB_Managers.Interfaces;
 
-namespace Music_Review_Application_Services
+namespace Music_Review_Application_DB_Managers
 {
     public class ImageConverter : IImageConverter
     {
