@@ -27,11 +27,11 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         SongReview GetSongReview(int id);
 
-        /*
         List<Song> GetSongs();
-        */
 
         List<Song> GetSongsWithGenre(int genreId);
+        
+        List<Song> GetArtistSongs(int artistId);
 
         void UpdateReview(SongReview songReview);
 

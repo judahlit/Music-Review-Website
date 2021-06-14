@@ -19,6 +19,10 @@ namespace Music_Review_Application_Models
 
         public string Description { get; set; }
 
+        public List<Song> Songs { get; set; }
+
+        public List<Album> Albums { get; set; }
+
         #endregion
 
         public Artist(string artistName, Image img, string description)

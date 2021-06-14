@@ -21,7 +21,8 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetAlbumTrackIds = "SELECT id FROM Song WHERE albumId = {0};";
         private const string QueryGetReviewId = "SELECT id FROM AlbumReview WHERE albumId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM AlbumReview WHERE id = {0};";
-        private const string QueryGetAllAlbums = "";
+        private const string QueryGetArtistAlbums = "SELECT AA.albumId FROM AlbumArtist AS AA INNER JOIN Artist AS A ON AA.artistId = A.id WHERE A.id = {0}";
+        private const string QueryGetAllAlbumIds = "SELECT id FROM Album;";
 
         private const string QueryUpdateReview = "UPDATE AlbumReview SET albumScore = {1}, albumReview = '{2}' WHERE id = {0};";
 
@@ -294,6 +295,48 @@ namespace Music_Review_Application_DB_Managers
             }
 
             return new AlbumReview(albumId, username, score, review) { Id = id };
+        }
+
+        public List<Album> GetArtistAlbums (int artistId)
+        {
+            var albums = new List<Album>();
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtistAlbums, artistId), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        albums.Add(GetAlbum(reader.GetInt32(0)));
+                    }
+                }
+            }
+
+            return albums;
+        }
+
+        public List<Album> GetAlbums()
+        {
+            var albums = new List<Album>();
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetAllAlbumIds), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        albums.Add(GetAlbum(reader.GetInt32(0)));
+                    }
+                }
+            }
+
+            return albums;
         }
 
         public void UpdateReview(AlbumReview albumReview)

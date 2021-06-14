@@ -13,7 +13,7 @@ namespace Music_Review_Application_DB_Managers
 
         private const string QueryAddArtist = "INSERT INTO artist(artistName, img, description) VALUES('{0}',CONVERT(VARBINARY(MAX), '{1}'),'{2}');";
         private const string QueryGetArtistId = "SELECT id FROM artist WHERE artistName = '{0}';";
-        private const string QueryGetArtist = "SELECT * FROM artist WHERE id = '{0}'";
+        private const string QueryGetArtist = "SELECT * FROM artist WHERE id = {0}";
         private const string QueryGetAllArtists = "";
 
         private readonly ISqlManager _sqlManager;

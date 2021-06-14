@@ -16,6 +16,6 @@ namespace Music_Review_Application_GUI.Models
         public string DateDay { get; set; }
         public string DateMonth { get; set; }
         public string DateYear { get; set; }
-        public DateTime Date { get; set; }
+        public string ImgPath { get; set; }
     }
 }

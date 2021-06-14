@@ -36,6 +36,7 @@ namespace Music_Review_Application_GUI
             services.AddSingleton<IUserListDbManager, UserListDbManager>();
             services.AddSingleton<ISqlManager, SqlManager>();
             services.AddSingleton<IImageConverter, ImageConverter>();
+            services.AddSingleton<ICreateService, CreateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

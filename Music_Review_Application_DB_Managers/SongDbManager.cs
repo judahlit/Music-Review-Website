@@ -25,6 +25,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetReview = "SELECT * FROM SongReview WHERE id = {0};";
         private const string QueryGetAllSongIds = "SELECT id FROM Song;";
         private const string QueryGetSongIdsWithGenre = "SELECT songId FROM SongGenre WHERE genreId = {0};";
+        private const string QueryGetArtistSongs = "SELECT SA.songId FROM SongArtist AS SA INNER JOIN Artist AS A ON SA.artistId = A.id WHERE A.id = {0}";
 
         private const string QueryUpdateReview = "UPDATE SongReview SET songScore = {1}, songReview = '{2}' WHERE id = {0};";
 
@@ -500,7 +501,49 @@ namespace Music_Review_Application_DB_Managers
 
             return songs;
         }
+        
+        public List<Song> GetArtistSongs(int artistId)
+        {
+            var songs = new List<Song>();
 
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetArtistSongs, artistId), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        songs.Add(GetSong(reader.GetInt32(0)));
+                    }
+                }
+            }
+
+            return songs;
+        }
+
+        public List<Song> GetSongs()
+        {
+            var songs = new List<Song>();
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetAllSongIds), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        songs.Add(GetSong(reader.GetInt32(0)));
+                    }
+                }
+            }
+
+            return songs;
+        }
+        
         public void UpdateReview(SongReview songReview)
         {
             if (GetReviewId(songReview.SongId, songReview.Username) == 0) return;

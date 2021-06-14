@@ -17,9 +17,6 @@ namespace Music_Review_Application_Integration_Tests
             builder.RegisterAssemblyTypes(Assembly.Load(nameof(Music_Review_Application_DB_Managers)))
                 .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name));
 
-            builder.RegisterAssemblyTypes(Assembly.Load(nameof(Music_Review_Application_Services)))
-                .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == "I" + t.Name));
-
             return builder.Build();
         }
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -19,12 +21,12 @@ namespace Music_Review_Application_Services
             _songDbManager = songDbManager;
         }
 
-        public string CreateSingle(string title, List<string> artistNames, List<string> genreNames, string dateDay, string dateMonth, string dateYear)
+        public string CreateSingle(string title, List<string> artistNames, List<string> genreNames, string dateDay, string dateMonth, string dateYear, string imgPath)
         {
             var lists = new List<List<string>>{artistNames, genreNames};
             var strings = new List<string> {title, dateDay, dateMonth, dateYear};
 
-            if (AreListsValid(lists) || strings.Any(string.IsNullOrEmpty))
+            if (!AreListsValid(lists) || strings.Any(string.IsNullOrEmpty))
             {
                 return "Please fill in all required fields.";
             }
@@ -32,16 +34,32 @@ namespace Music_Review_Application_Services
             var tempDate = ToDateTime(dateDay, dateMonth, dateYear);
             if (tempDate == null) return "Please fill in a valid date of release.";
 
-            var correctDate
-            var singleAdded = _songDbManager.SingleIsAdded(new SingleSong(title))
+            var correctDate = (DateTime)tempDate;
+            var genres = new List<Genre>();
+            Image img = null;
 
-            return "Song was added to the website.";
-        }
+            foreach (string genreName in genreNames)
+            {
+                genres.Add(new Genre(genreName));
+            }
 
-        public string CreateSingle(string title, List<string> artistNames, List<string> genreNames, string dateDay, string dateMonth, string dateYear,
-            string imgPath)
-        {
-            throw new NotImplementedException();
+            var single = new SingleSong(title, correctDate, img, artistNames, genres);
+
+            if (_songDbManager.SongExistsInDb(single))
+            {
+                return "This song already is on the website.";
+            }
+
+            var singleAdded = _songDbManager.SingleIsAdded(single);
+
+            if (singleAdded)
+            {
+                return "Song was added to the website.";
+            }
+            else
+            {
+                return "Song couldn't be added to the webiste.";
+            }
         }
 
         private bool AreListsValid(List<List<string>> lists)
@@ -57,11 +75,16 @@ namespace Music_Review_Application_Services
 
         private DateTime? ToDateTime(string dateDay, string dateMonth, string dateYear)
         {
-            DateTime correctDate;
+            var correctDate = new DateTime();
+            var culture = CultureInfo.CreateSpecificCulture("nl-NL");
+            var styles = DateTimeStyles.AssumeLocal;
 
-            if (DateTime.TryParse($"{dateDay}-{dateMonth}-{dateYear}", out correctDate) && DateTime.Compare(correctDate, DateTime.Now) <= 0)
+            if (DateTime.TryParse($"{dateDay}/{dateMonth}/{dateYear}", culture, styles, out correctDate))
             {
-                return correctDate;
+                if (DateTime.Compare(correctDate, DateTime.Now) <= 0)
+                {
+                    return correctDate;
+                }
             }
 
             return null;
