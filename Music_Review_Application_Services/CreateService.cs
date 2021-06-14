@@ -15,15 +15,17 @@ namespace Music_Review_Application_Services
     public class CreateService: ICreateService
     {
         private readonly ISongDbManager _songDbManager;
+        private readonly IAlbumDbManager _albumDbManager;
 
-        public CreateService(ISongDbManager songDbManager)
+        public CreateService(ISongDbManager songDbManager, IAlbumDbManager albumDbManager)
         {
             _songDbManager = songDbManager;
+            _albumDbManager = albumDbManager;
         }
 
         public string CreateSingle(string title, List<string> artistNames, List<string> genreNames, string dateDay, string dateMonth, string dateYear, string imgPath)
         {
-            var lists = new List<List<string>>{artistNames, genreNames};
+            var lists = new List<List<string>> {artistNames, genreNames};
             var strings = new List<string> {title, dateDay, dateMonth, dateYear};
 
             if (!AreListsValid(lists) || strings.Any(string.IsNullOrEmpty))
@@ -62,6 +64,56 @@ namespace Music_Review_Application_Services
             }
         }
 
+        public string CreateAlbum(string title, List<Track> tracks, List<string> artistNames, List<string> genreNames, string dateDay, string dateMonth, string dateYear, string imgPath)
+        {
+            var lists = new List<List<string>> { artistNames, genreNames };
+            var strings = new List<string> { title, dateDay, dateMonth, dateYear };
+
+            if (!AreListsValid(lists) || strings.Any(string.IsNullOrEmpty))
+            {
+                return "Please fill in the album data.";
+            }
+
+            var tempDate = ToDateTime(dateDay, dateMonth, dateYear);
+            if (tempDate == null) return "Please fill in a valid date of release.";
+
+            var correctDate = (DateTime)tempDate;
+
+            if (!TracksAreValid(tracks))
+            {
+                return "Please fill in the track data correctly as well.";
+            }
+
+            Image img = null;
+            var album = new Album(title, tracks, correctDate, img, artistNames);
+
+            if (_albumDbManager.AlbumExistsInDb(album))
+            {
+                return "This song already is on the website.";
+            }
+
+            var albumAdded = _albumDbManager.AlbumIsAdded(album);
+
+            if (albumAdded)
+            {
+                return "Album was added to the website.";
+            }
+            else
+            {
+                return "Album couldn't be added to the webiste.";
+            }
+        }
+
+        public string CreateSongReview(int songId, string username, int score, string review)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string CreateAlbumReview(int albumId, string username, int score, string review)
+        {
+            throw new NotImplementedException();
+        }
+
         private bool AreListsValid(List<List<string>> lists)
         {
             foreach (var list in lists)
@@ -88,6 +140,22 @@ namespace Music_Review_Application_Services
             }
 
             return null;
+        }
+
+        private bool TracksAreValid(List<Track> tracks)
+        {
+            foreach (var track in tracks)
+            {
+                var genreNames = track.Genres.Select(g => g.GenreName).ToList();
+                var lists = new List<List<string>> { track.ArtistNames, genreNames };
+
+                if (!AreListsValid(lists) || string.IsNullOrEmpty(track.Title))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
