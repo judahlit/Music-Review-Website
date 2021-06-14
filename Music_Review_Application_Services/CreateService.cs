@@ -64,9 +64,9 @@ namespace Music_Review_Application_Services
             }
         }
 
-        public string CreateAlbum(string title, List<Track> tracks, List<string> artistNames, List<string> genreNames, string dateDay, string dateMonth, string dateYear, string imgPath)
+        public string CreateAlbum(string title, List<Track> tracks, List<string> artistNames, string dateDay, string dateMonth, string dateYear, string imgPath)
         {
-            var lists = new List<List<string>> { artistNames, genreNames };
+            var lists = new List<List<string>> { artistNames };
             var strings = new List<string> { title, dateDay, dateMonth, dateYear };
 
             if (!AreListsValid(lists) || strings.Any(string.IsNullOrEmpty))
@@ -144,6 +144,12 @@ namespace Music_Review_Application_Services
 
         private bool TracksAreValid(List<Track> tracks)
         {
+            if (tracks.Count == 0) return false;
+
+            var titles = tracks.Select(t => t.Title).ToList();
+
+            if (titles.Any(string.IsNullOrEmpty)) return false;
+
             foreach (var track in tracks)
             {
                 var genreNames = track.Genres.Select(g => g.GenreName).ToList();

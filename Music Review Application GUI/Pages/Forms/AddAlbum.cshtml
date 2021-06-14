@@ -1,4 +1,20 @@
 ﻿@page
 @model Music_Review_Application_GUI.Pages.Forms.AddAlbumModel
 @{
+    ViewData["Title"] = "Add Album";
 }
+
+<h1>Add Album</h1>
+<form method="post">
+    <input type="text" asp-for="Album.Title" placeholder="Album Title" />
+    <input type="text" asp-for="Album.ArtistNames" placeholder="Album Artist" />
+    <input type="text" asp-for="Album.ArtistNames" placeholder="Album Artist" />
+    <input type="text" asp-for="Album.DateDay" placeholder="Day" />
+    <input type="text" asp-for="Album.DateMonth" placeholder="Month" />
+    <input type="text" asp-for="Album.DateYear" placeholder="Year" />
+    <button type="submit">Add song</button>
+</form>
+<br />
+<div class="text-center">
+    <p>@AddAlbumModel.Message</p>
+</div>
