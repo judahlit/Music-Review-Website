@@ -1,0 +1,22 @@
+﻿@page
+@model Music_Review_Application_GUI.Pages.Forms.DiscoverModel
+@{
+    ViewData["Title"] = "Discover";
+}
+
+<h2>Songs</h2>
+<br />
+@foreach (var song in DiscoverModel.Songs)
+{
+    <p>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongPage/1">@song.Title</a>
+    </p>
+}
+<br />
+<h2>Albums</h2>
+@foreach (var album in DiscoverModel.Albums)
+{
+    <p>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage/1">@album.Title</a>
+    </p>
+}
