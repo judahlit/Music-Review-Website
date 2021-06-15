@@ -5,15 +5,37 @@
 }
 
 <h1>Add Song</h1>
+<br />
 <form method="post">
-    <input type="text" asp-for="Song.Title" placeholder="Song Title" />
-    <input type="text" asp-for="Song.ArtistNames" placeholder="Song Artist" />
-    <input type="text" asp-for="Song.ArtistNames" placeholder="Song Artist" />
-    <input type="text" asp-for="Song.GenreNames" placeholder="Song Genre" />
-    <input type="text" asp-for="Song.GenreNames" placeholder="Song Genre" />
+    <label>Song title</label>
+    <br />
+    <input type="text" asp-for="Song.Title" placeholder="" />
+    <br />
+    <label>Song artist</label>
+    <br />
+    <input type="text" asp-for="Song.ArtistNames" placeholder="" />
+    <br />
+    <label>Song artist</label>
+    <br />
+    <input type="text" asp-for="Song.ArtistNames" placeholder="" />
+    <br />
+    <label>Song genre</label>
+    <br />
+    <input type="text" asp-for="Song.GenreNames" placeholder="" />
+    <br />
+    <label>Song genre</label>
+    <br />
+    <input type="text" asp-for="Song.GenreNames" placeholder="" />
+    <br />
+    <label>Date of release</label>
+    <br />
     <input type="text" asp-for="Song.DateDay" placeholder="Day" />
+    <br />
     <input type="text" asp-for="Song.DateMonth" placeholder="Month" />
+    <br />
     <input type="text" asp-for="Song.DateYear" placeholder="Year" />
+    <br />
+    <br />
     <button type="submit">Add song</button>
 </form>
 <br/>

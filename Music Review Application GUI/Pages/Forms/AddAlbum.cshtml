@@ -6,13 +6,29 @@
 
 <h1>Add Album</h1>
 <form method="post">
-    <input type="text" asp-for="Album.Title" placeholder="Album Title" />
-    <input type="text" asp-for="Album.ArtistNames" placeholder="Album Artist" />
-    <input type="text" asp-for="Album.ArtistNames" placeholder="Album Artist" />
+    <br />
+    <label>Album title</label>
+    <br />
+    <input type="text" asp-for="Album.Title" placeholder="" />
+    <br />
+    <label>Album artist</label>
+    <br />
+    <input type="text" asp-for="Album.ArtistNames" placeholder="" />
+    <br />
+    <label>Album artist</label>
+    <br />
+    <input type="text" asp-for="Album.ArtistNames" placeholder="" />
+    <br />
+    <label>Date of release</label>
+    <br />
     <input type="text" asp-for="Album.DateDay" placeholder="Day" />
+    <br />
     <input type="text" asp-for="Album.DateMonth" placeholder="Month" />
+    <br />
     <input type="text" asp-for="Album.DateYear" placeholder="Year" />
-    <button type="submit">Add song</button>
+    <br />
+    <br />
+    <button type="submit">Add album</button>
 </form>
 <br />
 <div class="text-center">
