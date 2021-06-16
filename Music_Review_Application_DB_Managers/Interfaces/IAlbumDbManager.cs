@@ -13,6 +13,8 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         int GetReviewId(int albumId, string username);
 
+        double GetScore(int albumId);
+
         Album GetAlbum(int id);
 
         AlbumReview GetAlbumReview(int id);

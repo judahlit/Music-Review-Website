@@ -21,6 +21,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetSong = "SELECT * FROM Song WHERE id = {0};";
         private const string QueryGetSongArtists = "SELECT * FROM SongArtist WHERE songId = {0};";
         private const string QueryGetSongGenreIds = "SELECT * FROM SongGenre WHERE songId = {0};";
+        private const string QueryGetScore = "SELECT AVG(songScore) FROM SongReview WHERE songId = {0};";
         private const string QueryGetReviewId = "SELECT id FROM SongReview WHERE songId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM SongReview WHERE id = {0};";
         private const string QueryGetAllSongIds = "SELECT id FROM Song;";
@@ -29,9 +30,10 @@ namespace Music_Review_Application_DB_Managers
 
         private const string QueryUpdateReview = "UPDATE SongReview SET songScore = {1}, songReview = '{2}' WHERE id = {0};";
 
-        private const string QueryDeleteSong = "DELETE FROM Song WHERE id = '{0}';";
-        private const string QueryDeleteSongArtist = "DELETE FROM SongArtist WHERE songId = '{0}';";
-        private const string QueryDeleteSongGenre = "DELETE FROM SongGenre WHERE songId = '{0}';";
+        private const string QueryDeleteSongs = "DELETE FROM Song WHERE id = '{0}';";
+        private const string QueryDeleteSongArtists = "DELETE FROM SongArtist WHERE songId = '{0}';";
+        private const string QueryDeleteSongGenres = "DELETE FROM SongGenre WHERE songId = '{0}';";
+        private const string QueryDeleteSongReviews = "DELETE FROM SongReview WHERE songId = '{0}';";
         private const string QueryDeleteReview = "DELETE FROM SongReview WHERE id = '{0}';";
 
         private readonly ISqlManager _sqlManager;
@@ -226,6 +228,29 @@ namespace Music_Review_Application_DB_Managers
             }
 
             return 0;
+        }
+
+        public double GetScore(int songId)
+        {
+            var score = 0.0;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetScore, songId), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        score = reader.GetInt32(0);
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return score;
         }
 
         public int GetReviewId(int songId, string username)
@@ -559,44 +584,27 @@ namespace Music_Review_Application_DB_Managers
             }
         }
 
-        public void DeleteSingle(int id)
+        public void DeleteSong(int id)
         {
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongGenre, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongReviews, id), conn))
                 {
                     conn.Open();
                     query.ExecuteNonQuery();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongArtist, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongGenres, id), conn))
                 {
                     query.ExecuteNonQuery();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSong, id), conn))
-                {
-                    query.ExecuteNonQuery();
-                }
-            }
-        }
-
-        public void DeleteTrack(int id)
-        {
-            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
-            {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongGenre, id), conn))
-                {
-                    conn.Open();
-                    query.ExecuteNonQuery();
-                }
-
-                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongArtist, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongArtists, id), conn))
                 {
                     query.ExecuteNonQuery();
                 }
 
-                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSong, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteSongs, id), conn))
                 {
                     query.ExecuteNonQuery();
                 }

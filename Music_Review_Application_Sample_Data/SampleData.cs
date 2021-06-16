@@ -34,5 +34,23 @@ namespace Music_Review_Application_Sample_Data
             albumArtists.Add("Taishi");
             return new("Somewhere Not in This World", tracks, new DateTime(2020, 04, 20), img, albumArtists);
         }
+
+        public static List<SongReview> GetSampleSongReviews(int songId)
+        {
+            var reviews = new List<SongReview>();
+            reviews.Add(new SongReview(songId, "oppop", 7, "guygyuigyuigyuigyuigyuigyui"));
+            reviews.Add(new SongReview(songId, "dfk", 8, "wikkooooooooooo"));
+            reviews.Add(new SongReview(songId, "sifb", 9, "sfiiiiiiygtfffffff"));
+            return reviews;
+        }
+
+        public static List<AlbumReview> GetSampleAlbumReviews(int albumId)
+        {
+            var reviews = new List<AlbumReview>();
+            reviews.Add(new AlbumReview(albumId, "oppop", 7, "guygyuigyuigyuigyuigyuigyui"));
+            reviews.Add(new AlbumReview(albumId, "dfk", 8, "wikkooooooooooo"));
+            reviews.Add(new AlbumReview(albumId, "sifb", 9, "sfiiiiiiygtfffffff"));
+            return reviews;
+        }
     }
 }

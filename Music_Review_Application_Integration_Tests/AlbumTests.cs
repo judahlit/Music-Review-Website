@@ -81,5 +81,32 @@ namespace Music_Review_Application_Integration_Tests
             // Assert
             Assert.True(albumAdded);
         }
+
+        [Fact]
+        public void ReturnsTheScoreOfAnAlbum()
+        {
+            // Arrange
+            var score = 0.0;
+
+            var album = SampleData.GetSampleAlbum();
+            var container = TestContainerConfig.Configure();
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var albumDbManager = scope.Resolve<IAlbumDbManager>();
+                albumDbManager.AddAlbum(album);
+                var albumId = albumDbManager.GetAlbumId(album.Title, album.ArtistNames);
+                var reviews = SampleData.GetSampleAlbumReviews(albumId);
+                albumDbManager.AddReview(reviews[0]);
+                albumDbManager.AddReview(reviews[1]);
+                albumDbManager.AddReview(reviews[2]);
+
+                // Act
+                score = albumDbManager.GetScore(albumId);
+
+                albumDbManager.DeleteAlbum(albumDbManager.GetAlbumId(album.Title, album.ArtistNames));
+            }
+
+            Assert.Equal(8, score);
+        }
     }
 }

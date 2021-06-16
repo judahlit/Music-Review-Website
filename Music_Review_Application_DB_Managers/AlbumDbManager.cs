@@ -19,6 +19,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetAlbum = "SELECT * FROM Album WHERE id = {0};";
         private const string QueryGetAlbumArtists = "SELECT * FROM AlbumArtist WHERE albumId = {0};";
         private const string QueryGetAlbumTrackIds = "SELECT id FROM Song WHERE albumId = {0};";
+        private const string QueryGetScore = "SELECT AVG(albumScore) FROM AlbumReview WHERE albumId = {0};";
         private const string QueryGetReviewId = "SELECT id FROM AlbumReview WHERE albumId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM AlbumReview WHERE id = {0};";
         private const string QueryGetArtistAlbums = "SELECT AA.albumId FROM AlbumArtist AS AA INNER JOIN Artist AS A ON AA.artistId = A.id WHERE A.id = {0}";
@@ -26,9 +27,10 @@ namespace Music_Review_Application_DB_Managers
 
         private const string QueryUpdateReview = "UPDATE AlbumReview SET albumScore = {1}, albumReview = '{2}' WHERE id = {0};";
 
-        private const string QueryDeleteAlbum = "DELETE FROM Album WHERE id = '{0}'";
-        private const string QueryDeleteAlbumArtists = "DELETE FROM AlbumArtist WHERE albumId = '{0}'";
-        private const string QueryDeleteReview = "DELETE FROM AlbumReview WHERE id = '{0}'";
+        private const string QueryDeleteAlbum = "DELETE FROM Album WHERE id = '{0}';";
+        private const string QueryDeleteAlbumReviews = "DELETE FROM AlbumReview WHERE albumId = '{0}';";
+        private const string QueryDeleteAlbumArtists = "DELETE FROM AlbumArtist WHERE albumId = '{0}';";
+        private const string QueryDeleteReview = "DELETE FROM AlbumReview WHERE id = '{0}';";
 
         private readonly ISqlManager _sqlManager;
         private readonly IArtistDbManager _artistDbManager;
@@ -174,6 +176,29 @@ namespace Music_Review_Application_DB_Managers
             }
 
             return 0;
+        }
+
+        public double GetScore(int albumId)
+        {
+            var score = 0.0;
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetScore, albumId), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        score = reader.GetInt32(0);
+                    }
+
+                    reader.Close();
+                }
+            }
+
+            return score;
         }
 
         public int GetReviewId(int albumId, string username)
@@ -360,21 +385,25 @@ namespace Music_Review_Application_DB_Managers
 
             foreach (Track track in album.Tracks)
             {
-                _songDbManager.DeleteTrack(track.Id);
+                _songDbManager.DeleteSong(track.Id);
             }
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteAlbumArtists, id), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteAlbumReviews, id), conn))
                 {
                     conn.Open();
+                    query.ExecuteNonQuery();
+                }
+
+                using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteAlbumArtists, id), conn))
+                {
                     query.ExecuteNonQuery();
                 }
 
                 using (SqlCommand query = new SqlCommand(string.Format(QueryDeleteAlbum, id), conn))
                 {
                     query.ExecuteNonQuery();
-                    conn.Close();
                 }
             }
         }

@@ -26,7 +26,7 @@ namespace Music_Review_Application_Integration_Tests
                 // Act
                 songId = songDbManager.GetSongId(song.Title, song.ArtistNames);
 
-                songDbManager.DeleteSingle(songDbManager.GetSongId(song.Title, song.ArtistNames));
+                songDbManager.DeleteSong(songDbManager.GetSongId(song.Title, song.ArtistNames));
             }
 
             // Assert
@@ -53,7 +53,7 @@ namespace Music_Review_Application_Integration_Tests
                 // Act
                 songId = songDbManager.GetSongId(song2.Title, song2.ArtistNames);
 
-                songDbManager.DeleteSingle(songDbManager.GetSongId(song.Title, song.ArtistNames));
+                songDbManager.DeleteSong(songDbManager.GetSongId(song.Title, song.ArtistNames));
             }
 
             // Assert
@@ -75,11 +75,38 @@ namespace Music_Review_Application_Integration_Tests
                 // Act
                 singleAdded = songDbManager.SingleIsAdded(song);
 
-                songDbManager.DeleteSingle(songDbManager.GetSongId(song.Title, song.ArtistNames));
+                songDbManager.DeleteSong(songDbManager.GetSongId(song.Title, song.ArtistNames));
             }
 
             // Assert
             Assert.True(singleAdded);
+        }
+
+        [Fact]
+        public void ReturnsTheScoreOfASong()
+        {
+            // Arrange
+            var score = 0.0;
+
+            var song = SampleData.GetSampleSingle();
+            var container = TestContainerConfig.Configure();
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var songDbManager = scope.Resolve<ISongDbManager>();
+                songDbManager.AddSingle(song);
+                var songId = songDbManager.GetSongId(song.Title, song.ArtistNames);
+                var reviews = SampleData.GetSampleSongReviews(songId);
+                songDbManager.AddReview(reviews[0]);
+                songDbManager.AddReview(reviews[1]);
+                songDbManager.AddReview(reviews[2]);
+
+                // Act
+                score = songDbManager.GetScore(songId);
+
+                songDbManager.DeleteSong(songDbManager.GetSongId(song.Title, song.ArtistNames));
+            }
+
+            Assert.Equal(8, score);
         }
     }
 }
