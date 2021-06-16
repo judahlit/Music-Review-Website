@@ -26,10 +26,10 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public void OnGet()
         {
-            //_songDbManager.GetSongs();
-            //_albumDbManager.GetAlbums();
-            var receivedSongs = SampleData.GetSampleAlbum().Tracks;
-            var receivedAlbums = new List<Album>{ SampleData.GetSampleAlbum() };
+            var receivedSongs = _songDbManager.GetSongs();
+            var receivedAlbums = _albumDbManager.GetAlbums();
+            //var receivedSongs = SampleData.GetSampleAlbum().Tracks;
+            //var receivedAlbums = new List<Album>{ SampleData.GetSampleAlbum() };
 
             foreach (var song in receivedSongs)
             {

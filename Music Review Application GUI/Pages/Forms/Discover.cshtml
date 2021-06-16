@@ -9,7 +9,7 @@
 @foreach (var song in DiscoverModel.Songs)
 {
     <p>
-        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongPage/1">@song.Title</a>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongPage" asp-route-songId="@song.Id">@song.Title</a>
     </p>
 }
 <br />
@@ -17,6 +17,6 @@
 @foreach (var album in DiscoverModel.Albums)
 {
     <p>
-        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage/1">@album.Title</a>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage/@album.Id">@album.Title</a>
     </p>
 }

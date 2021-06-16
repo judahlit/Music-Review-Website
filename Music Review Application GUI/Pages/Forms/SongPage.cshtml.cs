@@ -21,8 +21,8 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public IActionResult OnGet(int songId)
         {
-            //Song = _songDbManager.GetSong(songId);
-            Song = Music_Review_Application_Sample_Data.SampleData.GetSampleSingle();
+            Song = _songDbManager.GetSong(songId);
+            //Song = Music_Review_Application_Sample_Data.SampleData.GetSampleSingle();
 
             if (Song == null)
             {

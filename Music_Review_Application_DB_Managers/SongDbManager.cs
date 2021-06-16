@@ -422,8 +422,12 @@ namespace Music_Review_Application_DB_Managers
                     {
                         title = reader.GetString(1);
                         dateOfRelease = (DateTime)reader["dateOfRelease"];
-                        trackNr = reader.GetInt32(4);
-                        albumId = reader.GetInt32(5);
+
+                        if (reader["trackNr"] != DBNull.Value && reader["albumId"] != DBNull.Value)
+                        {
+                            trackNr = reader.GetInt32(4);
+                            albumId = reader.GetInt32(5);
+                        }
 
                         if (reader["img"] != DBNull.Value)
                         {
