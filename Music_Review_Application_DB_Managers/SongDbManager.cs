@@ -232,7 +232,7 @@ namespace Music_Review_Application_DB_Managers
 
         public double GetScore(int songId)
         {
-            var score = 0.0;
+            var score = 0.0f;
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
@@ -243,7 +243,10 @@ namespace Music_Review_Application_DB_Managers
 
                     if (reader.Read())
                     {
-                        score = reader.GetInt32(0);
+                        if (reader.GetValue(0) != DBNull.Value)
+                        {
+                            score = (float)reader.GetValue(0);
+                        }
                     }
 
                     reader.Close();
@@ -463,6 +466,8 @@ namespace Music_Review_Application_DB_Managers
                 }
             }
 
+            if (title == null) return null;
+
             if (albumId == 0)
             {
                 return new SingleSong(title, dateOfRelease, img, artistNames, genres)
@@ -484,7 +489,7 @@ namespace Music_Review_Application_DB_Managers
         {
             var songId = 0;
             var username = "";
-            var score = 0;
+            var score = 0.0f;
             var review = "";
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
@@ -498,7 +503,7 @@ namespace Music_Review_Application_DB_Managers
                     {
                         songId = reader.GetInt32(1);
                         username = reader.GetString(2);
-                        score = reader.GetInt32(3);
+                        score = (float)reader.GetValue(3);
                         review = reader.GetString(4);
                     }
                 }

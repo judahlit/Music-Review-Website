@@ -26,9 +26,14 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
             if (Song == null)
             {
-                return RedirectToPage("/NotFound");
+                return RedirectToPage("/Forms/NotFound");
             }
 
+            Song.Score = _songDbManager.GetScore(songId);
+            return Page();
+        }
+        public IActionResult OnPost()
+        {
             return Page();
         }
     }

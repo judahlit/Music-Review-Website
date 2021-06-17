@@ -16,13 +16,13 @@ namespace Music_Review_Application_Models
 
         public string Username { get; set; }
 
-        public int Score { get; set; }
+        public float Score { get; set; }
 
         public string Review { get; set; }
 
         #endregion
 
-        public SongReview(int songId, string username, int score, string review)
+        public SongReview(int songId, string username, float score, string review)
         {
             SongId = songId;
             Username = username;

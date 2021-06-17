@@ -15,7 +15,7 @@ namespace Music_Review_Application_Integration_Tests
         {
             // Arrange
             var reviewId = 0;
-            var reviewScore = 0;
+            var reviewScore = 0.0f;
 
             var album = SampleData.GetSampleAlbum();
             var song = album.Tracks[1];
@@ -50,7 +50,7 @@ namespace Music_Review_Application_Integration_Tests
         public void UserUpdatesAGivenSongReview()
         {
             // Arrange
-            var reviewScore = 0;
+            var reviewScore = 0.0f;
             var reviewSongReview = "";
 
             var album = SampleData.GetSampleAlbum();
@@ -93,7 +93,7 @@ namespace Music_Review_Application_Integration_Tests
         {
             // Arrange
             var reviewId = 0;
-            var reviewScore = 0;
+            var reviewScore = 0.0f;
             
             var album = SampleData.GetSampleAlbum();
             var container = TestContainerConfig.Configure();
@@ -127,7 +127,7 @@ namespace Music_Review_Application_Integration_Tests
         public void UserGetsAListOfSongsAndAlbumsWhichASpecifiedUserHasReviewed()
         {
             // Arrange
-            var scores = new List<int>();
+            var scores = new List<float>();
 
             var username = "User123";
             var album = SampleData.GetSampleAlbum();
@@ -161,7 +161,7 @@ namespace Music_Review_Application_Integration_Tests
             }
 
             // Assert
-            Assert.Equal(new List<int>{6, 8, 7}, scores);
+            Assert.Equal(new List<float>{6, 8, 7}, scores);
         }
     }
 }
