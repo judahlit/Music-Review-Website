@@ -24,6 +24,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryGetScore = "SELECT AVG(songScore) FROM SongReview WHERE songId = {0};";
         private const string QueryGetReviewId = "SELECT id FROM SongReview WHERE songId = {0} AND username = '{1}';";
         private const string QueryGetReview = "SELECT * FROM SongReview WHERE id = {0};";
+        private const string QueryGetSongReviewIds = "SELECT id FROM SongReview WHERE songId = {0}";
         private const string QueryGetAllSongIds = "SELECT id FROM Song;";
         private const string QueryGetSongIdsWithGenre = "SELECT songId FROM SongGenre WHERE genreId = {0};";
         private const string QueryGetArtistSongs = "SELECT SA.songId FROM SongArtist AS SA INNER JOIN Artist AS A ON SA.artistId = A.id WHERE A.id = {0}";
@@ -510,6 +511,29 @@ namespace Music_Review_Application_DB_Managers
             }
 
             return new SongReview(songId, username, score, review) {Id = id};
+        }
+        public List<SongReview> GetSongReviews(int songId)
+        {
+            var songReviews = new List<SongReview>();
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetSongReviewIds, songId), conn))
+                {
+                    conn.Open();
+
+                    using (var reader = query.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var reviewId = reader.GetInt32(0);
+                            songReviews.Add(GetSongReview(reviewId));
+                        }
+                    }
+                }
+            }
+
+            return songReviews;
         }
 
         public List<Song> GetSongsWithGenre(int genreId)

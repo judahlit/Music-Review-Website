@@ -9,13 +9,18 @@ using Music_Review_Application_Models;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {
-    public class SongPageModel : PageModel
+    public class SongReviewPageModel : PageModel
     {
         private readonly ISongDbManager _songDbManager;
         public static Song Song { get; set; }
         public static List<SongReview> WrittenReviews { get; set; }
+        public static string Message { get; set; }
+        [BindProperty]
+        public string Username { get; set; }
+        [BindProperty]
+        public string Review { get; set; }
 
-        public SongPageModel(ISongDbManager songDbManager)
+        public SongReviewPageModel(ISongDbManager songDbManager)
         {
             _songDbManager = songDbManager;
         }
@@ -35,9 +40,25 @@ namespace Music_Review_Application_GUI.Pages.Forms
             Song.Score = _songDbManager.GetScore(songId);
             return Page();
         }
+
         public IActionResult OnPost()
         {
-            return Page();
+            if (string.IsNullOrEmpty(Review)) return Page();
+
+            var oldReviewId = _songDbManager.GetReviewId(Song.Id, Username);
+            if (oldReviewId == 0)
+            {
+                Message = "You can't review a song you haven't rated yet.";
+                return Page();
+            }
+            else
+            {
+                var oldReview = _songDbManager.GetSongReview(oldReviewId);
+                var newReview = new SongReview(Song.Id, Username, oldReview.Score, Review);
+                _songDbManager.UpdateReview(newReview);
+            }
+
+            return RedirectToPage($"/Forms/SongPage", new { songId = Song.Id });
         }
     }
 }

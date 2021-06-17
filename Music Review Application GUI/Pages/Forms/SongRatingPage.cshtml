@@ -19,45 +19,61 @@
             <h4>Score: @SongRatingPageModel.Song.Score</h4>
         </p>
     }
-<form method="post">
-    <label>Your username:</label>
-    <input type="text" asp-for="Username" placeholder="" />
-    <br />
-    <label>Your rating:</label>
-    <select name="rating">
-        <option value="10">10</option>
-        <option value="9">9</option>
-        <option value="8">8</option>
-        <option value="7">7</option>
-        <option value="6">6</option>
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-        <option value="2">2</option>
-        <option value="1">1</option>
-    </select>
-    <br />
-    <button type="submit">Rate song</button>
-</form>
+    <form method="post">
+        <label>Your username:</label>
+        <input type="text" asp-for="Username" placeholder="" />
+        <br />
+        <label>Your rating:</label>
+        <select name="rating">
+            <option value="10">10</option>
+            <option value="9">9</option>
+            <option value="8">8</option>
+            <option value="7">7</option>
+            <option value="6">6</option>
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+        </select>
+        <br />
+        <button type="submit">Rate song</button>
+    </form>
 </div>
 <br />
 <div>
     <p>
         <h4>Song Information</h4>
     </p>
-    <p>Artists:</p>
+    <h6>Artists:</h6>
     @foreach (var artistName in SongRatingPageModel.Song.ArtistNames)
     {
-        <label>
+        <p>
             <a class="nav-link text-dark" asp-area="" asp-page="/Forms/ArtistPage" asp-route-songId="@artistName">@artistName</a>
-        </label>
+        </p>
     }
 </div>
 <br />
 <div>
-    <p>Genres:</p>
+    <h6>Genres:</h6>
     @foreach (var genre in SongRatingPageModel.Song.Genres)
     {
-        <label>@genre.GenreName</label>
+        <p>@genre.GenreName</p>
     }
+</div>
+<br />
+<div>
+    <h4>Reviews:</h4>
+    <br />
+    <button type="submit">
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongReviewPage" asp-route-songId="@SongPageModel.Song.Id">Review this song</a>
+    </button>
+    <div>
+        @foreach (var review in SongPageModel.WrittenReviews)
+        {
+            <br />
+            <h6>User @review.Username gave this song a score of @review.Score</h6>
+            <p> @review.Review</p>
+        }
+    </div>
 </div>

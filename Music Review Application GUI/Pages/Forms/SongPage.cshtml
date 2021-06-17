@@ -28,19 +28,35 @@
     <p>
         <h4>Song Information</h4>
     </p>
-    <p>Artists:</p>
+    <h6>Artists:</h6>
     @foreach (var artistName in SongPageModel.Song.ArtistNames)
     {
-        <label>
+        <p>
             <a class="nav-link text-dark" asp-area="" asp-page="/Forms/ArtistPage" asp-route-songId="@artistName">@artistName</a>
-        </label>
+        </p>
     }
 </div>
 <br />
 <div>
-    <p>Genres:</p>
+    <h6>Genres:</h6>
     @foreach (var genre in SongPageModel.Song.Genres)
     {
-        <label>@genre.GenreName</label>
+        <p>@genre.GenreName</p>
     }
+</div>
+<br />
+<div>
+    <h4>Reviews:</h4>
+    <br/>
+    <button type="submit">
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongReviewPage" asp-route-songId="@SongPageModel.Song.Id">Review this song</a>
+    </button>
+    <div>
+        @foreach (var review in SongPageModel.WrittenReviews)
+        {
+            <br />
+            <h6>User @review.Username gave this song a score of @review.Score</h6>
+            <p> @review.Review</p>
+        }
+    </div>
 </div>

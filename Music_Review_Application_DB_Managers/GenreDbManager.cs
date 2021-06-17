@@ -28,6 +28,8 @@ namespace Music_Review_Application_DB_Managers
 
         public void AddGenre(Genre genre)
         {
+            if (GetGenreId(genre.GenreName) != 0) return;
+
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryAddGenre, _sqlManager.GetSqlString(genre.GenreName)), conn))

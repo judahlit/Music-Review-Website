@@ -10,35 +10,48 @@ using Music_Review_Application_Sample_Data;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {
-    public class DiscoverModel : PageModel
+    public class DiscoverGenreModel : PageModel
     {
         private readonly ISongDbManager _songDbManager;
         private readonly IAlbumDbManager _albumDbManager;
         private readonly IGenreDbManager _genreDbManager;
 
-        public static List<Song> Songs { get; } = new();
-        public static List<Album> Albums { get; } = new();
-        public static List<Genre> Genres { get; } = new();
+        public static Genre CurrentGenre { get; set; }
+        public static List<Song> Songs { get; set; } = new();
+        public static List<Album> Albums { get; set; } = new();
+        public static List<Genre> Genres { get; set; } = new();
         [BindProperty]
         public int ChosenGenreId { get; set; }
 
-        public DiscoverModel(ISongDbManager songDbManager, IAlbumDbManager albumDbManager, IGenreDbManager genreDbManager)
+        public DiscoverGenreModel(ISongDbManager songDbManager, IAlbumDbManager albumDbManager, IGenreDbManager genreDbManager)
         {
             _songDbManager = songDbManager;
             _albumDbManager = albumDbManager;
             _genreDbManager = genreDbManager;
         }
 
-        public void OnGet()
+        public void OnGet(int genreId)
         {
-            var receivedSongs = _songDbManager.GetSongs();
-            var receivedAlbums = _albumDbManager.GetAlbums();
+            CurrentGenre = _genreDbManager.GetGenre(genreId);
+            Songs.Clear();
+            Albums.Clear();
+            Genres.Clear();
+            var receivedSongs = _songDbManager.GetSongsWithGenre(genreId);
+            var receivedAlbums = new List<Album>();
             var receivedGenres = _genreDbManager.GetGenres();
 
             foreach (var song in receivedSongs)
             {
                 var titles = Songs.Select(s => s.Title).ToList();
                 if (!titles.Contains(song.Title)) Songs.Add(song);
+                if (song.GetType() == typeof(Track))
+                {
+                    var track = (Track)song;
+                    if (track.AlbumId > 0)
+                    {
+                        receivedAlbums.Add(_albumDbManager.GetAlbum(track.AlbumId));
+                    }
+                }
             }
 
             foreach (var album in receivedAlbums)
@@ -56,7 +69,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public IActionResult OnPost()
         {
-            if (ChosenGenreId == 0) return Page();
+            if (ChosenGenreId == 0) return RedirectToPage("/Forms/Discover");
             return RedirectToPage("/Forms/DiscoverGenre", new { genreId = ChosenGenreId });
         }
     }

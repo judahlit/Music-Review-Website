@@ -32,8 +32,10 @@ namespace Music_Review_Application_DB_Managers.Interfaces
         List<Song> GetSongs();
 
         List<Song> GetSongsWithGenre(int genreId);
-        
+
         List<Song> GetArtistSongs(int artistId);
+
+        List<SongReview> GetSongReviews(int songId);
 
         void UpdateReview(SongReview songReview);
 
