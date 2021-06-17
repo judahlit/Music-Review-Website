@@ -118,7 +118,7 @@ namespace Music_Review_Application_DB_Managers
 
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
-                using (SqlCommand query = new SqlCommand(string.Format(QueryGetGenreByGenreName, genreName), conn))
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetGenres), conn))
                 {
                     conn.Open();
                     var reader = query.ExecuteReader();

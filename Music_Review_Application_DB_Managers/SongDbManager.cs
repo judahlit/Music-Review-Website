@@ -245,7 +245,7 @@ namespace Music_Review_Application_DB_Managers
                     {
                         if (reader.GetValue(0) != DBNull.Value)
                         {
-                            score = (float)reader.GetValue(0);
+                            score = Convert.ToSingle(reader.GetValue(0));
                         }
                     }
 
@@ -503,7 +503,7 @@ namespace Music_Review_Application_DB_Managers
                     {
                         songId = reader.GetInt32(1);
                         username = reader.GetString(2);
-                        score = (float)reader.GetValue(3);
+                        score = Convert.ToSingle(reader.GetValue(3));
                         review = reader.GetString(4);
                     }
                 }
