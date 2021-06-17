@@ -5,6 +5,16 @@
 }
 
 <h2>Songs</h2>
+<br/>
+<div>
+    <label>Select a genre:</label>
+    <select name="rating">
+        @foreach (var genre in DiscoverModel.Genres)
+        {
+            <option value="10"><a class="nav-link text-dark" asp-area="" asp-page="/Forms/Discover" asp-route-songId="@genre.Id">@genre.GenreName</a></option>
+        }
+    </select>
+</div>
 <br />
 @foreach (var song in DiscoverModel.Songs)
 {

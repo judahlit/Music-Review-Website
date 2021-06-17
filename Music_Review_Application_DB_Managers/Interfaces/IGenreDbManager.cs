@@ -17,6 +17,8 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         Genre GetGenre(string genreName);
 
+        List<Genre> GetGenres();
+
         int GetGenreId(string genreName);
 
         void CheckGenres(List<Genre> genres);
