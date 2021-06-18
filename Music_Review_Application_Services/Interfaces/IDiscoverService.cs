@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Music_Review_Application_Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Music_Review_Application_Services.Interfaces
 {
     public interface IDiscoverService
     {
+        List<Album> GetAlbumsFromGenreSongs(List<Song> songs);
     }
 }

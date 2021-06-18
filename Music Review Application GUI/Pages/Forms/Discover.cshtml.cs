@@ -16,9 +16,9 @@ namespace Music_Review_Application_GUI.Pages.Forms
         private readonly IAlbumDbManager _albumDbManager;
         private readonly IGenreDbManager _genreDbManager;
 
-        public static List<Song> Songs { get; } = new();
-        public static List<Album> Albums { get; } = new();
-        public static List<Genre> Genres { get; } = new();
+        public static List<Song> Songs { get; private set; } = new();
+        public static List<Album> Albums { get; private set; } = new();
+        public static List<Genre> Genres { get; private set; } = new();
         [BindProperty]
         public int ChosenGenreId { get; set; }
 
@@ -31,27 +31,12 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public void OnGet()
         {
-            var receivedSongs = _songDbManager.GetSongs();
-            var receivedAlbums = _albumDbManager.GetAlbums();
-            var receivedGenres = _genreDbManager.GetGenres();
-
-            foreach (var song in receivedSongs)
-            {
-                var titles = Songs.Select(s => s.Title).ToList();
-                if (!titles.Contains(song.Title)) Songs.Add(song);
-            }
-
-            foreach (var album in receivedAlbums)
-            {
-                var titles = Albums.Select(a => a.Title).ToList();
-                if (!titles.Contains(album.Title)) Albums.Add(album);
-            }
-
-            foreach (var genre in receivedGenres)
-            {
-                var genreNames = Genres.Select(g => g.GenreName).ToList();
-                if (!genreNames.Contains(genre.GenreName) && !string.IsNullOrEmpty(genre.GenreName)) Genres.Add(genre);
-            }
+            Songs.Clear();
+            Songs = _songDbManager.GetSongs();
+            Albums.Clear();
+            Albums = _albumDbManager.GetAlbums();
+            Genres.Clear();
+            Genres = _genreDbManager.GetGenres();
         }
 
         public IActionResult OnPost()
