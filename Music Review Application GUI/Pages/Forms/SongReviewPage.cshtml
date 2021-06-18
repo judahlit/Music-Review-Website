@@ -32,7 +32,7 @@
     @foreach (var artistName in SongReviewPageModel.Song.ArtistNames)
     {
         <p>
-            <a class="nav-link text-dark" asp-area="" asp-page="/Forms/ArtistPage" asp-route-songId="@artistName">@artistName</a>
+            <a class="nav-link text-dark" asp-area="" asp-page="/Forms/ArtistPage" asp-route-artistName="@artistName">@artistName</a>
         </p>
     }
 </div>

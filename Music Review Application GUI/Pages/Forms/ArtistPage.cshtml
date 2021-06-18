@@ -1,4 +1,27 @@
 ﻿@page
-@model Music_Review_Application_GUI.Pages.ArtistPageModel
+@namespace  Music_Review_Application_GUI.Pages
+@model ArtistPageModel
 @{
+    ViewData["Title"] = "Artist";
+}
+
+<h2>@Model.Artist.ArtistName</h2>
+<br/>
+<p>@Model.Artist.Description</p>
+<br/>
+<h4>Songs</h4>
+<br />
+@foreach (var song in Model.Artist.Songs)
+{
+    <p>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongPage" asp-route-songId="@song.Id">@song.Title</a>
+    </p>
+}
+<br />
+<h4>Albums</h4>
+@foreach (var album in Model.Artist.Albums)
+{
+    <p>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage/@album.Id">@album.Title</a>
+    </p>
 }
