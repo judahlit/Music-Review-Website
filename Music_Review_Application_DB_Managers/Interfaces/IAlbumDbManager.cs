@@ -19,6 +19,8 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         AlbumReview GetAlbumReview(int id);
 
+        List<AlbumReview> GetAlbumReviews(int albumId);
+
         List<Album> GetAlbums();
 
         List<Album> GetArtistAlbums(int artistId);

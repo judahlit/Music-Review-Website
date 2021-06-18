@@ -14,9 +14,8 @@ namespace Music_Review_Application_GUI.Pages.Forms
     public class DiscoverGenreModel : PageModel
     {
         private readonly ISongDbManager _songDbManager;
-        private readonly IAlbumDbManager _albumDbManager;
         private readonly IGenreDbManager _genreDbManager;
-        private readonly IDiscoverService _discoverService;
+        private readonly IAlbumService _albumService;
 
         public static Genre CurrentGenre { get; set; }
         public static List<Song> Songs { get; set; } = new();
@@ -25,12 +24,11 @@ namespace Music_Review_Application_GUI.Pages.Forms
         [BindProperty]
         public int ChosenGenreId { get; set; }
 
-        public DiscoverGenreModel(ISongDbManager songDbManager, IAlbumDbManager albumDbManager, IGenreDbManager genreDbManager, IDiscoverService discoverService)
+        public DiscoverGenreModel(ISongDbManager songDbManager, IGenreDbManager genreDbManager, IAlbumService albumService)
         {
             _songDbManager = songDbManager;
-            _albumDbManager = albumDbManager;
             _genreDbManager = genreDbManager;
-            _discoverService = discoverService;
+            _albumService = albumService;
         }
 
         public void OnGet(int genreId)
@@ -40,7 +38,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
             Genres.Clear();
             CurrentGenre = _genreDbManager.GetGenre(genreId);
             Songs = _songDbManager.GetSongsWithGenre(genreId);
-            Albums = _discoverService.GetAlbumsFromGenreSongs(Songs);
+            Albums = _albumService.GetAlbumsFromGenreSongs(Songs);
             Genres = _genreDbManager.GetGenres();
         }
 

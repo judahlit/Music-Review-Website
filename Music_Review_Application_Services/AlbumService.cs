@@ -9,13 +9,18 @@ using System.Threading.Tasks;
 
 namespace Music_Review_Application_Services
 {
-    public class DiscoverService : IDiscoverService
+    public class AlbumService : IAlbumService
     {
         private readonly IAlbumDbManager _albumDbManager;
 
-        public DiscoverService(IAlbumDbManager albumDbManager)
+        public AlbumService(IAlbumDbManager albumDbManager)
         {
             _albumDbManager = albumDbManager;
+        }
+
+        public List<Genre> GetAlbumGenres(Album album)
+        {
+            return album.GetAlbumGenres();
         }
 
         public List<Album> GetAlbumsFromGenreSongs(List<Song> songs)

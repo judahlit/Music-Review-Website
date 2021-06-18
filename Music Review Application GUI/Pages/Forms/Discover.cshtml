@@ -32,6 +32,6 @@
 @foreach (var album in DiscoverModel.Albums)
 {
     <p>
-        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage/@album.Id">@album.Title</a>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage" asp-route-albumId="@album.Id">@album.Title</a>
     </p>
 }

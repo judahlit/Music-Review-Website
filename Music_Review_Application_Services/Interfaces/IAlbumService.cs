@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Music_Review_Application_Services.Interfaces
 {
-    public interface IDiscoverService
+    public interface IAlbumService
     {
         List<Album> GetAlbumsFromGenreSongs(List<Song> songs);
+        List<Genre> GetAlbumGenres(Album album);
     }
 }
