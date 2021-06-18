@@ -18,6 +18,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
         [BindProperty]
         public string Username { get; set; }
         public static Song Song { get; set; }
+        public static int Ratings { get; private set; }
         public static List<SongReview> WrittenReviews { get; set; }
 
         public SongRatingPageModel(ISongDbManager songDbManager)
@@ -28,7 +29,9 @@ namespace Music_Review_Application_GUI.Pages.Forms
         public IActionResult OnGet(int songId)
         {
             Song = _songDbManager.GetSong(songId);
-            WrittenReviews = _songDbManager.GetSongReviews(songId)
+            var allReviews = _songDbManager.GetSongReviews(songId);
+            Ratings = allReviews.Where(r => r.Score != 0).ToList().Count;
+            WrittenReviews = allReviews
                 .Where(r => !string.IsNullOrEmpty(r.Review))
                 .ToList();
 
@@ -37,6 +40,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
                 return RedirectToPage("/Forms/NotFound");
             }
 
+            Song.Score = _songDbManager.GetScore(songId);
             return Page();
         }
         public IActionResult OnPost()

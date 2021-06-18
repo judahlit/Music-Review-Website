@@ -15,10 +15,10 @@ namespace Music_Review_Application_GUI.Pages.Forms
         private readonly IAlbumDbManager _albumDbManager;
         private readonly IAlbumService _albumService;
 
-        public int AlbumId { get; set; }
         public Album Album { get; set; }
         public List<Genre> Genres { get; set; }
         public List<AlbumReview> WrittenReviews { get; set; }
+        public static int Ratings { get; private set; }
 
         public AlbumPageModel(IAlbumDbManager albumDbManager, IAlbumService albumService)
         {
@@ -29,7 +29,9 @@ namespace Music_Review_Application_GUI.Pages.Forms
         public IActionResult OnGet(int albumId)
         {
             Album = _albumDbManager.GetAlbum(albumId);
-            WrittenReviews = _albumDbManager.GetAlbumReviews(albumId)
+            var allReviews = _albumDbManager.GetAlbumReviews(albumId);
+            Ratings = allReviews.Where(r => r.Score != 0).ToList().Count;
+            WrittenReviews = allReviews
                 .Where(r => !string.IsNullOrEmpty(r.Review))
                 .ToList();
 
