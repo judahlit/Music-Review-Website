@@ -18,7 +18,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
 
         [BindProperty]
-        public SongModel Song { get; set; }
+        public Models.SongViewModel Song { get; set; }
         public static string Message { get; set; }
 
         public AddSongModel(ICreateService createService)

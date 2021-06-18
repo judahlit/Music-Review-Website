@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Music_Review_Application_GUI.Models
 {
-    public class AlbumReviewModel
+    public class SongReviewViewModel
     {
     }
 }

@@ -6,7 +6,7 @@ using Music_Review_Application_GUI.Pages.Forms;
 
 namespace Music_Review_Application_GUI.Models
 {
-    public class SongModel
+    public class SongViewModel
     {
         public int SongId { get; private set; }
         public int AlbumId { get; set; }

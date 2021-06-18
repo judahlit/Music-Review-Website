@@ -16,7 +16,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
 
         [BindProperty]
-        public AlbumModel Album { get; set; }
+        public Models.AlbumViewModel Album { get; set; }
         public static string Message { get; set; }
 
         public AddAlbumModel(ICreateService createService)
