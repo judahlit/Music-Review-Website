@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,8 @@ namespace Music_Review_Application_GUI.Pages.Forms
         private readonly IAlbumDbManager _albumDbManager;
         private readonly ISongDbManager _songDbManager;
 
+        [Required, BindProperty]
+        public string Username { get; set; }
         [BindProperty]
         public UserListViewModel UserList { get; private set; }
 
@@ -32,6 +35,16 @@ namespace Music_Review_Application_GUI.Pages.Forms
             UserList = _mapper.Map<UserListViewModel>(_userListDbManager.GetUserList(username));
             UserList.SongReviews.ForEach(sr => sr.Song = _mapper.Map<SongViewModel>(_songDbManager.GetSong(sr.SongId)));
             UserList.AlbumReviews.ForEach(ar => ar.Album = _mapper.Map<AlbumViewModel>(_albumDbManager.GetAlbum(ar.AlbumId)));
+        }
+
+        public IActionResult OnPost()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            return RedirectToPage("/Forms/GetUserList", new { username = Username });
         }
     }
 }

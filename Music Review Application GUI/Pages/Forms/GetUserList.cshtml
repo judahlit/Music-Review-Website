@@ -5,6 +5,26 @@
     ViewData["Title"] = "User List";
 }
 
+<div>
+    <p>Whose list do you want to see?</p>
+    <form method="post">
+        <input type="text" asp-for="Username" placeholder="@Model.UserList.Username" />
+        <br />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Username"></span>
+        <br />
+        <br />
+        <button type="submit">View User List</button>
+    </form>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<br />
+<br />
+
 <h2>@Model.UserList.Username's Music List</h2>
 <br />
 <div>
