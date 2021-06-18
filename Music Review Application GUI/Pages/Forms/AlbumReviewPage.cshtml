@@ -1,0 +1,73 @@
+﻿@page
+@model Music_Review_Application_GUI.Pages.Forms.AlbumReviewPageModel
+@{
+}
+
+<h2>@AlbumReviewPageModel.Album.Title</h2>
+<br />
+<br />
+<div>
+    @if (AlbumReviewPageModel.Album.Score == 0)
+    {
+        <p>
+            <h4>Score: N/A</h4>
+        </p>
+    }
+    else
+    {
+        <p>
+            <h4>Score: @AlbumReviewPageModel.Album.Score.ToString("0.00")</h4>
+        </p>
+    }
+    <button type="submit">
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumRatingPage" asp-route-albumId="@AlbumReviewPageModel.Album.Id">Rate this album</a>
+    </button>
+</div>
+<br />
+<div>
+    <p>
+        <h4>Album Information</h4>
+    </p>
+    <h6>Artists:</h6>
+    @foreach (var artistName in AlbumReviewPageModel.Album.ArtistNames)
+    {
+        <p>
+            <a class="nav-link text-dark" asp-area="" asp-page="/Forms/ArtistPage" asp-route-artistName="@artistName">@artistName</a>
+        </p>
+    }
+</div>
+<br />
+<div>
+    <h6>Genres:</h6>
+    @foreach (var genre in Model.Genres)
+    {
+        <p>
+            <a class="nav-link text-dark" asp-area="" asp-page="/Forms/DiscoverGenre" asp-route-genreId="@genre.Id">@genre.GenreName</a>
+        </p>
+    }
+</div>
+<br />
+<div>
+    <h4>Reviews:</h4>
+    <br />
+    <form method="post">
+        <label>Your username:</label>
+        <input type="text" asp-for="Username" placeholder="" />
+        <br />
+        <label>Your review:</label>
+        <input type="text" asp-for="Review" placeholder="" />
+        <br />
+        <button type="submit">Review album</button>
+    </form>
+    <div class="text-center">
+        <p>@AlbumReviewPageModel.Message</p>
+    </div>
+    <div>
+        @foreach (var review in Model.WrittenReviews)
+        {
+            <br />
+            <h6>User @review.Username gave this album a score of @review.Score</h6>
+            <p> @review.Review</p>
+        }
+    </div>
+</div>

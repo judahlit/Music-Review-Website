@@ -1,13 +1,13 @@
-﻿@page "{songId?}"
-@model Music_Review_Application_GUI.Pages.Forms.SongRatingPageModel
+﻿@page
+@model Music_Review_Application_GUI.Pages.Forms.AlbumRatingPageModel
 @{
 }
 
-<h2>@SongRatingPageModel.Song.Title</h2>
+<h2>@AlbumRatingPageModel.Album.Title</h2>
 <br />
 <br />
 <div>
-    @if (SongRatingPageModel.Song.Score == 0)
+    @if (AlbumRatingPageModel.Album.Score == 0)
     {
         <p>
             <h4>Score: N/A</h4>
@@ -16,7 +16,7 @@
     else
     {
         <p>
-            <h4>Score: @SongRatingPageModel.Song.Score</h4>
+            <h4>Score: @AlbumRatingPageModel.Album.Score</h4>
         </p>
     }
     <form method="post">
@@ -37,16 +37,16 @@
             <option value="1">1</option>
         </select>
         <br />
-        <button type="submit">Rate song</button>
+        <button type="submit">Rate album</button>
     </form>
 </div>
 <br />
 <div>
     <p>
-        <h4>Song Information</h4>
+        <h4>Album Information</h4>
     </p>
     <h6>Artists:</h6>
-    @foreach (var artistName in SongRatingPageModel.Song.ArtistNames)
+    @foreach (var artistName in AlbumRatingPageModel.Album.ArtistNames)
     {
         <p>
             <a class="nav-link text-dark" asp-area="" asp-page="/Forms/ArtistPage" asp-route-artistName="@artistName">@artistName</a>
@@ -56,7 +56,7 @@
 <br />
 <div>
     <h6>Genres:</h6>
-    @foreach (var genre in SongRatingPageModel.Song.Genres)
+    @foreach (var genre in Model.Genres)
     {
         <p>
             <a class="nav-link text-dark" asp-area="" asp-page="/Forms/DiscoverGenre" asp-route-genreId="@genre.Id">@genre.GenreName</a>
@@ -68,13 +68,13 @@
     <h4>Reviews:</h4>
     <br />
     <button type="submit">
-        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongReviewPage" asp-route-songId="@SongPageModel.Song.Id">Review this song</a>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumReviewPage" asp-route-albumId="@AlbumRatingPageModel.Album.Id">Review this album</a>
     </button>
     <div>
-        @foreach (var review in SongRatingPageModel.WrittenReviews)
+        @foreach (var review in Model.WrittenReviews)
         {
             <br />
-            <h6>User @review.Username gave this song a score of @review.Score</h6>
+            <h6>User @review.Username gave this album a score of @review.Score</h6>
             <p> @review.Review</p>
         }
     </div>

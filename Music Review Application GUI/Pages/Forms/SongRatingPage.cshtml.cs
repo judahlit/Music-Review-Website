@@ -18,6 +18,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
         [BindProperty]
         public string Username { get; set; }
         public static Song Song { get; set; }
+        public static List<SongReview> WrittenReviews { get; set; }
 
         public SongRatingPageModel(ISongDbManager songDbManager)
         {
@@ -27,7 +28,9 @@ namespace Music_Review_Application_GUI.Pages.Forms
         public IActionResult OnGet(int songId)
         {
             Song = _songDbManager.GetSong(songId);
-            //Song = Music_Review_Application_Sample_Data.SampleData.GetSampleSingle();
+            WrittenReviews = _songDbManager.GetSongReviews(songId)
+                .Where(r => !string.IsNullOrEmpty(r.Review))
+                .ToList();
 
             if (Song == null)
             {

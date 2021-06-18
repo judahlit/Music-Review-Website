@@ -48,7 +48,7 @@ namespace Music_Review_Application_GUI.Pages.Forms
             var oldReviewId = _songDbManager.GetReviewId(Song.Id, Username);
             if (oldReviewId == 0)
             {
-                Message = "You can't review a song you haven't rated yet.";
+                Message = "You can't review an album you haven't rated yet.";
                 return Page();
             }
             else
