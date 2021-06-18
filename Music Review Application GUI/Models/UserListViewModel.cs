@@ -10,8 +10,8 @@ namespace Music_Review_Application_GUI.Models
     {
         public string Username { get; set; }
 
-        public List<SongReviewViewModel> SongReviews { get; set; }
+        public List<SongReviewViewModel> SongReviews { get; set; } = new();
 
-        public List<AlbumReviewViewModel> AlbumReviews { get; set; }
+        public List<AlbumReviewViewModel> AlbumReviews { get; set; } = new();
     }
 }

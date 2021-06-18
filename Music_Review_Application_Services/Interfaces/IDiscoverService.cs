@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Music_Review_Application_Services.Interfaces
 {
-    public interface IDiscoverPageProcessor
+    public interface IDiscoverService
     {
     }
 }

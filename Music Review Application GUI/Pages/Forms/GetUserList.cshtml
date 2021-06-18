@@ -1,5 +1,62 @@
 ﻿@page
-@model Music_Review_Application_GUI.Pages.Forms.GetUserListModel
+@namespace Music_Review_Application_GUI.Pages.Forms
+@model GetUserListModel
 @{
     ViewData["Title"] = "User List";
 }
+
+<h2>@Model.UserList.Username's Music List</h2>
+<br />
+<div>
+    <h4>Reviewed Songs</h4>
+    <br />
+    @if (Model.UserList.SongReviews.Count != 0)
+    {
+        @foreach (var songReview in Model.UserList.SongReviews)
+        {
+            <div>
+                <h6>
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongPage" asp-route-songId="@songReview.SongId">@songReview.Song.Title</a>
+                </h6>
+                <p>Score: @songReview.Score</p>
+                @if (!string.IsNullOrEmpty(songReview.Review))
+                {
+                    <p>Review:</p>
+                    <p>@songReview.Review</p>
+                }
+            </div>
+            <br />
+        }
+    }
+    else
+    {
+        <h6>None</h6>
+    }
+</div>
+<br />
+<div>
+    <h4>Reviewed Albums</h4>
+    <br />
+    @if (Model.UserList.AlbumReviews.Count != 0)
+    {
+        @foreach (var albumReview in Model.UserList.AlbumReviews)
+        {
+            <div>
+                <h6>
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage" asp-route-songId="@albumReview.AlbumId">@albumReview.Album.Title</a>
+                </h6>
+                <p>Score: @albumReview.Score</p>
+                @if (!string.IsNullOrEmpty(albumReview.Review))
+                {
+                    <p>Review:</p>
+                    <p>@albumReview.Review</p>
+                }
+            </div>
+            <br />
+        }
+    }
+    else
+    {
+        <h6>None</h6>
+    }
+</div>

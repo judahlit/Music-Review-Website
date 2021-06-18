@@ -7,12 +7,14 @@ namespace Music_Review_Application_GUI.Models
 {
     public class AlbumReviewViewModel
     {
-        public int AlbumId { get; set; }
+        public int AlbumId { get; }
 
-        public string Username { get; set; }
+        public AlbumViewModel Album { get; set; }
 
-        public float Score { get; set; }
+        public string Username { get; }
 
-        public string Review { get; set; }
+        public float Score { get; }
+
+        public string Review { get; }
     }
 }
