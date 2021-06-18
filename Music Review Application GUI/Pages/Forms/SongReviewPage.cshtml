@@ -41,7 +41,9 @@
     <h6>Genres:</h6>
     @foreach (var genre in SongReviewPageModel.Song.Genres)
     {
-        <p>@genre.GenreName</p>
+        <p>
+            <a class="nav-link text-dark" asp-area="" asp-page="/Forms/DiscoverGenre" asp-route-genreId="@genre.Id">@genre.GenreName</a>
+        </p>
     }
 </div>
 <br />
