@@ -8,35 +8,74 @@
 <h1>Add Album</h1>
 <form method="post">
     <br />
-    <label>Album title</label>
+    <div>
+        <label>Album title</label>
+        <br />
+        <input type="text" asp-for="Album.Title" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.Title"></span>
+        <br />
+        <label>Album artist</label>
+        <br />
+        <input type="text" asp-for="Album.ArtistNames[0]" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.ArtistNames[0]"></span>
+        <br />
+        <label>Album artist</label>
+        <br />
+        <input type="text" asp-for="Album.ArtistNames[1]" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.ArtistNames[1]"></span>
+        <br />
+        <label>Date of release</label>
+        <br />
+        <input type="text" asp-for="Album.ReleaseDate" placeholder="dd/mm/yyyy" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.ReleaseDate"></span>
+        <br />
+    </div>
     <br />
-    <input type="text" asp-for="Album.Title" placeholder="" />
-    <br />
-    <div asp-validation-summary="ModelOnly"></div>
-    <span asp-validation-for="Album.Title"></span>
-    <br />
-    <label>Album artist</label>
-    <br />
-    <input type="text" asp-for="Album.ArtistNames[0]" placeholder="" />
-    <br />
-    <div asp-validation-summary="ModelOnly"></div>
-    <span asp-validation-for="Album.ArtistNames[0]"></span>
-    <br />
-    <label>Album artist</label>
-    <br />
-    <input type="text" asp-for="Album.ArtistNames[1]" placeholder="" />
-    <br />
-    <div asp-validation-summary="ModelOnly"></div>
-    <span asp-validation-for="Album.ArtistNames[1]"></span>
-    <br />
-    <label>Date of release</label>
-    <br />
-    <input type="text" asp-for="Album.ReleaseDate" placeholder="dd/mm/yyyy" />
-    <br />
-    <div asp-validation-summary="ModelOnly"></div>
-    <span asp-validation-for="Album.ReleaseDate"></span>
-    <br />
-    <br />
+    <div>
+        <label>Track title</label>
+        <br />
+        <input type="text" asp-for="Album.Tracks[0].Title" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.Tracks[0].Title"></span>
+        <br />
+        <label>Track artist</label>
+        <br />
+        <input type="text" asp-for="Album.Tracks[0].ArtistNames" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.Tracks[0].ArtistNames"></span>
+        <br />
+        <label>Track artist</label>
+        <br />
+        <input type="text" asp-for="Album.Tracks[0].ArtistNames" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.Tracks[0].ArtistNames"></span>
+        <br />
+        <label>Track genre</label>
+        <br />
+        <input type="text" asp-for="Album.Tracks[0].GenreNames" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.Tracks[0].ArtistNames"></span>
+        <br />
+        <label>Track genre</label>
+        <br />
+        <input type="text" asp-for="Album.Tracks[0].GenreNames" placeholder="" />
+        <br />
+        <div asp-validation-summary="ModelOnly"></div>
+        <span asp-validation-for="Album.Tracks[0].GenreNames"></span>
+        <br />
+    </div>
     <button type="submit">Add album</button>
 </form>
 

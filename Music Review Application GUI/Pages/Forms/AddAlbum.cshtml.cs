@@ -34,6 +34,18 @@ namespace Music_Review_Application_GUI.Pages.Forms
         {
             if (ModelState.IsValid)
             {
+                var actualTrack = Album.Tracks[0];
+                if (string.IsNullOrEmpty(actualTrack.ArtistNames[0]))
+                {
+                    Message = "Please fill in at least one track artist";
+                    return Page();
+                }
+                if (string.IsNullOrEmpty(actualTrack.GenreNames[0]))
+                {
+                    Message = "Please fill in at least one track genre";
+                    return Page();
+                }
+
                 var tracks = new List<Track>();
                 Message = _createService.CreateAlbum(Album.Title, tracks, Album.ArtistNames, Album.ReleaseDate, Album.ImgPath);
             }
