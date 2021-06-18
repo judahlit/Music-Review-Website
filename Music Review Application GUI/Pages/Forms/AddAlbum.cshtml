@@ -1,5 +1,6 @@
 ﻿@page
-@model Music_Review_Application_GUI.Pages.Forms.AddAlbumModel
+@namespace Music_Review_Application_GUI.Pages.Forms
+@model AddAlbumModel
 @{
     ViewData["Title"] = "Add Album";
 }
@@ -11,25 +12,38 @@
     <br />
     <input type="text" asp-for="Album.Title" placeholder="" />
     <br />
+    <div asp-validation-summary="ModelOnly"></div>
+    <span asp-validation-for="Album.Title"></span>
+    <br />
     <label>Album artist</label>
     <br />
-    <input type="text" asp-for="Album.ArtistNames" placeholder="" />
+    <input type="text" asp-for="Album.ArtistNames[0]" placeholder="" />
+    <br />
+    <div asp-validation-summary="ModelOnly"></div>
+    <span asp-validation-for="Album.ArtistNames[0]"></span>
     <br />
     <label>Album artist</label>
     <br />
-    <input type="text" asp-for="Album.ArtistNames" placeholder="" />
+    <input type="text" asp-for="Album.ArtistNames[1]" placeholder="" />
+    <br />
+    <div asp-validation-summary="ModelOnly"></div>
+    <span asp-validation-for="Album.ArtistNames[1]"></span>
     <br />
     <label>Date of release</label>
     <br />
-    <input type="text" asp-for="Album.DateDay" placeholder="Day" />
+    <input type="text" asp-for="Album.ReleaseDate" placeholder="dd/mm/yyyy" />
     <br />
-    <input type="text" asp-for="Album.DateMonth" placeholder="Month" />
-    <br />
-    <input type="text" asp-for="Album.DateYear" placeholder="Year" />
+    <div asp-validation-summary="ModelOnly"></div>
+    <span asp-validation-for="Album.ReleaseDate"></span>
     <br />
     <br />
     <button type="submit">Add album</button>
 </form>
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
 <br />
 <div class="text-center">
     <p>@AddAlbumModel.Message</p>

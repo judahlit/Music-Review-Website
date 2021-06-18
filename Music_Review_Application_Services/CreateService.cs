@@ -64,20 +64,9 @@ namespace Music_Review_Application_Services
             }
         }
 
-        public string CreateAlbum(string title, List<Track> tracks, List<string> artistNames, string dateDay, string dateMonth, string dateYear, string imgPath)
+        public string CreateAlbum(string title, List<Track> tracks, List<string> artistNames, DateTime releaseDate, string imgPath)
         {
-            var lists = new List<List<string>> { artistNames };
-            var strings = new List<string> { title, dateDay, dateMonth, dateYear };
-
-            if (!AreListsValid(lists) || strings.Any(string.IsNullOrEmpty))
-            {
-                return "Please fill in the album data.";
-            }
-
-            var tempDate = ToDateTime(dateDay, dateMonth, dateYear);
-            if (tempDate == null) return "Please fill in a valid date of release.";
-
-            var correctDate = (DateTime)tempDate;
+            if (string.IsNullOrEmpty(artistNames[0])) return "Please fill in at least one artist";
 
             if (!TracksAreValid(tracks))
             {
@@ -85,7 +74,7 @@ namespace Music_Review_Application_Services
             }
 
             Image img = null;
-            var album = new Album(title, tracks, correctDate, img, artistNames);
+            var album = new Album(title, tracks, releaseDate, img, artistNames);
 
             if (_albumDbManager.AlbumExistsInDb(album))
             {
