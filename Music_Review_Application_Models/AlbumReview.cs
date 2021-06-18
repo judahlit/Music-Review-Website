@@ -14,12 +14,12 @@ namespace Music_Review_Application_Models
 
         public string Username { get; set; }
 
-        public int Score { get; set; }
+        public float Score { get; set; }
 
         public string Review { get; set; }
 
 
-        public AlbumReview(int albumId, string username, int score, string review)
+        public AlbumReview(int albumId, string username, float score, string review)
         {
             AlbumId = albumId;
             Username = username;

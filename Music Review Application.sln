@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_GUI", "Music Review Application GUI\Music_Review_Application_GUI.csproj", "{AFF9DD5B-F585-4729-AFA8-D9554A83B431}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_Integration_Tests", "Music_Review_Application_Tests\Music_Review_Application_Integration_Tests.csproj", "{49759E43-A89F-4DB7-A0B2-01A8FD2B6EA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_Integration_Tests", "Music_Review_Application_Integration_Tests\Music_Review_Application_Integration_Tests.csproj", "{49759E43-A89F-4DB7-A0B2-01A8FD2B6EA0}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Music_Review_Application_Database", "Music_Review_Application_Database\Music_Review_Application_Database.sqlproj", "{E27DF51A-F832-4495-B679-DCBEF57CF6DE}"
 EndProject
@@ -16,6 +16,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_Services", "Music_Review_Application_Services\Music_Review_Application_Services.csproj", "{7C920253-E919-4003-901F-1945BE36230F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Music_Review_Application_Queries", "Music_Review_Application_Queries\Music_Review_Application_Queries.csproj", "{8CB5A3EE-8015-43CD-808B-5CA6290F9D24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_Unit_Tests", "Music_Review_Application_Unit_Tests\Music_Review_Application_Unit_Tests.csproj", "{77B5BB17-F24E-47E9-AFB0-C518500A32D8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Music_Review_Application_Sample_Data", "Music_Review_Application_Sample_Data\Music_Review_Application_Sample_Data.csproj", "{160BBECA-9FE5-4352-B60D-6A9515FF7D02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +57,14 @@ Global
 		{8CB5A3EE-8015-43CD-808B-5CA6290F9D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CB5A3EE-8015-43CD-808B-5CA6290F9D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB5A3EE-8015-43CD-808B-5CA6290F9D24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77B5BB17-F24E-47E9-AFB0-C518500A32D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77B5BB17-F24E-47E9-AFB0-C518500A32D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77B5BB17-F24E-47E9-AFB0-C518500A32D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77B5BB17-F24E-47E9-AFB0-C518500A32D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{160BBECA-9FE5-4352-B60D-6A9515FF7D02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{160BBECA-9FE5-4352-B60D-6A9515FF7D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{160BBECA-9FE5-4352-B60D-6A9515FF7D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{160BBECA-9FE5-4352-B60D-6A9515FF7D02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,6 +17,8 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         int GetSongId(string title, List<string> artistNames);
 
+        double GetScore(int songId);
+
         int GetReviewId(int songId, string username);
 
         SingleSong GetSingle(int id);
@@ -27,17 +29,17 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         SongReview GetSongReview(int id);
 
-        /*
         List<Song> GetSongs();
-        */
 
         List<Song> GetSongsWithGenre(int genreId);
 
+        List<Song> GetArtistSongs(int artistId);
+
+        List<SongReview> GetSongReviews(int songId);
+
         void UpdateReview(SongReview songReview);
 
-        void DeleteSingle(int id);
-
-        void DeleteTrack(int id);
+        void DeleteSong(int id);
 
         void DeleteReview(int id);
 

@@ -13,11 +13,17 @@ namespace Music_Review_Application_DB_Managers.Interfaces
 
         int GetReviewId(int albumId, string username);
 
+        double GetScore(int albumId);
+
         Album GetAlbum(int id);
 
         AlbumReview GetAlbumReview(int id);
-        
-        //List<Album> GetAlbums();
+
+        List<AlbumReview> GetAlbumReviews(int albumId);
+
+        List<Album> GetAlbums();
+
+        List<Album> GetArtistAlbums(int artistId);
 
         void UpdateReview(AlbumReview albumReview);
 

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
 
@@ -44,7 +41,7 @@ namespace Music_Review_Application_DB_Managers
                         while (reader.Read())
                         {
                             var songId = reader.GetInt32(1);
-                            var score = reader.GetInt32(3);
+                            var score = Convert.ToSingle(reader.GetValue(3));
                             var review = reader.GetString(4);
                             reviewedSongs.Add(new SongReview(songId, username, score, review));
                         }
@@ -58,7 +55,7 @@ namespace Music_Review_Application_DB_Managers
                         while (reader.Read())
                         {
                             var albumId = reader.GetInt32(1);
-                            var score = reader.GetInt32(3);
+                            var score = Convert.ToSingle(reader.GetValue(3));
                             var review = reader.GetString(4);
                             reviewedAlbums.Add(new AlbumReview(albumId, username, score, review));
                         }

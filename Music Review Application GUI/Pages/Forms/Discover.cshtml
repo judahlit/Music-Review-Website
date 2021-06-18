@@ -1,0 +1,37 @@
+﻿@page
+@model Music_Review_Application_GUI.Pages.Forms.DiscoverModel
+@{
+    ViewData["Title"] = "Discover";
+}
+
+<h2>Songs</h2>
+<br/>
+<div>
+    <form method="post">
+        <label>Select a genre:</label>
+        <select name="ChosenGenreId">
+            <option value="0">All genres</option>
+            @foreach (var genre in DiscoverModel.Genres)
+            {
+                <option value="@genre.Id">@genre.GenreName</option>
+            }
+        </select>
+        <br />
+        <button type="submit">Filter</button>
+    </form>
+</div>
+<br />
+@foreach (var song in DiscoverModel.Songs)
+{
+    <p>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/SongPage" asp-route-songId="@song.Id">@song.Title</a>
+    </p>
+}
+<br />
+<h2>Albums</h2>
+@foreach (var album in DiscoverModel.Albums)
+{
+    <p>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Forms/AlbumPage" asp-route-albumId="@album.Id">@album.Title</a>
+    </p>
+}

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_Models;
 
@@ -16,6 +12,7 @@ namespace Music_Review_Application_DB_Managers
         private const string QueryAddGenre = "INSERT INTO Genre(genreName) VALUES('{0}');";
         private const string QueryGetGenreById = "SELECT * FROM Genre WHERE id = {0};";
         private const string QueryGetGenreByGenreName = "SELECT * FROM Genre WHERE genreName = '{0}';";
+        private const string QueryGetGenres = "SELECT * FROM Genre;";
         private const string QueryGetGenreId = "SELECT id FROM Genre WHERE genreName = '{0}';";
 
         private readonly ISqlManager _sqlManager;
@@ -31,6 +28,8 @@ namespace Music_Review_Application_DB_Managers
 
         public void AddGenre(Genre genre)
         {
+            if (GetGenreId(genre.GenreName) != 0) return;
+
             using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
             {
                 using (SqlCommand query = new SqlCommand(string.Format(QueryAddGenre, _sqlManager.GetSqlString(genre.GenreName)), conn))
@@ -113,6 +112,27 @@ namespace Music_Review_Application_DB_Managers
                     return 0;
                 }
             }
+        }
+
+        public List<Genre> GetGenres()
+        {
+            var genres = new List<Genre>();
+
+            using (SqlConnection conn = new SqlConnection(SqlManager.ConnectionString))
+            {
+                using (SqlCommand query = new SqlCommand(string.Format(QueryGetGenres), conn))
+                {
+                    conn.Open();
+                    var reader = query.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        genres.Add(new Genre(reader.GetString(1)) { Id = reader.GetInt32(0) });
+                    }
+                }
+            }
+
+            return genres;
         }
 
         public void CheckGenres(List<Genre> genres)

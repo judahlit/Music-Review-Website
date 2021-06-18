@@ -8,21 +8,22 @@ using Music_Review_Application_DB_Managers;
 using Music_Review_Application_DB_Managers.Interfaces;
 using Music_Review_Application_GUI.Models;
 using Music_Review_Application_Models;
+using Music_Review_Application_Services.Interfaces;
 
 namespace Music_Review_Application_GUI.Pages.Forms
 {
     public class AddSongModel : PageModel
     {
-        private readonly ISongDbManager _songDbManager;
+        private readonly ICreateService _createService;
 
 
         [BindProperty]
-        public SongModel Song { get; set; }
-        public static string ErrorMessage { get; set; }
+        public Models.SongViewModel Song { get; set; }
+        public static string Message { get; set; }
 
-        public AddSongModel(ISongDbManager songDbManager)
+        public AddSongModel(ICreateService createService)
         {
-            _songDbManager = songDbManager;
+            _createService = createService;
         }
 
         public void OnGet()
@@ -32,53 +33,8 @@ namespace Music_Review_Application_GUI.Pages.Forms
 
         public IActionResult OnPost()
         {
-            ErrorMessage = null;
-
-            if (ToDateTime())
-            {
-                AddSingleToDb();
-            }
-            else
-            {
-                ErrorMessage = "Please fill in a valid date in the 'Date of Release' field.";
-            }
-
-            if (ErrorMessage != null)
-            {
-                return Page();
-            }
-
-            return RedirectToPage("/Index");
-        }
-
-        public void AddSingleToDb()
-        {
-            var genres = new List<Genre>();
-
-            foreach (var genreName in Song.GenreNames)
-            {
-                genres.Add(new Genre(genreName));
-            }
-
-            SingleSong single = new(Song.Title, Song.Date, null, Song.ArtistNames, genres);
-
-            if (!_songDbManager.SingleIsAdded(single))
-            {
-                ErrorMessage = "Song couldn't be added";
-            }
-        }
-
-        public bool ToDateTime()
-        {
-            DateTime correctDate;
-
-            if (DateTime.TryParse($"{Song.DateYear}-{Song.DateMonth}-{Song.DateDay}", out correctDate) && DateTime.Compare(correctDate, DateTime.Now) <= 0)
-            {
-                Song.Date = correctDate;
-                return true;
-            }
-
-            return false;
+            Message = _createService.CreateSingle(Song.Title, Song.ArtistNames, Song.GenreNames, Song.DateDay, Song.DateMonth, Song.DateYear, Song.ImgPath);
+            return Page();
         }
     }
 }
